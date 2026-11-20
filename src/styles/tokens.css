@@ -47,12 +47,19 @@ body {
   outline-offset: 2px;
 }
 
-/* Mode Selector Segmented Buttons */
+/* Touch action optimization */
+button, input, select, a {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Mode Selector Segmented Buttons (Touch target >= 44px) */
 .mode-selector-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem 1.125rem;
+  min-height: 44px;
+  padding: 0.625rem 1rem;
   font-size: 0.8125rem;
   font-weight: 500;
   border-radius: 6px;
@@ -61,7 +68,13 @@ body {
   cursor: pointer;
   color: #525252;
   background-color: transparent;
-  white-space: nowrap;
+  text-align: center;
+}
+@media (min-width: 640px) {
+  .mode-selector-btn {
+    padding: 0.5rem 1.125rem;
+    white-space: nowrap;
+  }
 }
 .mode-selector-btn:hover:not([data-active="true"]) {
   color: #14213D;
@@ -79,12 +92,13 @@ body {
   color: #FFFFFF !important;
 }
 
-/* Platform Tab Buttons */
+/* Platform Tab Buttons (Touch target >= 44px) */
 .platform-tab-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem 1.125rem;
+  min-height: 44px;
+  padding: 0.625rem 1.125rem;
   font-size: 0.8125rem;
   font-weight: 500;
   border-radius: 6px;
@@ -94,6 +108,7 @@ body {
   transition: all 0.15s ease-in-out;
   cursor: pointer;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 .platform-tab-btn:hover:not([data-active="true"]) {
   color: #14213D;
@@ -109,5 +124,14 @@ body {
 .platform-tab-btn[data-active="true"]:hover {
   background-color: #1E293B !important;
   color: #FFFFFF !important;
+}
+
+/* Utilities for touch and scroll */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 

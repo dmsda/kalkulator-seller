@@ -13,7 +13,7 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
 
 <div id="calculator-app" class="w-full" data-initial-platform={initialPlatform} data-comparison={isComparisonMode ? "true" : "false"}>
   <!-- Platform Tabs / Selector -->
-  <div class="flex items-center gap-3 border-b border-[#E5E5E5] pb-4 mb-8 overflow-x-auto">
+  <div class="flex items-center gap-2 sm:gap-3 border-b border-[#E5E5E5] pb-3 sm:pb-4 mb-6 sm:mb-8 overflow-x-auto hide-scrollbar">
     <span class="text-xs font-semibold text-[#525252] uppercase tracking-wider mr-1 shrink-0">Pilih Marketplace:</span>
     <button
       type="button"
@@ -41,14 +41,14 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
     </button>
   </div>
 
-  <!-- Mode Selector (Segmented Control with clear spacing & no overlap) -->
-  <div class="flex items-center justify-between flex-wrap gap-4 mb-8">
-    <div class="inline-flex p-1.5 bg-[#F1F3F5] border border-[#E5E5E5] rounded-lg gap-2">
+  <!-- Mode Selector (Segmented Control with clear spacing, responsive stack on narrow screens) -->
+  <div class="flex items-center justify-between flex-wrap gap-4 mb-6 sm:mb-8">
+    <div class="w-full sm:w-auto flex flex-col xs:flex-row sm:inline-flex p-1.5 bg-[#F1F3F5] border border-[#E5E5E5] rounded-lg gap-1.5 sm:gap-2">
       <button
         type="button"
         id="mode-forward-btn"
         data-active="true"
-        class="mode-selector-btn"
+        class="mode-selector-btn flex-1 sm:flex-initial"
       >
         Hitung Keuntungan
       </button>
@@ -56,7 +56,7 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
         type="button"
         id="mode-reverse-btn"
         data-active="false"
-        class="mode-selector-btn"
+        class="mode-selector-btn flex-1 sm:flex-initial"
       >
         Cari Harga Jual Ideal
       </button>
@@ -66,24 +66,24 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
     <div id="tariff-status-badge" class="flex items-center gap-2 text-xs text-[#525252]">
       <span id="tariff-status-text">Tarif dari aturan resmi marketplace</span>
       <span aria-hidden="true">&bull;</span>
-      <a id="tariff-source-link" href="#" target="_blank" rel="noopener noreferrer" class="text-[#14213D] underline hover:no-underline font-medium">
+      <a id="tariff-source-link" href="#" target="_blank" rel="noopener noreferrer" class="text-[#14213D] underline hover:no-underline font-medium min-h-[32px] inline-flex items-center">
         Bantuan Resmi &rarr;
       </a>
     </div>
   </div>
 
   <!-- Main Calculator Grid: Desktop 60% Form / 40% Results -->
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-10 items-start">
     <!-- Left Column: Form Inputs (approx 60% -> 7 cols) -->
-    <form id="calc-form" class="lg:col-span-7 space-y-8" onsubmit="return false;">
+    <form id="calc-form" class="lg:col-span-7 space-y-6 sm:space-y-8" onsubmit="return false;">
       
       <!-- Section A: Toko & Kategori -->
-      <div class="p-6 sm:p-7 bg-white border border-[#E5E5E5] rounded-xl space-y-6 shadow-2xs">
+      <div class="p-4 sm:p-6 lg:p-7 bg-white border border-[#E5E5E5] rounded-xl space-y-5 sm:space-y-6 shadow-2xs">
         <h2 class="text-sm font-bold text-[#14213D] uppercase tracking-wider flex items-center gap-2">
           <span>1. Tipe Toko & Kategori Produk</span>
         </h2>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
           <div>
             <label for="store-type-select" class="block text-xs font-semibold text-[#14213D] mb-2">
               Tipe Toko
@@ -91,7 +91,7 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
             <div class="relative">
               <select
                 id="store-type-select"
-                class="w-full appearance-none text-xs sm:text-sm border border-[#D1D5DB] rounded-lg pl-3.5 pr-10 py-2.5 bg-white focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none cursor-pointer"
+                class="w-full appearance-none text-base sm:text-sm min-h-[44px] border border-[#D1D5DB] rounded-lg pl-3.5 pr-10 py-2.5 bg-white focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none cursor-pointer"
               >
                 <!-- Options populated dynamically -->
               </select>
@@ -110,7 +110,7 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
             <div class="relative">
               <select
                 id="category-select"
-                class="w-full appearance-none text-xs sm:text-sm border border-[#D1D5DB] rounded-lg pl-3.5 pr-10 py-2.5 bg-white focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none cursor-pointer"
+                class="w-full appearance-none text-base sm:text-sm min-h-[44px] border border-[#D1D5DB] rounded-lg pl-3.5 pr-10 py-2.5 bg-white focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none cursor-pointer"
               >
                 <!-- Options populated dynamically -->
               </select>
@@ -133,26 +133,26 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
       </div>
 
       <!-- Section B: Harga, Diskon & Modal -->
-      <div class="p-6 sm:p-7 bg-white border border-[#E5E5E5] rounded-xl space-y-6 shadow-2xs">
+      <div class="p-4 sm:p-6 lg:p-7 bg-white border border-[#E5E5E5] rounded-xl space-y-5 sm:space-y-6 shadow-2xs">
         <h2 class="text-sm font-bold text-[#14213D] uppercase tracking-wider">
           2. Modal Produk, Harga Jual & Jumlah
         </h2>
 
         <!-- Forward Mode Inputs -->
-        <div id="forward-inputs-group" class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
+        <div id="forward-inputs-group" class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
           <div>
             <label for="input-price" class="block text-xs font-semibold text-[#14213D] mb-2">
               Harga Jual Normal di Toko
             </label>
             <div class="relative flex items-center">
-              <span class="absolute left-3.5 text-xs sm:text-sm font-medium text-[#525252] select-none">Rp</span>
+              <span class="absolute left-3.5 text-sm font-medium text-[#525252] select-none">Rp</span>
               <input
                 type="text"
                 id="input-price"
                 inputmode="numeric"
                 placeholder="Contoh: 100.000"
                 value="100.000"
-                class="w-full text-xs sm:text-sm border border-[#D1D5DB] rounded-lg pl-10 pr-3.5 py-2.5 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none"
+                class="w-full text-base sm:text-sm min-h-[44px] border border-[#D1D5DB] rounded-lg pl-10 pr-3.5 py-2.5 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none"
               />
             </div>
             <p class="text-xs text-[#525252] mt-1.5">Harga barang yang tertera di etalase toko Anda sebelum diskon.</p>
@@ -163,14 +163,14 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
               Diskon dari Toko (Opsional)
             </label>
             <div class="relative flex items-center">
-              <span class="absolute left-3.5 text-xs sm:text-sm font-medium text-[#525252] select-none">Rp</span>
+              <span class="absolute left-3.5 text-sm font-medium text-[#525252] select-none">Rp</span>
               <input
                 type="text"
                 id="input-discount"
                 inputmode="numeric"
                 placeholder="0"
                 value="0"
-                class="w-full text-xs sm:text-sm border border-[#D1D5DB] rounded-lg pl-10 pr-3.5 py-2.5 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none"
+                class="w-full text-base sm:text-sm min-h-[44px] border border-[#D1D5DB] rounded-lg pl-10 pr-3.5 py-2.5 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none"
               />
             </div>
             <p class="text-xs text-[#525252] mt-1.5">Voucher atau potongan diskon yang Anda tanggung sendiri per barang.</p>
@@ -178,20 +178,20 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
         </div>
 
         <!-- Reverse Mode Inputs (Hidden by default) -->
-        <div id="reverse-inputs-group" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
+        <div id="reverse-inputs-group" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
           <div>
             <label for="input-target-profit" class="block text-xs font-semibold text-[#14213D] mb-2">
               Target Keuntungan Bersih
             </label>
             <div class="relative flex items-center">
-              <span class="absolute left-3.5 text-xs sm:text-sm font-medium text-[#525252] select-none">Rp</span>
+              <span class="absolute left-3.5 text-sm font-medium text-[#525252] select-none">Rp</span>
               <input
                 type="text"
                 id="input-target-profit"
                 inputmode="numeric"
                 placeholder="Contoh: 25.000"
                 value="25.000"
-                class="w-full text-xs sm:text-sm border border-[#D1D5DB] rounded-lg pl-10 pr-3.5 py-2.5 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none"
+                class="w-full text-base sm:text-sm min-h-[44px] border border-[#D1D5DB] rounded-lg pl-10 pr-3.5 py-2.5 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none"
               />
             </div>
             <p class="text-xs text-[#525252] mt-1.5">Uang bersih yang ingin Anda kantongi setelah semua biaya dipotong.</p>
@@ -204,7 +204,7 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
             <div class="relative">
               <select
                 id="target-type-select"
-                class="w-full appearance-none text-xs sm:text-sm border border-[#D1D5DB] rounded-lg pl-3.5 pr-10 py-2.5 bg-white focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none cursor-pointer"
+                class="w-full appearance-none text-base sm:text-sm min-h-[44px] border border-[#D1D5DB] rounded-lg pl-3.5 pr-10 py-2.5 bg-white focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none cursor-pointer"
               >
                 <option value="per_unit">Untung per Satu Barang</option>
                 <option value="per_order">Untung per Total Pesanan (Semua Barang)</option>
@@ -219,20 +219,20 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 pt-4 border-t border-[#E5E5E5]">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 pt-4 border-t border-[#E5E5E5]">
           <div>
             <label for="input-hpp" class="block text-xs font-semibold text-[#14213D] mb-2">
               Modal Produk (HPP) per Barang
             </label>
             <div class="relative flex items-center">
-              <span class="absolute left-3.5 text-xs sm:text-sm font-medium text-[#525252] select-none">Rp</span>
+              <span class="absolute left-3.5 text-sm font-medium text-[#525252] select-none">Rp</span>
               <input
                 type="text"
                 id="input-hpp"
                 inputmode="numeric"
                 placeholder="Contoh: 50.000"
                 value="50.000"
-                class="w-full text-xs sm:text-sm border border-[#D1D5DB] rounded-lg pl-10 pr-3.5 py-2.5 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none"
+                class="w-full text-base sm:text-sm min-h-[44px] border border-[#D1D5DB] rounded-lg pl-10 pr-3.5 py-2.5 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none"
               />
             </div>
             <p class="text-xs text-[#525252] mt-1.5">Harga beli dari supplier atau biaya produksi untuk satu barang.</p>
@@ -248,7 +248,7 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
               min="1"
               step="1"
               value="1"
-              class="w-full text-xs sm:text-sm border border-[#D1D5DB] rounded-lg px-3.5 py-2.5 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none"
+              class="w-full text-base sm:text-sm min-h-[44px] border border-[#D1D5DB] rounded-lg px-3.5 py-2.5 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none"
             />
             <p class="text-xs text-[#525252] mt-1.5">Jumlah barang yang dibeli pelanggan dalam sekali checkout.</p>
           </div>
@@ -256,7 +256,7 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
       </div>
 
       <!-- Section C: Biaya Operasional, Iklan & Affiliate -->
-      <div class="p-6 sm:p-7 bg-white border border-[#E5E5E5] rounded-xl space-y-6 shadow-2xs">
+      <div class="p-4 sm:p-6 lg:p-7 bg-white border border-[#E5E5E5] rounded-xl space-y-5 sm:space-y-6 shadow-2xs">
         <div class="flex items-center justify-between">
           <h2 class="text-sm font-bold text-[#14213D] uppercase tracking-wider">
             3. Biaya Tambahan (Packing & Iklan)
@@ -264,20 +264,20 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
           <span class="text-xs text-[#525252]">(Opsional)</span>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           <div>
             <label for="input-ops" class="block text-xs font-semibold text-[#14213D] mb-2">
               Biaya Bungkus & Packing
             </label>
             <div class="relative flex items-center">
-              <span class="absolute left-3.5 text-xs sm:text-sm font-medium text-[#525252] select-none">Rp</span>
+              <span class="absolute left-3.5 text-sm font-medium text-[#525252] select-none">Rp</span>
               <input
                 type="text"
                 id="input-ops"
                 inputmode="numeric"
                 placeholder="Contoh: 2.000"
                 value="2.000"
-                class="w-full text-xs sm:text-sm border border-[#D1D5DB] rounded-lg pl-10 pr-3.5 py-2.5 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] outline-none"
+                class="w-full text-base sm:text-sm min-h-[44px] border border-[#D1D5DB] rounded-lg pl-10 pr-3.5 py-2.5 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] outline-none"
               />
             </div>
             <p class="text-xs text-[#525252] mt-1.5">Kardus, plastik, bubble wrap, lakban, stiker.</p>
@@ -288,14 +288,14 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
               Biaya Iklan per Pesanan
             </label>
             <div class="relative flex items-center">
-              <span class="absolute left-3.5 text-xs sm:text-sm font-medium text-[#525252] select-none">Rp</span>
+              <span class="absolute left-3.5 text-sm font-medium text-[#525252] select-none">Rp</span>
               <input
                 type="text"
                 id="input-ads"
                 inputmode="numeric"
                 placeholder="0"
                 value="0"
-                class="w-full text-xs sm:text-sm border border-[#D1D5DB] rounded-lg pl-10 pr-3.5 py-2.5 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] outline-none"
+                class="w-full text-base sm:text-sm min-h-[44px] border border-[#D1D5DB] rounded-lg pl-10 pr-3.5 py-2.5 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] outline-none"
               />
             </div>
             <p class="text-xs text-[#525252] mt-1.5">Alokasi iklan per pesanan (isi 0 jika tidak beriklan).</p>
@@ -306,14 +306,14 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
               Komisi Affiliate / Kreator
             </label>
             <div class="relative flex items-center">
-              <span class="absolute left-3.5 text-xs sm:text-sm font-medium text-[#525252] select-none">Rp</span>
+              <span class="absolute left-3.5 text-sm font-medium text-[#525252] select-none">Rp</span>
               <input
                 type="text"
                 id="input-affiliate"
                 inputmode="numeric"
                 placeholder="0"
                 value="0"
-                class="w-full text-xs sm:text-sm border border-[#D1D5DB] rounded-lg pl-10 pr-3.5 py-2.5 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] outline-none"
+                class="w-full text-base sm:text-sm min-h-[44px] border border-[#D1D5DB] rounded-lg pl-10 pr-3.5 py-2.5 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] outline-none"
               />
             </div>
             <p class="text-xs text-[#525252] mt-1.5">Bagi hasil kreator video/live (isi 0 jika tidak ada).</p>
@@ -322,7 +322,7 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
       </div>
 
       <!-- Action buttons & SKU Save -->
-      <div class="p-6 bg-[#F8F9FA] border border-[#E5E5E5] rounded-xl flex flex-col sm:flex-row items-center justify-between gap-5">
+      <div class="p-4 sm:p-6 bg-[#F8F9FA] border border-[#E5E5E5] rounded-xl flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 sm:gap-5">
         <div class="w-full sm:w-auto flex-1">
           <label for="sku-name-input" class="block text-xs font-semibold text-[#14213D] mb-2">
             Simpan Hasil Perhitungan Produk
@@ -331,21 +331,21 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
             type="text"
             id="sku-name-input"
             placeholder="Contoh: Daster Rayon Motif M atau Sepatu Lari 42"
-            class="w-full text-xs sm:text-sm border border-[#D1D5DB] bg-white rounded-lg px-3.5 py-2.5 focus-visible:ring-2 focus-visible:ring-[#14213D] outline-none"
+            class="w-full text-base sm:text-sm min-h-[44px] border border-[#D1D5DB] bg-white rounded-lg px-3.5 py-2.5 focus-visible:ring-2 focus-visible:ring-[#14213D] outline-none"
           />
         </div>
-        <div class="flex items-center gap-3 w-full sm:w-auto shrink-0 mt-auto">
+        <div class="flex items-center gap-2.5 sm:gap-3 w-full sm:w-auto shrink-0 mt-auto">
           <button
             type="button"
             id="save-sku-btn"
-            class="w-full sm:w-auto px-5 py-2.5 bg-[#14213D] text-white text-xs sm:text-sm font-semibold rounded-lg hover:bg-[#1E293B] transition-colors focus-visible:ring-2 focus-visible:ring-[#14213D] cursor-pointer"
+            class="flex-1 sm:flex-initial min-h-[44px] px-5 py-2.5 bg-[#14213D] text-white text-xs sm:text-sm font-semibold rounded-lg hover:bg-[#1E293B] transition-colors focus-visible:ring-2 focus-visible:ring-[#14213D] cursor-pointer flex items-center justify-center text-center"
           >
             Simpan Produk
           </button>
           <button
             type="button"
             id="reset-form-btn"
-            class="px-4 py-2.5 border border-[#E5E5E5] bg-white text-[#525252] text-xs sm:text-sm font-medium rounded-lg hover:text-[#14213D] hover:bg-[#F3F4F6] hover:border-[#D1D5DB] transition-colors focus-visible:ring-2 focus-visible:ring-[#14213D] cursor-pointer"
+            class="min-h-[44px] px-4 py-2.5 border border-[#E5E5E5] bg-white text-[#525252] text-xs sm:text-sm font-medium rounded-lg hover:text-[#14213D] hover:bg-[#F3F4F6] hover:border-[#D1D5DB] transition-colors focus-visible:ring-2 focus-visible:ring-[#14213D] cursor-pointer flex items-center justify-center text-center"
           >
             Atur Ulang
           </button>
@@ -359,7 +359,7 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
     <div class="lg:col-span-5 space-y-8">
       
       <!-- Reverse Pricing Recommendation Banner (When in Reverse Mode) -->
-      <div id="reverse-result-banner" class="hidden p-6 bg-[#14213D] text-white rounded-xl shadow-xs space-y-3">
+      <div id="reverse-result-banner" class="hidden p-4 sm:p-6 bg-[#14213D] text-white rounded-xl shadow-xs space-y-3">
         <div class="text-xs uppercase tracking-wider text-[#FCA311] font-semibold">Rekomendasi Harga Jual di Toko</div>
         <div class="text-2xl sm:text-3xl font-extrabold font-mono tabular-nums text-white" id="reverse-recommended-price">
           Rp 0
@@ -370,8 +370,8 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
       </div>
 
       <!-- Result Card: 4 Profit Levels -->
-      <div class="p-6 sm:p-7 bg-white border border-[#E5E5E5] rounded-xl shadow-2xs space-y-6">
-        <div class="flex items-center justify-between border-b border-[#E5E5E5] pb-4">
+      <div id="result-summary-card" class="p-4 sm:p-6 lg:p-7 bg-white border border-[#E5E5E5] rounded-xl shadow-2xs space-y-5 sm:space-y-6 scroll-mt-20">
+        <div class="flex items-center justify-between border-b border-[#E5E5E5] pb-3 sm:pb-4">
           <h2 class="text-sm font-bold text-[#14213D] uppercase tracking-wider">
             Perkiraan Keuntungan Anda
           </h2>
@@ -379,48 +379,48 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
         </div>
 
         <!-- 4 Levels of Profit Stack -->
-        <div class="space-y-4">
+        <div class="space-y-3.5 sm:space-y-4">
           
           <!-- Level 1: Profit Kotor -->
-          <div class="p-4 sm:p-4.5 bg-[#F8F9FA] rounded-lg border border-[#E5E5E5] flex items-center justify-between gap-4">
-            <div>
-              <div class="text-xs text-[#525252] font-medium">1. Untung Kotor (Harga Jual - Modal)</div>
+          <div class="p-3.5 sm:p-4.5 bg-[#F8F9FA] rounded-lg border border-[#E5E5E5] flex items-center justify-between gap-3 sm:gap-4">
+            <div class="min-w-0">
+              <div class="text-xs text-[#525252] font-medium truncate">1. Untung Kotor (Harga Jual - Modal)</div>
               <div class="text-xs text-[#525252] mt-0.5" id="gross-margin-display">Margin Kotor: 0%</div>
             </div>
-            <div class="text-sm sm:text-base font-bold font-mono tabular-nums text-[#14213D]" id="gross-profit-val">
+            <div class="text-sm sm:text-base font-bold font-mono tabular-nums text-[#14213D] shrink-0" id="gross-profit-val">
               Rp 0
             </div>
           </div>
 
           <!-- Level 2: Profit Setelah Marketplace -->
-          <div class="p-4 sm:p-4.5 bg-[#F8F9FA] rounded-lg border border-[#E5E5E5] flex items-center justify-between gap-4">
-            <div>
-              <div class="text-xs text-[#525252] font-medium">2. Sisa Setelah Potongan Marketplace</div>
+          <div class="p-3.5 sm:p-4.5 bg-[#F8F9FA] rounded-lg border border-[#E5E5E5] flex items-center justify-between gap-3 sm:gap-4">
+            <div class="min-w-0">
+              <div class="text-xs text-[#525252] font-medium truncate">2. Sisa Setelah Potongan Marketplace</div>
               <div class="text-[11px] text-[#DC2626] mt-0.5 font-mono" id="total-marketplace-fees-sub">Potongan admin: -Rp 0</div>
             </div>
-            <div class="text-sm sm:text-base font-bold font-mono tabular-nums text-[#14213D]" id="profit-after-mp-val">
+            <div class="text-sm sm:text-base font-bold font-mono tabular-nums text-[#14213D] shrink-0" id="profit-after-mp-val">
               Rp 0
             </div>
           </div>
 
           <!-- Level 3: Profit Setelah Operasional -->
-          <div class="p-4 sm:p-4.5 bg-[#F8F9FA] rounded-lg border border-[#E5E5E5] flex items-center justify-between gap-4">
-            <div>
-              <div class="text-xs text-[#525252] font-medium">3. Sisa Setelah Biaya Packing</div>
+          <div class="p-3.5 sm:p-4.5 bg-[#F8F9FA] rounded-lg border border-[#E5E5E5] flex items-center justify-between gap-3 sm:gap-4">
+            <div class="min-w-0">
+              <div class="text-xs text-[#525252] font-medium truncate">3. Sisa Setelah Biaya Packing</div>
               <div class="text-[11px] text-[#525252] mt-0.5 font-mono" id="total-ops-cost-sub">Biaya packing: -Rp 0</div>
             </div>
-            <div class="text-sm sm:text-base font-bold font-mono tabular-nums text-[#14213D]" id="profit-after-ops-val">
+            <div class="text-sm sm:text-base font-bold font-mono tabular-nums text-[#14213D] shrink-0" id="profit-after-ops-val">
               Rp 0
             </div>
           </div>
 
           <!-- Level 4: Profit Bersih Akhir -->
-          <div class="p-5 sm:p-6 bg-[#ECFDF5] border border-[#047857]/30 rounded-lg space-y-2.5">
-            <div class="flex items-center justify-between">
+          <div class="p-4 sm:p-5 lg:p-6 bg-[#ECFDF5] border border-[#047857]/30 rounded-lg space-y-2.5">
+            <div class="flex items-center justify-between gap-2">
               <div class="text-xs sm:text-sm font-bold text-[#047857]">
                 4. Keuntungan Bersih yang Anda Bawa Pulang
               </div>
-              <div class="text-lg sm:text-2xl font-extrabold font-mono tabular-nums text-[#047857]" id="net-profit-val">
+              <div class="text-base sm:text-xl lg:text-2xl font-extrabold font-mono tabular-nums text-[#047857] shrink-0 break-words" id="net-profit-val">
                 Rp 0
               </div>
             </div>
@@ -434,28 +434,28 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
 
         <!-- Revenue & Cost Summary -->
         <div class="pt-4 border-t border-[#E5E5E5] text-xs text-[#525252] space-y-2 font-mono">
-          <div class="flex justify-between">
+          <div class="flex justify-between gap-2">
             <span>Total Uang dari Pembeli:</span>
-            <span class="font-semibold text-[#14213D]" id="effective-revenue-val">Rp 0</span>
+            <span class="font-semibold text-[#14213D] shrink-0" id="effective-revenue-val">Rp 0</span>
           </div>
-          <div class="flex justify-between">
+          <div class="flex justify-between gap-2">
             <span>Total Modal Barang (HPP):</span>
-            <span class="text-[#DC2626]" id="cogs-val">-Rp 0</span>
+            <span class="text-[#DC2626] shrink-0" id="cogs-val">-Rp 0</span>
           </div>
-          <div class="flex justify-between">
+          <div class="flex justify-between gap-2">
             <span>Total Potongan Marketplace:</span>
-            <span class="text-[#DC2626]" id="mp-fees-summary-val">-Rp 0</span>
+            <span class="text-[#DC2626] shrink-0" id="mp-fees-summary-val">-Rp 0</span>
           </div>
-          <div class="flex justify-between">
+          <div class="flex justify-between gap-2">
             <span>Total Biaya Packing, Iklan & Affiliate:</span>
-            <span class="text-[#DC2626]" id="other-costs-val">-Rp 0</span>
+            <span class="text-[#DC2626] shrink-0" id="other-costs-val">-Rp 0</span>
           </div>
         </div>
 
       </div>
 
       <!-- Fee Breakdown Table -->
-      <div class="p-6 sm:p-7 bg-white border border-[#E5E5E5] rounded-xl shadow-2xs space-y-5">
+      <div class="p-4 sm:p-6 lg:p-7 bg-white border border-[#E5E5E5] rounded-xl shadow-2xs space-y-5">
         <div class="flex items-center justify-between">
           <h2 class="text-sm font-bold text-[#14213D] uppercase tracking-wider">
             Rincian Potongan Marketplace
@@ -463,8 +463,8 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
           <span class="text-[11px] text-[#525252] font-medium" id="fee-item-count">0 Biaya</span>
         </div>
 
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs border-collapse">
+        <div class="overflow-x-auto hide-scrollbar">
+          <table class="w-full text-left text-xs border-collapse min-w-[280px]">
             <thead>
               <tr class="border-b border-[#E5E5E5] text-[#525252] font-semibold">
                 <th class="py-2.5 px-3">Komponen Biaya</th>
@@ -492,6 +492,32 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
 
     </div>
   </div>
+
+  <!-- Mobile Sticky Bottom Summary Bar (Visible only on mobile screens < lg) -->
+  <aside
+    id="mobile-sticky-summary"
+    aria-label="Ringkasan Cepat Keuntungan"
+    class="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-sm border-t border-[#E5E5E5] px-4 py-2.5 shadow-lg flex items-center justify-between gap-3"
+    style="padding-bottom: max(0.625rem, env(safe-area-inset-bottom, 0px));"
+  >
+    <div class="flex flex-col min-w-0">
+      <span class="text-[10px] text-[#525252] leading-none">Keuntungan Bersih:</span>
+      <span class="text-base sm:text-lg font-bold font-mono text-[#047857] truncate" id="mobile-sticky-net-val">
+        Rp 0
+      </span>
+      <span class="text-[10px] text-[#047857]/90 font-mono leading-none" id="mobile-sticky-margin-val">
+        Margin Bersih: 0%
+      </span>
+    </div>
+
+    <button
+      type="button"
+      id="mobile-view-details-btn"
+      class="min-h-[44px] px-4 py-2 bg-[#14213D] text-white text-xs font-semibold rounded-lg hover:bg-[#1E293B] transition-colors flex items-center justify-center shrink-0 cursor-pointer shadow-2xs"
+    >
+      Lihat Rincian &darr;
+    </button>
+  </aside>
 </div>
 
 <script>
@@ -553,6 +579,12 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
   const feeItemCount = document.getElementById('fee-item-count');
   const tariffSourceLink = document.getElementById('tariff-source-link');
   const qtyIndicator = document.getElementById('qty-indicator');
+
+  // Mobile Sticky Summary Elements
+  const mobileStickySummary = document.getElementById('mobile-sticky-summary');
+  const mobileStickyNetVal = document.getElementById('mobile-sticky-net-val');
+  const mobileStickyMarginVal = document.getElementById('mobile-sticky-margin-val');
+  const mobileViewDetailsBtn = document.getElementById('mobile-view-details-btn');
 
   // Save SKU DOM elements
   const skuNameInput = document.getElementById('sku-name-input');
@@ -726,6 +758,14 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
       }
       if (roiDisplay) {
         roiDisplay.textContent = `Balik Modal (ROI): ${ratios.roi !== null ? (ratios.roi * 100).toFixed(1) + '%' : '---'}`;
+      }
+
+      // Update mobile sticky summary values
+      if (mobileStickyNetVal) {
+        mobileStickyNetVal.textContent = formatRupiahDisplay(totals.netProfit);
+      }
+      if (mobileStickyMarginVal) {
+        mobileStickyMarginVal.textContent = `Margin Bersih: ${ratios.netMargin !== null ? (ratios.netMargin * 100).toFixed(1) + '%' : '---'}`;
       }
 
       // Cost summary
@@ -946,6 +986,12 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
 
     runCalculation();
     appEl?.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // Mobile view details smooth scroll
+  mobileViewDetailsBtn?.addEventListener('click', () => {
+    const resultCard = document.getElementById('result-summary-card');
+    resultCard?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
   // Initialize on load

@@ -18,6 +18,8 @@ Dokumen pelacakan eksekusi bertahap untuk pengembangan produk KalkulatorSeller.
 | **7** | **Content, Transparency & SEO** | **DONE** | `/tarif`, `/panduan`, `/privacy-policy`, `/terms`, `/404`, sitemap, JSON-LD metadata | Astro build (9 static routes generated) | - |
 | **8** | **Quality Assurance** | **DONE** | Vitest suite (20 tests passed), Delivery Gate Report | `DELIVERY_GATE_REPORT.md` (PASS 100%) | - |
 | **9** | **Deployment Readiness** | **DONE** | Cloudflare Pages config, `_headers`, README.md, static production bundle | Production build verified (`dist/` directory) | - |
+| **10** | **Human Copywriting Audit & Fix** | **DONE** | UX copywriting overhaul, glossary seller awam, microcopy formulir ramah | Laporan audit human copywriting & verifikasi UI | - |
+| **11** | **Responsive & Multi-Device Optimization** | **DONE** | Responsive layout across 320px–1920px, Mobile Drawer Menu, Sticky Bottom Summary, Hybrid SKU Card/Table, Touch Targets ≥ 44px, Zero iOS Auto-Zoom | `RESPONSIVE_AUDIT.md`, `RESPONSIVE_DESIGN_GUIDELINE.md`, 23 Vitest tests passed, 0 horizontal overflow | - |
 
 ---
 
@@ -63,3 +65,17 @@ Dokumen pelacakan eksekusi bertahap untuk pengembangan produk KalkulatorSeller.
 - Seluruh 20 test di Vitest lulus 100%.
 - Anti-Slop Delivery Gate diverifikasi dan dilaporkan di `DELIVERY_GATE_REPORT.md`.
 - Dokumentasi `README.md` siap untuk deployment Cloudflare Pages.
+
+### Phase 10: Human Copywriting Audit & Fix (DONE)
+- Restrukturisasi seluruh salinan teks agar natural, ramah seller pemula, tanpa jargon keuangan kaku.
+- Glosarium penjelasan bahasa sehari-hari untuk istilah HPP (Modal Produk), Admin Marketplace, dan Untung Bersih.
+- Panduan tips praktis langkah demi langkah untuk seller baru.
+
+### Phase 11: Responsive & Multi-Device Optimization (DONE)
+- Audit komprehensif 5 breakpoint perangkat (320px, 375px/414px, 768px, 1024px, 1280px+).
+- Dokumentasi panduan arsitektur responsif di [RESPONSIVE_AUDIT.md](file:///Users/dimasaditya/project/kalkulator-seller/RESPONSIVE_AUDIT.md) dan [RESPONSIVE_DESIGN_GUIDELINE.md](file:///Users/dimasaditya/project/kalkulator-seller/RESPONSIVE_DESIGN_GUIDELINE.md).
+- Implementasi Mobile Navigation Drawer dengan tombol hamburger aksesibel dan touch target ≥ 44px.
+- Implementasi Mobile Sticky Bottom Summary Bar (`#mobile-sticky-summary`) dengan tombol scroll cepat rincian kalkulasi.
+- Implementasi Hybrid View pada `SavedSkuList`: Mobile Cards (< 640px) vs Desktop Table (≥ 640px).
+- Pencegahan iOS Safari auto-zoom (`text-base sm:text-sm`).
+- 23/23 unit test lolos di Vitest dan static build 9 halaman sukses tanpa overflow horizontal.

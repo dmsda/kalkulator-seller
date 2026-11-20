@@ -40,15 +40,22 @@ const allTariffs = [
               href={data.sourceUrl}
               target="_blank"
               rel="noopener noreferrer"
-              class="text-xs text-[#14213D] font-semibold underline hover:no-underline"
+              class="text-xs text-[#14213D] font-semibold underline hover:no-underline min-h-[36px] inline-flex items-center"
             >
               Lihat Aturan Resmi {platform} &rarr;
             </a>
           </div>
         </div>
 
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs border-collapse font-mono">
+        <!-- Mobile Scroll Hint (< sm) -->
+        <div class="sm:hidden text-[11px] text-[#525252] flex items-center gap-1.5 bg-[#F8F9FA] px-3 py-1.5 rounded border border-[#E5E5E5]">
+          <span aria-hidden="true">&larr;</span>
+          <span>Geser tabel ke samping untuk melihat batas potongan & status</span>
+          <span aria-hidden="true">&rarr;</span>
+        </div>
+
+        <div class="overflow-x-auto hide-scrollbar">
+          <table class="w-full text-left text-xs border-collapse font-mono min-w-[560px]">
             <thead>
               <tr class="border-b border-[#E5E5E5] text-[#525252] font-semibold">
                 <th class="py-2.5 pr-3 font-sans">Komponen Biaya</th>

@@ -34,17 +34,17 @@ const navItems = [
       </div>
     </a>
 
-    <!-- Navigation -->
-    <nav aria-label="Navigasi Utama" class="flex items-center gap-1.5 sm:gap-2.5">
+    <!-- Desktop / Tablet Navigation (Hidden on mobile < md) -->
+    <nav aria-label="Navigasi Utama" class="hidden md:flex items-center gap-1.5 lg:gap-2">
       {navItems.map((item) => {
         const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href));
         return (
           <a
             href={item.href}
             aria-current={isActive ? 'page' : undefined}
-            class={`px-3 py-1.5 text-xs sm:text-sm font-medium rounded-md transition-colors ${
+            class={`min-h-[44px] inline-flex items-center px-3.5 py-2 text-xs lg:text-sm font-medium rounded-lg transition-colors ${
               isActive
-                ? 'bg-[#14213D] text-white font-semibold'
+                ? 'bg-[#14213D] text-white font-semibold shadow-2xs'
                 : 'text-[#525252] hover:text-[#14213D] hover:bg-[#F3F4F6]'
             }`}
           >
@@ -53,5 +53,88 @@ const navItems = [
         );
       })}
     </nav>
+
+    <!-- Mobile Menu Button (< md) -->
+    <button
+      type="button"
+      id="mobile-menu-toggle-btn"
+      aria-expanded="false"
+      aria-controls="mobile-nav-panel"
+      aria-label="Buka menu navigasi"
+      class="md:hidden min-h-[44px] min-w-[44px] px-3 py-2 flex items-center gap-2 border border-[#E5E5E5] rounded-lg text-[#14213D] hover:bg-[#F8F9FA] transition-colors focus-visible:ring-2 focus-visible:ring-[#14213D] cursor-pointer"
+    >
+      <span class="text-xs font-semibold">Menu</span>
+      <svg id="hamburger-icon" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M2.5 4.75A.75.75 0 013.25 4h13.5a.75.75 0 010 1.5H3.25a.75.75 0 01-.75-.75zM2.5 10a.75.75 0 01.75-.75h13.5a.75.75 0 010 1.5H3.25A.75.75 0 012.5 10zm0 5.25a.75.75 0 01.75-.75h13.5a.75.75 0 010 1.5H3.25a.75.75 0 01-.75-.75z" clip-rule="evenodd" />
+      </svg>
+      <svg id="close-icon" class="w-4 h-4 hidden" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 001.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Dropdown Drawer Panel -->
+  <div id="mobile-nav-panel" class="hidden md:hidden border-t border-[#E5E5E5] bg-white px-4 py-3 space-y-1 shadow-sm">
+    <div class="text-[11px] font-semibold text-[#525252] uppercase tracking-wider px-3 py-1">Pilih Halaman</div>
+    {navItems.map((item) => {
+      const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href));
+      return (
+        <a
+          href={item.href}
+          aria-current={isActive ? 'page' : undefined}
+          class={`min-h-[44px] flex items-center px-3.5 py-2.5 text-sm rounded-lg transition-colors ${
+            isActive
+              ? 'bg-[#14213D] text-white font-semibold'
+              : 'text-[#525252] hover:text-[#14213D] hover:bg-[#F3F4F6] font-medium'
+          }`}
+        >
+          {item.label}
+        </a>
+      );
+    })}
   </div>
 </header>
+
+<script>
+  const toggleBtn = document.getElementById('mobile-menu-toggle-btn');
+  const navPanel = document.getElementById('mobile-nav-panel');
+  const hamburgerIcon = document.getElementById('hamburger-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  function setMenuOpen(isOpen) {
+    if (!toggleBtn || !navPanel) return;
+    toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    toggleBtn.setAttribute('aria-label', isOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi');
+    if (isOpen) {
+      navPanel.classList.remove('hidden');
+      hamburgerIcon?.classList.add('hidden');
+      closeIcon?.classList.remove('hidden');
+    } else {
+      navPanel.classList.add('hidden');
+      hamburgerIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+    }
+  }
+
+  toggleBtn?.addEventListener('click', () => {
+    const isCurrentlyOpen = toggleBtn.getAttribute('aria-expanded') === 'true';
+    setMenuOpen(!isCurrentlyOpen);
+  });
+
+  // Close on Escape
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && toggleBtn?.getAttribute('aria-expanded') === 'true') {
+      setMenuOpen(false);
+      toggleBtn.focus();
+    }
+  });
+
+  // Close on click outside
+  document.addEventListener('click', (e) => {
+    if (toggleBtn?.getAttribute('aria-expanded') === 'true') {
+      if (!toggleBtn.contains(e.target) && !navPanel?.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    }
+  });
+</script>
