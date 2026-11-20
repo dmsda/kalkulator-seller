@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "1.0.0",
+  "platform": "tiktok-shop",
+  "platformName": "TikTok Shop",
+  "version": "2026.1",
+  "effectiveFrom": "2026-01-01",
+  "lastVerified": "2026-11-21",
+  "sourceUrl": "https://seller-id.tiktok.com/university/essay?knowledge_id=6868841454159617",
+  "status": "assumption",
+  "notes": "Struktur komisi marketplace dan biaya layanan TikTok Shop Indonesia (Tokopedia Shop). Diberi flag assumption sampai disetujui PO.",
+  "storeTypes": [
+    { "id": "regular", "name": "Seller Biasa / Merchant" },
+    { "id": "mall", "name": "TikTok Shop Mall" }
+  ],
+  "categories": [
+    { "id": "fashion", "name": "Pakaian, Fashion, Aksesoris" },
+    { "id": "beauty", "name": "Kecantikan & Perawatan Tubuh" },
+    { "id": "electronics", "name": "Elektronik & Aksesoris HP" },
+    { "id": "fmcg", "name": "FMCG, Makanan & Minuman" }
+  ],
+  "fees": [
+    {
+      "id": "tiktok_commission_fashion",
+      "name": "Komisi Marketplace (Fashion)",
+      "type": "percentage",
+      "rate": 0.060,
+      "amount": 0,
+      "basis": "seller_discounted_price",
+      "unit": "per_item",
+      "cap": null,
+      "capScope": null,
+      "required": true,
+      "isAssumption": true,
+      "conditions": [
+        { "field": "category", "operator": "eq", "value": "fashion" }
+      ],
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "sourceUrl": "https://seller-id.tiktok.com/university/essay?knowledge_id=6868841454159617",
+      "notes": "Tarif komisi dasar 6.0% untuk produk fashion"
+    },
+    {
+      "id": "tiktok_commission_beauty",
+      "name": "Komisi Marketplace (Kecantikan)",
+      "type": "percentage",
+      "rate": 0.050,
+      "amount": 0,
+      "basis": "seller_discounted_price",
+      "unit": "per_item",
+      "cap": null,
+      "capScope": null,
+      "required": true,
+      "isAssumption": true,
+      "conditions": [
+        { "field": "category", "operator": "eq", "value": "beauty" }
+      ],
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "sourceUrl": "https://seller-id.tiktok.com/university/essay?knowledge_id=6868841454159617",
+      "notes": "Tarif komisi dasar 5.0% untuk kecantikan dan perawatan"
+    },
+    {
+      "id": "tiktok_commission_electronics",
+      "name": "Komisi Marketplace (Elektronik)",
+      "type": "percentage",
+      "rate": 0.035,
+      "amount": 0,
+      "basis": "seller_discounted_price",
+      "unit": "per_item",
+      "cap": null,
+      "capScope": null,
+      "required": true,
+      "isAssumption": true,
+      "conditions": [
+        { "field": "category", "operator": "eq", "value": "electronics" }
+      ],
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "sourceUrl": "https://seller-id.tiktok.com/university/essay?knowledge_id=6868841454159617",
+      "notes": "Tarif komisi dasar 3.5% untuk produk elektronik"
+    },
+    {
+      "id": "tiktok_commission_fmcg",
+      "name": "Komisi Marketplace (FMCG)",
+      "type": "percentage",
+      "rate": 0.045,
+      "amount": 0,
+      "basis": "seller_discounted_price",
+      "unit": "per_item",
+      "cap": null,
+      "capScope": null,
+      "required": true,
+      "isAssumption": true,
+      "conditions": [
+        { "field": "category", "operator": "eq", "value": "fmcg" }
+      ],
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "sourceUrl": "https://seller-id.tiktok.com/university/essay?knowledge_id=6868841454159617",
+      "notes": "Tarif komisi dasar 4.5% untuk makanan dan kebutuhan harian"
+    },
+    {
+      "id": "tiktok_free_shipping_fee",
+      "name": "Biaya Layanan Gratis Ongkir TikTok",
+      "type": "percentage",
+      "rate": 0.035,
+      "amount": 0,
+      "basis": "seller_discounted_price",
+      "unit": "per_item",
+      "cap": 10000,
+      "capScope": "per_item",
+      "required": false,
+      "isAssumption": true,
+      "conditions": [
+        { "field": "program", "operator": "eq", "value": "gratis_ongkir" }
+      ],
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "sourceUrl": "https://seller-id.tiktok.com/university/essay?knowledge_id=6868841454159617",
+      "notes": "Biaya layanan jika seller mengikuti kampanye Gratis Ongkir TikTok"
+    },
+    {
+      "id": "tiktok_order_service_fee",
+      "name": "Biaya Pemrosesan Pesanan",
+      "type": "fixed",
+      "rate": 0,
+      "amount": 1000,
+      "basis": "flat",
+      "unit": "per_order",
+      "cap": null,
+      "capScope": null,
+      "required": true,
+      "isAssumption": true,
+      "conditions": [],
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "sourceUrl": "https://seller-id.tiktok.com/university/essay?knowledge_id=6868841454159617",
+      "notes": "Biaya tetap per transaksi sukses"
+    }
+  ]
+}

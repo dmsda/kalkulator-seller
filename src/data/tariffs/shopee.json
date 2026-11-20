@@ -1,0 +1,292 @@
+{
+  "schemaVersion": "1.0.0",
+  "platform": "shopee",
+  "platformName": "Shopee",
+  "version": "2026.1",
+  "effectiveFrom": "2026-01-01",
+  "lastVerified": "2026-11-21",
+  "sourceUrl": "https://seller.shopee.co.id/edu/article/11833",
+  "status": "assumption",
+  "notes": "Struktur biaya admin seller Shopee Indonesia (Non-Star, Star, Mall) dan program promosi gratis ongkir / cashback. Diberi flag assumption sampai diverifikasi PO.",
+  "storeTypes": [
+    { "id": "non_star", "name": "Non-Star Seller" },
+    { "id": "star", "name": "Star & Star+ Seller" },
+    { "id": "mall", "name": "Shopee Mall" }
+  ],
+  "categories": [
+    { "id": "cat_a", "name": "Kategori A (Fashion, Pakaian, Sepatu, Tas)" },
+    { "id": "cat_b", "name": "Kategori B (Kecantikan, Perawatan, Otomotif)" },
+    { "id": "cat_c", "name": "Kategori C (Elektronik, Gadget, Komputer)" },
+    { "id": "cat_d", "name": "Kategori D (FMCG, Makanan & Minuman)" }
+  ],
+  "fees": [
+    {
+      "id": "shopee_admin_non_star_cat_a",
+      "name": "Biaya Administrasi Non-Star (Kategori A)",
+      "type": "percentage",
+      "rate": 0.065,
+      "amount": 0,
+      "basis": "seller_discounted_price",
+      "unit": "per_item",
+      "cap": null,
+      "capScope": null,
+      "required": true,
+      "isAssumption": true,
+      "conditions": [
+        { "field": "storeType", "operator": "eq", "value": "non_star" },
+        { "field": "category", "operator": "eq", "value": "cat_a" }
+      ],
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "sourceUrl": "https://seller.shopee.co.id/edu/article/11833",
+      "notes": "Tarif admin 6.5% untuk seller non-star kategori A setelah mencapai pesanan minimum"
+    },
+    {
+      "id": "shopee_admin_non_star_cat_b",
+      "name": "Biaya Administrasi Non-Star (Kategori B)",
+      "type": "percentage",
+      "rate": 0.055,
+      "amount": 0,
+      "basis": "seller_discounted_price",
+      "unit": "per_item",
+      "cap": null,
+      "capScope": null,
+      "required": true,
+      "isAssumption": true,
+      "conditions": [
+        { "field": "storeType", "operator": "eq", "value": "non_star" },
+        { "field": "category", "operator": "eq", "value": "cat_b" }
+      ],
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "sourceUrl": "https://seller.shopee.co.id/edu/article/11833",
+      "notes": "Tarif admin 5.5% untuk seller non-star kategori B"
+    },
+    {
+      "id": "shopee_admin_non_star_cat_c",
+      "name": "Biaya Administrasi Non-Star (Kategori C)",
+      "type": "percentage",
+      "rate": 0.040,
+      "amount": 0,
+      "basis": "seller_discounted_price",
+      "unit": "per_item",
+      "cap": null,
+      "capScope": null,
+      "required": true,
+      "isAssumption": true,
+      "conditions": [
+        { "field": "storeType", "operator": "eq", "value": "non_star" },
+        { "field": "category", "operator": "eq", "value": "cat_c" }
+      ],
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "sourceUrl": "https://seller.shopee.co.id/edu/article/11833",
+      "notes": "Tarif admin 4.0% untuk seller non-star elektronik/gadget"
+    },
+    {
+      "id": "shopee_admin_non_star_cat_d",
+      "name": "Biaya Administrasi Non-Star (Kategori D)",
+      "type": "percentage",
+      "rate": 0.045,
+      "amount": 0,
+      "basis": "seller_discounted_price",
+      "unit": "per_item",
+      "cap": null,
+      "capScope": null,
+      "required": true,
+      "isAssumption": true,
+      "conditions": [
+        { "field": "storeType", "operator": "eq", "value": "non_star" },
+        { "field": "category", "operator": "eq", "value": "cat_d" }
+      ],
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "sourceUrl": "https://seller.shopee.co.id/edu/article/11833",
+      "notes": "Tarif admin 4.5% untuk seller non-star FMCG"
+    },
+    {
+      "id": "shopee_admin_star_cat_a",
+      "name": "Biaya Administrasi Star/Star+ (Kategori A)",
+      "type": "percentage",
+      "rate": 0.075,
+      "amount": 0,
+      "basis": "seller_discounted_price",
+      "unit": "per_item",
+      "cap": null,
+      "capScope": null,
+      "required": true,
+      "isAssumption": true,
+      "conditions": [
+        { "field": "storeType", "operator": "eq", "value": "star" },
+        { "field": "category", "operator": "eq", "value": "cat_a" }
+      ],
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "sourceUrl": "https://seller.shopee.co.id/edu/article/11833",
+      "notes": "Tarif admin 7.5% untuk Star seller kategori A"
+    },
+    {
+      "id": "shopee_admin_star_cat_b",
+      "name": "Biaya Administrasi Star/Star+ (Kategori B)",
+      "type": "percentage",
+      "rate": 0.065,
+      "amount": 0,
+      "basis": "seller_discounted_price",
+      "unit": "per_item",
+      "cap": null,
+      "capScope": null,
+      "required": true,
+      "isAssumption": true,
+      "conditions": [
+        { "field": "storeType", "operator": "eq", "value": "star" },
+        { "field": "category", "operator": "eq", "value": "cat_b" }
+      ],
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "sourceUrl": "https://seller.shopee.co.id/edu/article/11833",
+      "notes": "Tarif admin 6.5% untuk Star seller kategori B"
+    },
+    {
+      "id": "shopee_admin_star_cat_c",
+      "name": "Biaya Administrasi Star/Star+ (Kategori C)",
+      "type": "percentage",
+      "rate": 0.0475,
+      "amount": 0,
+      "basis": "seller_discounted_price",
+      "unit": "per_item",
+      "cap": null,
+      "capScope": null,
+      "required": true,
+      "isAssumption": true,
+      "conditions": [
+        { "field": "storeType", "operator": "eq", "value": "star" },
+        { "field": "category", "operator": "eq", "value": "cat_c" }
+      ],
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "sourceUrl": "https://seller.shopee.co.id/edu/article/11833",
+      "notes": "Tarif admin 4.75% untuk Star seller kategori C"
+    },
+    {
+      "id": "shopee_admin_star_cat_d",
+      "name": "Biaya Administrasi Star/Star+ (Kategori D)",
+      "type": "percentage",
+      "rate": 0.055,
+      "amount": 0,
+      "basis": "seller_discounted_price",
+      "unit": "per_item",
+      "cap": null,
+      "capScope": null,
+      "required": true,
+      "isAssumption": true,
+      "conditions": [
+        { "field": "storeType", "operator": "eq", "value": "star" },
+        { "field": "category", "operator": "eq", "value": "cat_d" }
+      ],
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "sourceUrl": "https://seller.shopee.co.id/edu/article/11833",
+      "notes": "Tarif admin 5.5% untuk Star seller kategori D"
+    },
+    {
+      "id": "shopee_admin_mall_cat_a",
+      "name": "Biaya Administrasi Shopee Mall (Kategori A)",
+      "type": "percentage",
+      "rate": 0.095,
+      "amount": 0,
+      "basis": "seller_discounted_price",
+      "unit": "per_item",
+      "cap": null,
+      "capScope": null,
+      "required": true,
+      "isAssumption": true,
+      "conditions": [
+        { "field": "storeType", "operator": "eq", "value": "mall" },
+        { "field": "category", "operator": "eq", "value": "cat_a" }
+      ],
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "sourceUrl": "https://seller.shopee.co.id/edu/article/11833",
+      "notes": "Tarif admin 9.5% untuk Shopee Mall kategori A"
+    },
+    {
+      "id": "shopee_admin_mall_cat_c",
+      "name": "Biaya Administrasi Shopee Mall (Kategori C)",
+      "type": "percentage",
+      "rate": 0.065,
+      "amount": 0,
+      "basis": "seller_discounted_price",
+      "unit": "per_item",
+      "cap": null,
+      "capScope": null,
+      "required": true,
+      "isAssumption": true,
+      "conditions": [
+        { "field": "storeType", "operator": "eq", "value": "mall" },
+        { "field": "category", "operator": "eq", "value": "cat_c" }
+      ],
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "sourceUrl": "https://seller.shopee.co.id/edu/article/11833",
+      "notes": "Tarif admin 6.5% untuk Shopee Mall kategori C"
+    },
+    {
+      "id": "shopee_gratis_ongkir_xtra",
+      "name": "Biaya Layanan Gratis Ongkir XTRA",
+      "type": "percentage",
+      "rate": 0.040,
+      "amount": 0,
+      "basis": "seller_discounted_price",
+      "unit": "per_item",
+      "cap": 10000,
+      "capScope": "per_item",
+      "required": false,
+      "isAssumption": true,
+      "conditions": [
+        { "field": "program", "operator": "eq", "value": "gratis_ongkir_xtra" }
+      ],
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "sourceUrl": "https://seller.shopee.co.id/edu/article/383",
+      "notes": "Biaya 4.0% maks Rp10.000 per kuantiti produk jika bergabung program Gratis Ongkir XTRA"
+    },
+    {
+      "id": "shopee_cashback_xtra",
+      "name": "Biaya Layanan Cashback XTRA",
+      "type": "percentage",
+      "rate": 0.014,
+      "amount": 0,
+      "basis": "seller_discounted_price",
+      "unit": "per_item",
+      "cap": 10000,
+      "capScope": "per_item",
+      "required": false,
+      "isAssumption": true,
+      "conditions": [
+        { "field": "program", "operator": "eq", "value": "cashback_xtra" }
+      ],
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "sourceUrl": "https://seller.shopee.co.id/edu/article/384",
+      "notes": "Biaya 1.4% maks Rp10.000 per kuantiti jika bergabung program Cashback XTRA"
+    },
+    {
+      "id": "shopee_biaya_proses",
+      "name": "Biaya Proses Transaksi",
+      "type": "fixed",
+      "rate": 0,
+      "amount": 1000,
+      "basis": "flat",
+      "unit": "per_order",
+      "cap": null,
+      "capScope": null,
+      "required": true,
+      "isAssumption": true,
+      "conditions": [],
+      "effectiveFrom": "2026-01-01",
+      "effectiveTo": null,
+      "sourceUrl": "https://seller.shopee.co.id/edu/article/11833",
+      "notes": "Biaya penanganan tetap per pesanan yang berhasil diselesaikan"
+    }
+  ]
+}
