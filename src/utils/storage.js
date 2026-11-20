@@ -70,7 +70,7 @@ export function saveSkuItem(skuData) {
     return { ok: true, item: newItem };
   } catch (e) {
     console.error('Failed to save SKU:', e);
-    return { ok: false, error: 'Penyimpanan penuh atau gagal disimpan' };
+    return { ok: false, error: 'Penyimpanan browser penuh atau gagal menyimpan' };
   }
 }
 
@@ -86,7 +86,7 @@ export function deleteSkuItem(id) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     return { ok: true };
   } catch (e) {
-    return { ok: false, error: 'Gagal menghapus item' };
+    return { ok: false, error: 'Gagal menghapus produk' };
   }
 }
 
@@ -95,6 +95,6 @@ export function clearAllSavedSkus() {
     localStorage.removeItem(STORAGE_KEY);
     return { ok: true };
   } catch (e) {
-    return { ok: false, error: 'Gagal membersihkan data' };
+    return { ok: false, error: 'Gagal membersihkan data produk' };
   }
 }

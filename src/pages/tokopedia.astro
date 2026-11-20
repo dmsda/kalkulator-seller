@@ -5,8 +5,8 @@ import SavedSkuList from '../components/SavedSkuList.astro';
 ---
 
 <BaseLayout
-  title="Kalkulator Biaya Layanan & Profit Tokopedia"
-  description="Hitung biaya layanan Tokopedia Power Merchant, Official Store, Bebas Ongkir, dan perkirakan margin profit bersih produk."
+  title="Kalkulator Biaya Layanan & Keuntungan Tokopedia"
+  description="Hitung potongan biaya layanan Tokopedia Power Merchant, Official Store, Bebas Ongkir, dan sisa uang bersih jualan produk Anda."
   currentPath="/tokopedia"
 >
   <nav aria-label="Breadcrumb" class="text-xs text-[#525252] mb-3">
@@ -19,10 +19,10 @@ import SavedSkuList from '../components/SavedSkuList.astro';
 
   <div class="mb-6">
     <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-[#14213D] mb-1.5">
-      Kalkulator Biaya Layanan & Margin Tokopedia
+      Kalkulator Biaya Layanan & Keuntungan Tokopedia
     </h1>
     <p class="text-xs sm:text-sm text-[#525252] max-w-2xl leading-relaxed">
-      Simulasikan potongan biaya layanan Power Merchant berdasarkan kategori produk (Grup 1-4), biaya program Bebas Ongkir, dan biaya jasa aplikasi per pesanan.
+      Hitung potongan biaya layanan Power Merchant berdasarkan jenis produk (Grup 1-4), biaya program Bebas Ongkir, dan biaya proses pesanan sebelum menentukan harga jual.
     </p>
   </div>
 
@@ -32,23 +32,23 @@ import SavedSkuList from '../components/SavedSkuList.astro';
 
   <!-- Platform Specific FAQ -->
   <section class="mt-16 pt-8 border-t border-[#E5E5E5] space-y-4 max-w-3xl">
-    <h2 class="text-lg font-bold text-[#14213D]">Pertanyaan Umum seputar Biaya Tokopedia</h2>
+    <h2 class="text-lg font-bold text-[#14213D]">Pertanyaan yang Sering Ditanyakan seputar Biaya Tokopedia</h2>
 
     <details class="p-3.5 border border-[#E5E5E5] rounded-md bg-white">
       <summary class="font-semibold text-xs sm:text-sm text-[#14213D] cursor-pointer">
-        Apa itu kategori Grup 1 sampai 4 di Tokopedia?
+        Apa maksud pembagian Grup 1 sampai 4 di Tokopedia?
       </summary>
       <p class="text-xs text-[#525252] mt-2 leading-relaxed">
-        Tokopedia mengelompokkan kategori produk ke dalam beberapa grup tarif. Grup 1 (Fashion) berkisar 6.5%, Grup 2 (Kecantikan/Rumah Tangga) 5.5%, Grup 3 (Elektronik) 3.5%, dan Grup 4 (Makanan & Minuman) 4.5% untuk merchant status Power Merchant.
+        Tokopedia membagi jenis barang ke dalam kelompok grup tarif. Untuk toko Power Merchant: Grup 1 (Pakaian/Fashion) dipotong 6,5%, Grup 2 (Kecantikan & Perlengkapan Rumah) 5,5%, Grup 3 (Elektronik) 3,5%, dan Grup 4 (Makanan & Minuman) 4,5%.
       </p>
     </details>
 
     <details class="p-3.5 border border-[#E5E5E5] rounded-md bg-white">
       <summary class="font-semibold text-xs sm:text-sm text-[#14213D] cursor-pointer">
-        Berapa biaya program Bebas Ongkir Tokopedia?
+        Berapa biaya potongan untuk program Bebas Ongkir Tokopedia?
       </summary>
       <p class="text-xs text-[#525252] mt-2 leading-relaxed">
-        Biaya layanan Bebas Ongkir dikenakan 4.0% dengan batas maksimum (cap) sebesar Rp 10.000 per kuantiti produk yang terjual.
+        Biaya layanan program Bebas Ongkir dikenakan sebesar 4,0% dari harga produk, dengan batas maksimal potongan sebesar Rp10.000 per satu barang yang terjual.
       </p>
     </details>
   </section>

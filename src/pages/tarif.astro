@@ -12,16 +12,16 @@ const allTariffs = [
 ---
 
 <BaseLayout
-  title="Transparansi Skema Tarif & Kebijakan Biaya Marketplace"
-  description="Daftar lengkap aturan biaya administrasi, komisi, dan biaya layanan Shopee, TikTok Shop, dan Tokopedia dengan tautan sumber resmi."
+  title="Daftar Aturan & Potongan Biaya Marketplace (Shopee, TikTok Shop, Tokopedia)"
+  description="Daftar lengkap aturan biaya administrasi, komisi, dan biaya gratis ongkir Shopee, TikTok Shop, dan Tokopedia dengan tautan bantuan resmi."
   currentPath="/tarif"
 >
   <div class="mb-8">
     <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-[#14213D] mb-2">
-      Transparansi Skema Tarif Marketplace
+      Daftar Aturan & Potongan Biaya Marketplace
     </h1>
     <p class="text-xs sm:text-sm text-[#525252] max-w-2xl leading-relaxed">
-      KalkulatorSeller membaca aturan pemotongan dari konfigurasi terstruktur. Halaman ini menyajikan rincian setiap komponen biaya, basis perhitungan, batas maksimum (cap), tanggal efektif, dan sumber rujukan resmi.
+      KalkulatorSeller menghitung keuntungan Anda berdasarkan data aturan resmi yang dipublikasikan oleh masing-masing marketplace. Di halaman ini, Anda bisa memeriksa rincian persentase setiap potongan, batas maksimal biaya, tanggal berlaku, dan tautan bantuan resminya.
     </p>
   </div>
 
@@ -32,7 +32,7 @@ const allTariffs = [
           <div>
             <h2 class="text-base sm:text-lg font-bold text-[#14213D]">{platform}</h2>
             <div class="text-xs text-[#525252]">
-              Versi: {data.version} &bull; Efektif sejak: {data.effectiveFrom} &bull; Verifikasi: {data.lastVerified}
+              Versi Data: {data.version} &bull; Berlaku Sejak: {data.effectiveFrom} &bull; Terakhir Dicek: {data.lastVerified}
             </div>
           </div>
           <div>
@@ -42,7 +42,7 @@ const allTariffs = [
               rel="noopener noreferrer"
               class="text-xs text-[#14213D] font-semibold underline hover:no-underline"
             >
-              Dokumentasi Resmi &rarr;
+              Lihat Aturan Resmi {platform} &rarr;
             </a>
           </div>
         </div>
@@ -51,13 +51,13 @@ const allTariffs = [
           <table class="w-full text-left text-xs border-collapse font-mono">
             <thead>
               <tr class="border-b border-[#E5E5E5] text-[#525252] font-semibold">
-                <th class="py-2.5 pr-3 font-sans">Komponen</th>
-                <th class="py-2.5 px-3 font-sans">Tipe</th>
-                <th class="py-2.5 px-3 font-sans">Tarif / Nominal</th>
-                <th class="py-2.5 px-3 font-sans">Basis</th>
-                <th class="py-2.5 px-3 font-sans">Unit</th>
-                <th class="py-2.5 px-3 font-sans">Batas (Cap)</th>
-                <th class="py-2.5 pl-3 font-sans">Status</th>
+                <th class="py-2.5 pr-3 font-sans">Komponen Biaya</th>
+                <th class="py-2.5 px-3 font-sans">Jenis</th>
+                <th class="py-2.5 px-3 font-sans">Persentase / Tarif</th>
+                <th class="py-2.5 px-3 font-sans">Dihitung Dari</th>
+                <th class="py-2.5 px-3 font-sans">Dikenakan</th>
+                <th class="py-2.5 px-3 font-sans">Batas Maksimal</th>
+                <th class="py-2.5 pl-3 font-sans">Status Data</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-[#E5E5E5] text-[11px]">
@@ -67,20 +67,20 @@ const allTariffs = [
                     {f.name}
                     <div class="text-[10px] text-[#525252] font-sans">{f.notes}</div>
                   </td>
-                  <td class="py-2 px-3 text-[#525252] uppercase">{f.type}</td>
+                  <td class="py-2 px-3 text-[#525252] uppercase">{f.type === 'percentage' ? 'Persen' : 'Nominal Tetap'}</td>
                   <td class="py-2 px-3 font-semibold text-[#14213D]">
                     {f.type === 'percentage' ? `${(f.rate * 100).toFixed(2)}%` : `Rp ${new Intl.NumberFormat('id-ID').format(f.amount)}`}
                   </td>
-                  <td class="py-2 px-3 text-[#525252]">{f.basis}</td>
-                  <td class="py-2 px-3 text-[#525252]">{f.unit}</td>
+                  <td class="py-2 px-3 text-[#525252]">{f.basis === 'effective_price' ? 'Harga Jual Bersih' : f.basis}</td>
+                  <td class="py-2 px-3 text-[#525252]">{f.unit === 'per_item' ? 'Per Barang' : 'Per Pesanan'}</td>
                   <td class="py-2 px-3 text-[#525252]">
-                    {f.cap ? `Rp ${new Intl.NumberFormat('id-ID').format(f.cap)} (${f.capScope})` : 'Tidak Ada'}
+                    {f.cap ? `Maks Rp ${new Intl.NumberFormat('id-ID').format(f.cap)} (${f.capScope === 'per_item' ? 'Per Barang' : 'Per Pesanan'})` : 'Tanpa Batas'}
                   </td>
                   <td class="py-2 pl-3">
                     <span class={`text-[11px] font-sans font-medium ${
                       f.isAssumption ? 'text-[#B45309]' : 'text-[#047857]'
                     }`}>
-                      {f.isAssumption ? 'Estimasi Publik' : 'Terverifikasi'}
+                      {f.isAssumption ? 'Aturan Publik' : 'Terverifikasi Resmi'}
                     </span>
                   </td>
                 </tr>

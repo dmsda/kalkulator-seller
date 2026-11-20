@@ -17,21 +17,21 @@ export function generateJsonBackup(skuItems) {
 export function validateJsonBackup(jsonString) {
   try {
     if (!jsonString || typeof jsonString !== 'string') {
-      return { ok: false, error: 'File backup kosong atau bukan format teks.' };
+      return { ok: false, error: 'File cadangan kosong atau bukan format teks.' };
     }
 
     if (jsonString.length > 5 * 1024 * 1024) {
-      return { ok: false, error: 'Ukuran file backup melebihi batas 5MB.' };
+      return { ok: false, error: 'Ukuran file cadangan terlalu besar (melebihi batas 5MB).' };
     }
 
     const data = JSON.parse(jsonString);
 
     if (!data || typeof data !== 'object') {
-      return { ok: false, error: 'Struktur JSON tidak valid.' };
+      return { ok: false, error: 'Format file tidak sesuai standar JSON.' };
     }
 
     if (!Array.isArray(data.items)) {
-      return { ok: false, error: 'Format data tidak memiliki daftar item SKU yang valid.' };
+      return { ok: false, error: 'File cadangan tidak memuat daftar produk yang sesuai.' };
     }
 
     // Validate items

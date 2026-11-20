@@ -5,26 +5,26 @@ import SavedSkuList from '../components/SavedSkuList.astro';
 ---
 
 <BaseLayout
-  title="Hitung Profit Jualan di Marketplace (Shopee, TikTok Shop, Tokopedia)"
-  description="Kalkulator keuntungan dan rincian biaya marketplace independen untuk seller online Indonesia. Hitung modal, biaya admin, operasional, dan margin bersih."
+  title="Hitung Keuntungan Jualan di Marketplace (Shopee, TikTok Shop, Tokopedia)"
+  description="Kalkulator keuntungan jualan online untuk seller Shopee, TikTok Shop, dan Tokopedia. Hitung modal, biaya admin, ongkir, packing, dan sisa uang bersih."
   currentPath="/"
 >
-  <!-- Hero Section (Subdued, Clean, Work-tool character) -->
+  <!-- Hero Section (Human, Practical, Helpful) -->
   <section class="max-w-3xl mb-8">
     <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#14213D] mb-2 leading-tight">
-      Hitung Profit Jualan di Marketplace
+      Hitung Keuntungan Jualan Sebelum Pasang Harga
     </h1>
     <p class="text-xs sm:text-sm text-[#525252] leading-relaxed mb-6">
-      Jualan ramai belum tentu untung. Masukkan modal (HPP), harga jual, dan biaya operasional untuk melihat estimasi potongan serta keuntungan bersih di Shopee, TikTok Shop, dan Tokopedia. Seluruh simulasi diproses secara lokal di browser Anda.
+      Banyak penjual kaget saat saldo pencairan toko lebih kecil dari perkiraan karena terpotong biaya admin dan program gratis ongkir. Masukkan harga modal, harga jual, dan biaya packing untuk melihat berapa uang bersih yang benar-benar Anda bawa pulang. Gratis, tanpa perlu daftar, dan data tersimpan aman di perangkat Anda sendiri.
     </p>
 
-    <!-- Platform Shortcut Pills -->
+    <!-- Platform Shortcut Links -->
     <div class="flex items-center flex-wrap gap-2 text-xs">
       <span class="font-semibold text-[#14213D]">Kalkulator Khusus:</span>
       <a href="/shopee" class="px-3 py-1 bg-white border border-[#E5E5E5] rounded hover:border-[#14213D] text-[#14213D]">Shopee</a>
       <a href="/tiktok-shop" class="px-3 py-1 bg-white border border-[#E5E5E5] rounded hover:border-[#14213D] text-[#14213D]">TikTok Shop</a>
       <a href="/tokopedia" class="px-3 py-1 bg-white border border-[#E5E5E5] rounded hover:border-[#14213D] text-[#14213D]">Tokopedia</a>
-      <a href="/tarif" class="px-3 py-1 bg-[#F8F9FA] border border-[#E5E5E5] rounded hover:border-[#14213D] text-[#525252]">Skema Tarif &rarr;</a>
+      <a href="/tarif" class="px-3 py-1 bg-[#F8F9FA] border border-[#E5E5E5] rounded hover:border-[#14213D] text-[#525252]">Daftar Tarif & Potongan &rarr;</a>
     </div>
   </section>
 
@@ -34,34 +34,34 @@ import SavedSkuList from '../components/SavedSkuList.astro';
   <!-- Saved SKU List Component -->
   <SavedSkuList />
 
-  <!-- FAQ Section (Factual & Direct) -->
+  <!-- FAQ Section (Human, Clear & Reassuring) -->
   <section class="mt-16 pt-8 border-t border-[#E5E5E5] space-y-4 max-w-3xl">
-    <h2 class="text-lg font-bold text-[#14213D]">Pertanyaan yang Sering Diajukan</h2>
+    <h2 class="text-lg font-bold text-[#14213D]">Pertanyaan yang Sering Ditanyakan Penjual</h2>
 
     <details class="p-3.5 border border-[#E5E5E5] rounded-md bg-white">
       <summary class="font-semibold text-xs sm:text-sm text-[#14213D] cursor-pointer">
-        Mengapa ada 4 tingkat profit dalam kalkulator ini?
+        Mengapa keuntungan dibagi menjadi 4 tahap?
       </summary>
       <p class="text-xs text-[#525252] mt-2 leading-relaxed">
-        Banyak seller mengira keuntungan kotor adalah profit yang bisa dikantongi. KalkulatorSeller membagi profit menjadi 4 tingkatan: (1) Profit Kotor (Revenue - HPP), (2) Setelah Marketplace, (3) Setelah Operasional/Packing, dan (4) Profit Bersih Akhir (setelah biaya iklan dan affiliate) agar Anda tahu di mana kebocoran modal terjadi.
+        Banyak penjual mengira selisih harga jual dan harga modal adalah untung yang bisa langsung dikantongi. KalkulatorSeller membagi keuntungan menjadi 4 tahap: (1) Untung Kotor, (2) Sisa Setelah Potongan Marketplace, (3) Sisa Setelah Biaya Packing, dan (4) Keuntungan Bersih yang Dibawa Pulang. Dengan begitu, Anda tahu persis ke mana uang penjualan Anda mengalir dan tidak ada biaya tersembunyi yang terlewat.
       </p>
     </details>
 
     <details class="p-3.5 border border-[#E5E5E5] rounded-md bg-white">
       <summary class="font-semibold text-xs sm:text-sm text-[#14213D] cursor-pointer">
-        Bagaimana fitur "Cari Harga Jual (Reverse Pricing)" bekerja?
+        Bagaimana cara kerja fitur "Cari Harga Jual Ideal"?
       </summary>
       <p class="text-xs text-[#525252] mt-2 leading-relaxed">
-        Alih-alih menebak harga, Anda memasukkan target uang bersih yang ingin Anda kantongi (misal Rp 25.000 per produk). Algoritma kami menghitung mundur harga jual minimum yang harus dipasang di etalase toko setelah memperhitungkan seluruh persentase potongan marketplace dan biaya packing.
+        Anda tidak perlu menebak-nebak harga. Cukup tentukan berapa uang bersih yang ingin Anda dapatkan per produk (misalnya Rp25.000). Sistem kami akan menghitung mundur harga jual pas yang harus Anda pasang di etalase toko setelah memperhitungkan seluruh potongan admin marketplace dan biaya packing.
       </p>
     </details>
 
     <details class="p-3.5 border border-[#E5E5E5] rounded-md bg-white">
       <summary class="font-semibold text-xs sm:text-sm text-[#14213D] cursor-pointer">
-        Apakah data HPP dan harga produk saya aman?
+        Apakah data modal dan harga produk saya aman?
       </summary>
       <p class="text-xs text-[#525252] mt-2 leading-relaxed">
-        Sangat aman. Seluruh proses perhitungan dan penyimpanan SKU berjalan 100% di browser Anda (lokal). Kami tidak memiliki server database dan tidak merekam harga beli maupun margin rahasia toko Anda.
+        Sangat aman. Seluruh perhitungan dan daftar produk yang Anda simpan berada 100% di browser HP atau laptop Anda sendiri. Kami tidak memiliki server penyimpanan dan tidak bisa melihat harga modal maupun rahasia dapur toko Anda.
       </p>
     </details>
   </section>

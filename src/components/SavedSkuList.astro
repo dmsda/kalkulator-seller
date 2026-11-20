@@ -6,10 +6,10 @@
   <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
     <div>
       <h2 class="text-base sm:text-lg font-bold text-[#14213D]">
-        Daftar SKU Tersimpan
+        Daftar Produk yang Disimpan
       </h2>
       <p class="text-xs text-[#525252] mt-0.5">
-        Data tersimpan secara lokal dan aman di browser Anda tanpa melalui server.
+        Data tersimpan aman di browser perangkat Anda sendiri tanpa dikirim ke server manapun.
       </p>
     </div>
 
@@ -20,7 +20,7 @@
         id="export-csv-btn"
         class="px-3.5 py-2 bg-white border border-[#E5E5E5] text-[#14213D] text-xs font-semibold rounded-lg hover:bg-[#F3F4F6] hover:border-[#D1D5DB] transition-colors focus-visible:ring-2 focus-visible:ring-[#14213D] cursor-pointer"
       >
-        Ekspor CSV
+        Unduh Excel / CSV
       </button>
 
       <button
@@ -28,14 +28,14 @@
         id="backup-json-btn"
         class="px-3.5 py-2 bg-white border border-[#E5E5E5] text-[#14213D] text-xs font-semibold rounded-lg hover:bg-[#F3F4F6] hover:border-[#D1D5DB] transition-colors focus-visible:ring-2 focus-visible:ring-[#14213D] cursor-pointer"
       >
-        Unduh Backup
+        Simpan Cadangan
       </button>
 
       <label
         for="restore-json-input"
         class="px-3.5 py-2 bg-white border border-[#E5E5E5] text-[#14213D] text-xs font-semibold rounded-lg hover:bg-[#F3F4F6] hover:border-[#D1D5DB] transition-colors cursor-pointer focus-within:ring-2 focus-within:ring-[#14213D]"
       >
-        Pulihkan Backup
+        Buka Cadangan
       </label>
       <input type="file" id="restore-json-input" accept=".json,application/json" class="sr-only" />
 
@@ -57,11 +57,11 @@
       <table class="w-full text-left text-xs border-collapse">
         <thead class="bg-[#F8F9FA] border-b border-[#E5E5E5] text-[#525252] font-semibold">
           <tr>
-            <th class="py-2.5 px-3">Nama Produk / SKU</th>
-            <th class="py-2.5 px-3">Platform</th>
+            <th class="py-2.5 px-3">Nama Produk</th>
+            <th class="py-2.5 px-3">Marketplace</th>
             <th class="py-2.5 px-3 text-right">Harga Jual</th>
-            <th class="py-2.5 px-3 text-right">Profit Bersih</th>
-            <th class="py-2.5 px-3 text-right">Margin</th>
+            <th class="py-2.5 px-3 text-right">Untung Bersih</th>
+            <th class="py-2.5 px-3 text-right">Margin Untung</th>
             <th class="py-2.5 px-3 text-center">Aksi</th>
           </tr>
         </thead>
@@ -73,7 +73,7 @@
 
     <!-- Empty State -->
     <div id="sku-empty-state" class="p-8 text-center text-xs text-[#525252]">
-      Belum ada SKU yang disimpan. Lakukan simulasi di atas lalu klik <strong>"Simpan SKU"</strong>.
+      Belum ada produk yang disimpan. Coba hitung keuntungan produk Anda di atas, lalu klik <strong>"Simpan Produk"</strong> agar tidak perlu mengetik ulang nanti.
     </div>
   </div>
 </div>
@@ -166,10 +166,10 @@
       delBtn.className = 'text-[#DC2626] hover:underline text-[11px] ml-2';
       delBtn.textContent = 'Hapus';
       delBtn.addEventListener('click', () => {
-        if (confirm(`Hapus SKU "${item.name}"?`)) {
+        if (confirm(`Hapus produk "${item.name}" dari daftar simpanan Anda?`)) {
           deleteSkuItem(item.id);
           renderSkuList();
-          showNotification('SKU berhasil dihapus.');
+          showNotification('Produk berhasil dihapus dari daftar.');
         }
       });
 
@@ -191,20 +191,20 @@
   exportCsvBtn?.addEventListener('click', () => {
     const items = getSavedSkus();
     if (items.length === 0) {
-      alert('Tidak ada SKU untuk diekspor.');
+      alert('Belum ada produk yang disimpan untuk diunduh.');
       return;
     }
     const csvContent = generateSkuCsv(items);
     const dateStr = new Date().toISOString().split('T')[0];
-    downloadCsv(`KalkulatorSeller_SKU_${dateStr}.csv`, csvContent);
-    showNotification('File CSV berhasil diunduh.');
+    downloadCsv(`KalkulatorSeller_Produk_${dateStr}.csv`, csvContent);
+    showNotification('File daftar produk (CSV) berhasil diunduh.');
   });
 
   // Download JSON Backup
   backupJsonBtn?.addEventListener('click', () => {
     const items = getSavedSkus();
     if (items.length === 0) {
-      alert('Tidak ada SKU untuk dibackup.');
+      alert('Belum ada produk yang disimpan untuk dicadangkan.');
       return;
     }
     const jsonContent = generateJsonBackup(items);
@@ -213,12 +213,12 @@
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `KalkulatorSeller_Backup_${dateStr}.json`;
+    link.download = `KalkulatorSeller_Cadangan_${dateStr}.json`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-    showNotification('Backup JSON berhasil diunduh.');
+    showNotification('File cadangan produk berhasil diunduh.');
   });
 
   // Restore JSON Backup
@@ -231,14 +231,14 @@
       const content = event.target?.result;
       const validation = validateJsonBackup(content);
       if (!validation.ok) {
-        showNotification(`Gagal memulihkan: ${validation.error}`, true);
+        showNotification(`Gagal membuka file: ${validation.error}`, true);
         return;
       }
 
-      if (confirm(`Ditemukan ${validation.count} SKU dalam file backup. Gabungkan ke daftar saat ini?`)) {
+      if (confirm(`Ditemukan ${validation.count} produk dalam file cadangan. Tambahkan ke daftar produk Anda saat ini?`)) {
         validation.items.forEach((item) => saveSkuItem(item));
         renderSkuList();
-        showNotification(`✓ Berhasil memulihkan ${validation.count} SKU.`);
+        showNotification(`✓ Berhasil menambahkan ${validation.count} produk ke daftar Anda.`);
       }
     };
     reader.readAsText(file);
@@ -249,10 +249,10 @@
   clearAllBtn?.addEventListener('click', () => {
     const items = getSavedSkus();
     if (items.length === 0) return;
-    if (confirm(`Yakin ingin menghapus semua ${items.length} data SKU tersimpan di browser Anda? Tindakan ini tidak dapat dibatalkan.`)) {
+    if (confirm(`Yakin ingin menghapus seluruh ${items.length} produk yang tersimpan di browser ini? Tindakan ini tidak bisa dibatalkan.`)) {
       clearAllSavedSkus();
       renderSkuList();
-      showNotification('Semua data SKU telah dibersihkan.');
+      showNotification('Semua data produk telah dibersihkan.');
     }
   });
 
