@@ -1,8 +1,4 @@
 ---
-import shopeeConfig from '../data/tariffs/shopee.json';
-import tiktokConfig from '../data/tariffs/tiktok-shop.json';
-import tokopediaConfig from '../data/tariffs/tokopedia.json';
-
 interface Props {
   initialPlatform?: 'shopee' | 'tiktok-shop' | 'tokopedia';
   isComparisonMode?: boolean;
@@ -541,18 +537,18 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
   let currentOverrides = {};
 
   // Form DOM elements
-  const storeSelect = document.getElementById('store-type-select');
-  const catSelect = document.getElementById('category-select');
+  const storeSelect = document.getElementById('store-type-select') as HTMLSelectElement | null;
+  const catSelect = document.getElementById('category-select') as HTMLSelectElement | null;
   const programsContainer = document.getElementById('programs-list');
-  const inputPrice = document.getElementById('input-price');
-  const inputDiscount = document.getElementById('input-discount');
-  const inputTargetProfit = document.getElementById('input-target-profit');
-  const targetTypeSelect = document.getElementById('target-type-select');
-  const inputHpp = document.getElementById('input-hpp');
-  const inputQty = document.getElementById('input-qty');
-  const inputOps = document.getElementById('input-ops');
-  const inputAds = document.getElementById('input-ads');
-  const inputAffiliate = document.getElementById('input-affiliate');
+  const inputPrice = document.getElementById('input-price') as HTMLInputElement | null;
+  const inputDiscount = document.getElementById('input-discount') as HTMLInputElement | null;
+  const inputTargetProfit = document.getElementById('input-target-profit') as HTMLInputElement | null;
+  const targetTypeSelect = document.getElementById('target-type-select') as HTMLSelectElement | null;
+  const inputHpp = document.getElementById('input-hpp') as HTMLInputElement | null;
+  const inputQty = document.getElementById('input-qty') as HTMLInputElement | null;
+  const inputOps = document.getElementById('input-ops') as HTMLInputElement | null;
+  const inputAds = document.getElementById('input-ads') as HTMLInputElement | null;
+  const inputAffiliate = document.getElementById('input-affiliate') as HTMLInputElement | null;
   const forwardGroup = document.getElementById('forward-inputs-group');
   const reverseGroup = document.getElementById('reverse-inputs-group');
   const modeForwardBtn = document.getElementById('mode-forward-btn');
@@ -581,13 +577,12 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
   const qtyIndicator = document.getElementById('qty-indicator');
 
   // Mobile Sticky Summary Elements
-  const mobileStickySummary = document.getElementById('mobile-sticky-summary');
   const mobileStickyNetVal = document.getElementById('mobile-sticky-net-val');
   const mobileStickyMarginVal = document.getElementById('mobile-sticky-margin-val');
   const mobileViewDetailsBtn = document.getElementById('mobile-view-details-btn');
 
   // Save SKU DOM elements
-  const skuNameInput = document.getElementById('sku-name-input');
+  const skuNameInput = document.getElementById('sku-name-input') as HTMLInputElement | null;
   const saveSkuBtn = document.getElementById('save-sku-btn');
   const saveSkuFeedback = document.getElementById('save-sku-feedback');
   const resetFormBtn = document.getElementById('reset-form-btn');
@@ -604,7 +599,7 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
     // 2. Populate Store Types
     if (storeSelect) {
       storeSelect.innerHTML = '';
-      (config.storeTypes || []).forEach((st) => {
+      (config.storeTypes || []).forEach((st: any) => {
         const opt = document.createElement('option');
         opt.value = st.id;
         opt.textContent = st.name;
@@ -615,7 +610,7 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
     // 3. Populate Categories
     if (catSelect) {
       catSelect.innerHTML = '';
-      (config.categories || []).forEach((cat) => {
+      (config.categories || []).forEach((cat: any) => {
         const opt = document.createElement('option');
         opt.value = cat.id;
         opt.textContent = cat.name;
@@ -626,10 +621,10 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
     // 4. Populate Programs (Checkboxes)
     if (programsContainer) {
       programsContainer.innerHTML = '';
-      const programFees = (config.fees || []).filter((f) => !f.required);
+      const programFees = (config.fees || []).filter((f: any) => !f.required);
       
-      programFees.forEach((pf) => {
-        const progCond = pf.conditions.find((c) => c.field === 'program');
+      programFees.forEach((pf: any) => {
+        const progCond = pf.conditions.find((c: any) => c.field === 'program');
         if (!progCond) return;
 
         const wrapper = document.createElement('label');
@@ -654,14 +649,14 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
 
     // Update active tab buttons visual using data-active attribute
     document.querySelectorAll('.platform-tab-btn').forEach((btn) => {
-      const isCurrent = btn.dataset.platform === currentPlatform;
+      const isCurrent = (btn as HTMLElement).dataset.platform === currentPlatform;
       btn.setAttribute('data-active', isCurrent ? 'true' : 'false');
     });
   }
 
   function getSelectedPrograms() {
     const checked = document.querySelectorAll('.program-checkbox:checked');
-    return Array.from(checked).map((c) => c.value);
+    return Array.from(checked).map((c) => (c as HTMLInputElement).value);
   }
 
   function runCalculation() {
@@ -777,7 +772,7 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
       // Fee Breakdown Table
       if (feeBreakdownTbody) {
         feeBreakdownTbody.innerHTML = '';
-        feeBreakdown.forEach((f) => {
+        feeBreakdown.forEach((f: any) => {
           const tr = document.createElement('tr');
           tr.className = 'hover:bg-gray-50';
 
@@ -813,11 +808,12 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
   }
 
   // Live input formatting
-  function setupCurrencyInput(inputEl) {
+  function setupCurrencyInput(inputEl: HTMLInputElement | null) {
     if (!inputEl) return;
-    inputEl.addEventListener('input', (e) => {
-      const parsed = parseRupiah(e.target.value);
-      e.target.value = formatRupiahInput(parsed);
+    inputEl.addEventListener('input', (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      const parsed = parseRupiah(target.value);
+      target.value = formatRupiahInput(parsed);
       runCalculation();
     });
   }
@@ -838,7 +834,7 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
   // Platform switching
   document.querySelectorAll('.platform-tab-btn').forEach((btn) => {
     btn.addEventListener('click', (e) => {
-      const targetPlatform = e.currentTarget.dataset.platform;
+      const targetPlatform = (e.currentTarget as HTMLElement)?.dataset.platform;
       if (targetPlatform && platforms[targetPlatform]) {
         currentPlatform = targetPlatform;
         currentOverrides = {};
@@ -959,8 +955,8 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
   });
 
   // Listen to load SKU event
-  window.addEventListener('load-sku', (e) => {
-    const sku = e.detail;
+  window.addEventListener('load-sku', (e: Event) => {
+    const sku = (e as CustomEvent).detail;
     if (!sku) return;
 
     if (sku.platform && platforms[sku.platform]) {
@@ -981,7 +977,8 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
 
     // Check programs
     document.querySelectorAll('.program-checkbox').forEach((cb) => {
-      cb.checked = Array.isArray(sku.selectedPrograms) && sku.selectedPrograms.includes(cb.value);
+      const input = cb as HTMLInputElement;
+      input.checked = Array.isArray(sku.selectedPrograms) && sku.selectedPrograms.includes(input.value);
     });
 
     runCalculation();

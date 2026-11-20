@@ -101,7 +101,7 @@ const navItems = [
   const hamburgerIcon = document.getElementById('hamburger-icon');
   const closeIcon = document.getElementById('close-icon');
 
-  function setMenuOpen(isOpen) {
+  function setMenuOpen(isOpen: boolean) {
     if (!toggleBtn || !navPanel) return;
     toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     toggleBtn.setAttribute('aria-label', isOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi');
@@ -122,7 +122,7 @@ const navItems = [
   });
 
   // Close on Escape
-  window.addEventListener('keydown', (e) => {
+  window.addEventListener('keydown', (e: KeyboardEvent) => {
     if (e.key === 'Escape' && toggleBtn?.getAttribute('aria-expanded') === 'true') {
       setMenuOpen(false);
       toggleBtn.focus();
@@ -130,9 +130,10 @@ const navItems = [
   });
 
   // Close on click outside
-  document.addEventListener('click', (e) => {
+  document.addEventListener('click', (e: MouseEvent) => {
     if (toggleBtn?.getAttribute('aria-expanded') === 'true') {
-      if (!toggleBtn.contains(e.target) && !navPanel?.contains(e.target)) {
+      const target = e.target as Node | null;
+      if (target && !toggleBtn.contains(target) && !navPanel?.contains(target)) {
         setMenuOpen(false);
       }
     }

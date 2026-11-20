@@ -100,7 +100,7 @@
   const clearAllBtn = document.getElementById('clear-all-sku-btn');
   const notificationEl = document.getElementById('sku-notification');
 
-  function showNotification(msg, isError = false) {
+  function showNotification(msg: string, isError = false) {
     if (!notificationEl) return;
     notificationEl.textContent = msg;
     notificationEl.className = `text-xs p-2.5 rounded-md ${
@@ -128,7 +128,7 @@
     tbody.innerHTML = '';
     if (cardsContainer) cardsContainer.innerHTML = '';
 
-    items.forEach((item) => {
+    items.forEach((item: any) => {
       // 1. Render Desktop Table Row
       const tr = document.createElement('tr');
       tr.className = 'hover:bg-gray-50';
@@ -294,13 +294,14 @@
   });
 
   // Restore JSON Backup
-  restoreJsonInput?.addEventListener('change', (e) => {
-    const file = e.target.files?.[0];
+  restoreJsonInput?.addEventListener('change', (e: Event) => {
+    const target = e.target as HTMLInputElement | null;
+    const file = target?.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
     reader.onload = (event) => {
-      const content = event.target?.result;
+      const content = event.target?.result as string;
       const validation = validateJsonBackup(content);
       if (!validation.ok) {
         showNotification(`Gagal membuka file: ${validation.error}`, true);
@@ -308,13 +309,13 @@
       }
 
       if (confirm(`Ditemukan ${validation.count} produk dalam file cadangan. Tambahkan ke daftar produk Anda saat ini?`)) {
-        validation.items.forEach((item) => saveSkuItem(item));
+        validation.items.forEach((item: any) => saveSkuItem(item));
         renderSkuList();
         showNotification(`✓ Berhasil menambahkan ${validation.count} produk ke daftar Anda.`);
       }
     };
     reader.readAsText(file);
-    e.target.value = '';
+    if (target) target.value = '';
   });
 
   // Clear All
