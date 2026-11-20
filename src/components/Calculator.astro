@@ -57,11 +57,11 @@ const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
       </button>
     </div>
 
-    <!-- Tariff Status Badge & Source Link -->
+    <!-- Tariff Status & Source Link (Clean text, no decorative dot/badge) -->
     <div id="tariff-status-badge" class="flex items-center gap-2 text-xs text-[#525252]">
-      <span class="inline-block w-2 h-2 rounded-full bg-[#FCA311]"></span>
-      <span id="tariff-status-text">Status: Estimasi Berdasarkan Aturan Publik</span>
-      <a id="tariff-source-link" href="#" target="_blank" rel="noopener noreferrer" class="text-[#14213D] underline hover:no-underline">
+      <span id="tariff-status-text">Status tarif: Estimasi aturan publik</span>
+      <span aria-hidden="true">&bull;</span>
+      <a id="tariff-source-link" href="#" target="_blank" rel="noopener noreferrer" class="text-[#14213D] underline hover:no-underline font-medium">
         Sumber Resmi &rarr;
       </a>
     </div>

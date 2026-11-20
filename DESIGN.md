@@ -14,6 +14,7 @@ The interface is a work tool, not a promotional SaaS landing page.
 - Use the approved PRD color tokens only.
 - Avoid gradients, glows, glassmorphism, ornamental bento grids,
   oversized hero sections, and decorative charting.
+- Avoid decorative pill badges with colored dots above headlines (AI slop badge/eyebrow tag pattern).
 - Do not use stock imagery on calculator screens.
 
 ## Typography
