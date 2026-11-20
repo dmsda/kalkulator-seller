@@ -1,0 +1,264 @@
+---
+// SavedSkuList.astro
+---
+
+<div id="saved-sku-section" class="w-full mt-12 pt-8 border-t border-[#E5E5E5] space-y-4">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h2 class="text-base sm:text-lg font-bold text-[#14213D]">
+        Daftar SKU Tersimpan
+      </h2>
+      <p class="text-xs text-[#525252] mt-0.5">
+        Data tersimpan secara lokal dan aman di browser Anda tanpa melalui server.
+      </p>
+    </div>
+
+    <!-- Storage Action Buttons -->
+    <div class="flex items-center flex-wrap gap-2">
+      <button
+        type="button"
+        id="export-csv-btn"
+        class="px-3 py-1.5 bg-white border border-[#E5E5E5] text-[#14213D] text-xs font-semibold rounded-md hover:bg-[#F8F9FA] transition-colors focus-visible:ring-2 focus-visible:ring-[#14213D]"
+      >
+        Ekspor CSV
+      </button>
+
+      <button
+        type="button"
+        id="backup-json-btn"
+        class="px-3 py-1.5 bg-white border border-[#E5E5E5] text-[#14213D] text-xs font-semibold rounded-md hover:bg-[#F8F9FA] transition-colors focus-visible:ring-2 focus-visible:ring-[#14213D]"
+      >
+        Unduh Backup
+      </button>
+
+      <label
+        for="restore-json-input"
+        class="px-3 py-1.5 bg-white border border-[#E5E5E5] text-[#14213D] text-xs font-semibold rounded-md hover:bg-[#F8F9FA] transition-colors cursor-pointer focus-within:ring-2 focus-within:ring-[#14213D]"
+      >
+        Pulihkan Backup
+      </label>
+      <input type="file" id="restore-json-input" accept=".json,application/json" class="sr-only" />
+
+      <button
+        type="button"
+        id="clear-all-sku-btn"
+        class="px-2.5 py-1.5 text-xs text-[#DC2626] hover:bg-[#FEF2F2] rounded-md transition-colors"
+      >
+        Hapus Semua
+      </button>
+    </div>
+  </div>
+
+  <div id="sku-notification" class="hidden text-xs p-2.5 rounded-md"></div>
+
+  <!-- SKU Table -->
+  <div class="border border-[#E5E5E5] rounded-lg overflow-hidden bg-white">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs border-collapse">
+        <thead class="bg-[#F8F9FA] border-b border-[#E5E5E5] text-[#525252] font-semibold">
+          <tr>
+            <th class="py-2.5 px-3">Nama Produk / SKU</th>
+            <th class="py-2.5 px-3">Platform</th>
+            <th class="py-2.5 px-3 text-right">Harga Jual</th>
+            <th class="py-2.5 px-3 text-right">Profit Bersih</th>
+            <th class="py-2.5 px-3 text-right">Margin</th>
+            <th class="py-2.5 px-3 text-center">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="saved-sku-tbody" class="divide-y divide-[#E5E5E5]">
+          <!-- Populated safely via DOM APIs -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty State -->
+    <div id="sku-empty-state" class="p-8 text-center text-xs text-[#525252]">
+      Belum ada SKU yang disimpan. Lakukan simulasi di atas lalu klik <strong>"Simpan SKU"</strong>.
+    </div>
+  </div>
+</div>
+
+<script>
+  import { getSavedSkus, deleteSkuItem, clearAllSavedSkus, saveSkuItem } from '../utils/storage.js';
+  import { generateSkuCsv, downloadCsv } from '../utils/exportCsv.js';
+  import { generateJsonBackup, validateJsonBackup } from '../utils/backup.js';
+  import { formatRupiahDisplay } from '../utils/currency.js';
+
+  const tbody = document.getElementById('saved-sku-tbody');
+  const emptyState = document.getElementById('sku-empty-state');
+  const exportCsvBtn = document.getElementById('export-csv-btn');
+  const backupJsonBtn = document.getElementById('backup-json-btn');
+  const restoreJsonInput = document.getElementById('restore-json-input');
+  const clearAllBtn = document.getElementById('clear-all-sku-btn');
+  const notificationEl = document.getElementById('sku-notification');
+
+  function showNotification(msg, isError = false) {
+    if (!notificationEl) return;
+    notificationEl.textContent = msg;
+    notificationEl.className = `text-xs p-2.5 rounded-md ${
+      isError ? 'bg-[#FEF2F2] text-[#DC2626] border border-[#DC2626]/20' : 'bg-[#ECFDF5] text-[#047857] border border-[#047857]/20'
+    }`;
+    notificationEl.classList.remove('hidden');
+    setTimeout(() => {
+      notificationEl?.classList.add('hidden');
+    }, 4000);
+  }
+
+  function renderSkuList() {
+    const items = getSavedSkus();
+
+    if (!tbody || !emptyState) return;
+
+    if (items.length === 0) {
+      tbody.innerHTML = '';
+      emptyState.classList.remove('hidden');
+      return;
+    }
+
+    emptyState.classList.add('hidden');
+    tbody.innerHTML = '';
+
+    items.forEach((item) => {
+      const tr = document.createElement('tr');
+      tr.className = 'hover:bg-gray-50';
+
+      // 1. Name (rendered securely via textContent)
+      const tdName = document.createElement('td');
+      tdName.className = 'py-2.5 px-3 font-medium text-[#14213D] max-w-[200px] truncate';
+      tdName.textContent = item.name || 'Produk Tanpa Nama';
+
+      // 2. Platform
+      const tdPlatform = document.createElement('td');
+      tdPlatform.className = 'py-2.5 px-3 text-[#525252] capitalize';
+      tdPlatform.textContent = item.platform ? item.platform.replace('-', ' ') : 'Shopee';
+
+      // 3. Price
+      const tdPrice = document.createElement('td');
+      tdPrice.className = 'py-2.5 px-3 text-right font-mono tabular-nums text-[#14213D]';
+      tdPrice.textContent = formatRupiahDisplay(item.price || 0);
+
+      // 4. Net Profit
+      const tdProfit = document.createElement('td');
+      tdProfit.className = 'py-2.5 px-3 text-right font-mono tabular-nums font-semibold text-[#047857]';
+      tdProfit.textContent = formatRupiahDisplay(item.netProfit || 0);
+
+      // 5. Margin
+      const tdMargin = document.createElement('td');
+      tdMargin.className = 'py-2.5 px-3 text-right font-mono tabular-nums text-[#525252]';
+      tdMargin.textContent = item.netMargin !== null && item.netMargin !== undefined
+        ? `${(item.netMargin * 100).toFixed(1)}%`
+        : '---';
+
+      // 6. Actions
+      const tdActions = document.createElement('td');
+      tdActions.className = 'py-2.5 px-3 text-center space-x-2';
+
+      const loadBtn = document.createElement('button');
+      loadBtn.type = 'button';
+      loadBtn.className = 'text-[#14213D] hover:underline font-semibold text-[11px]';
+      loadBtn.textContent = 'Buka';
+      loadBtn.addEventListener('click', () => {
+        window.dispatchEvent(new CustomEvent('load-sku', { detail: item }));
+      });
+
+      const delBtn = document.createElement('button');
+      delBtn.type = 'button';
+      delBtn.className = 'text-[#DC2626] hover:underline text-[11px] ml-2';
+      delBtn.textContent = 'Hapus';
+      delBtn.addEventListener('click', () => {
+        if (confirm(`Hapus SKU "${item.name}"?`)) {
+          deleteSkuItem(item.id);
+          renderSkuList();
+          showNotification('SKU berhasil dihapus.');
+        }
+      });
+
+      tdActions.appendChild(loadBtn);
+      tdActions.appendChild(delBtn);
+
+      tr.appendChild(tdName);
+      tr.appendChild(tdPlatform);
+      tr.appendChild(tdPrice);
+      tr.appendChild(tdProfit);
+      tr.appendChild(tdMargin);
+      tr.appendChild(tdActions);
+
+      tbody.appendChild(tr);
+    });
+  }
+
+  // Export CSV
+  exportCsvBtn?.addEventListener('click', () => {
+    const items = getSavedSkus();
+    if (items.length === 0) {
+      alert('Tidak ada SKU untuk diekspor.');
+      return;
+    }
+    const csvContent = generateSkuCsv(items);
+    const dateStr = new Date().toISOString().split('T')[0];
+    downloadCsv(`KalkulatorSeller_SKU_${dateStr}.csv`, csvContent);
+    showNotification('File CSV berhasil diunduh.');
+  });
+
+  // Download JSON Backup
+  backupJsonBtn?.addEventListener('click', () => {
+    const items = getSavedSkus();
+    if (items.length === 0) {
+      alert('Tidak ada SKU untuk dibackup.');
+      return;
+    }
+    const jsonContent = generateJsonBackup(items);
+    const dateStr = new Date().toISOString().split('T')[0];
+    const blob = new Blob([jsonContent], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `KalkulatorSeller_Backup_${dateStr}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    showNotification('Backup JSON berhasil diunduh.');
+  });
+
+  // Restore JSON Backup
+  restoreJsonInput?.addEventListener('change', (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const content = event.target?.result;
+      const validation = validateJsonBackup(content);
+      if (!validation.ok) {
+        showNotification(`Gagal memulihkan: ${validation.error}`, true);
+        return;
+      }
+
+      if (confirm(`Ditemukan ${validation.count} SKU dalam file backup. Gabungkan ke daftar saat ini?`)) {
+        validation.items.forEach((item) => saveSkuItem(item));
+        renderSkuList();
+        showNotification(`✓ Berhasil memulihkan ${validation.count} SKU.`);
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+
+  // Clear All
+  clearAllBtn?.addEventListener('click', () => {
+    const items = getSavedSkus();
+    if (items.length === 0) return;
+    if (confirm(`Yakin ingin menghapus semua ${items.length} data SKU tersimpan di browser Anda? Tindakan ini tidak dapat dibatalkan.`)) {
+      clearAllSavedSkus();
+      renderSkuList();
+      showNotification('Semua data SKU telah dibersihkan.');
+    }
+  });
+
+  // Listen to sku-saved event
+  window.addEventListener('sku-saved', renderSkuList);
+
+  // Initial render
+  renderSkuList();
+</script>

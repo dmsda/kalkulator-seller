@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Calculator from '../components/Calculator.astro';
+import SavedSkuList from '../components/SavedSkuList.astro';
+---
+
+<BaseLayout
+  title="Kalkulator Komisi & Profit Bersih TikTok Shop"
+  description="Hitung komisi marketplace TikTok Shop (Tokopedia Shop), biaya layanan gratis ongkir, dan komisi affiliate per produk."
+  currentPath="/tiktok-shop"
+>
+  <nav aria-label="Breadcrumb" class="text-xs text-[#525252] mb-3">
+    <ol class="flex items-center gap-1.5 list-none p-0 m-0">
+      <li><a href="/" class="hover:underline text-[#14213D]">Beranda</a></li>
+      <li>/</li>
+      <li class="font-semibold text-[#14213D]">TikTok Shop</li>
+    </ol>
+  </nav>
+
+  <div class="mb-6">
+    <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-[#14213D] mb-1.5">
+      Kalkulator Komisi & Keuntungan TikTok Shop
+    </h1>
+    <p class="text-xs sm:text-sm text-[#525252] max-w-2xl leading-relaxed">
+      Hitung potongan komisi kategori (Fashion, Kecantikan, Elektronik, FMCG), biaya gratis ongkir TikTok, dan komisi affiliate untuk menentukan harga jual produk yang menguntungkan.
+    </p>
+  </div>
+
+  <Calculator initialPlatform="tiktok-shop" />
+
+  <SavedSkuList />
+
+  <!-- Platform Specific FAQ -->
+  <section class="mt-16 pt-8 border-t border-[#E5E5E5] space-y-4 max-w-3xl">
+    <h2 class="text-lg font-bold text-[#14213D]">Pertanyaan Umum seputar Biaya TikTok Shop</h2>
+
+    <details class="p-3.5 border border-[#E5E5E5] rounded-md bg-white">
+      <summary class="font-semibold text-xs sm:text-sm text-[#14213D] cursor-pointer">
+        Berapa besaran komisi marketplace TikTok Shop saat ini?
+      </summary>
+      <p class="text-xs text-[#525252] mt-2 leading-relaxed">
+        Komisi marketplace TikTok Shop Indonesia berkisar antara 3.5% hingga 6.0% tergantung kategori produk, dengan produk Fashion umumnya memiliki komisi 6.0% dan Elektronik sekitar 3.5%.
+      </p>
+    </details>
+
+    <details class="p-3.5 border border-[#E5E5E5] rounded-md bg-white">
+      <summary class="font-semibold text-xs sm:text-sm text-[#14213D] cursor-pointer">
+        Apakah komisi affiliate mempengaruhi batas profit bersih?
+      </summary>
+      <p class="text-xs text-[#525252] mt-2 leading-relaxed">
+        Ya. Komisi affiliate dipotong langsung saat pesanan diselesaikan oleh kreator/affiliate. KalkulatorSeller memasukkan komisi affiliate di tingkat Profit Bersih Akhir (Level 4).
+      </p>
+    </details>
+  </section>
+</BaseLayout>

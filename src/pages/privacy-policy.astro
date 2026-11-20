@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Kebijakan Privasi (Data Lokal & Tanpa Tracking)"
+  description="KalkulatorSeller beroperasi 100% di browser pengguna tanpa pengumpulan data rahasia bisnis atau saldo toko ke server."
+  currentPath="/privacy-policy"
+>
+  <article class="max-w-2xl space-y-6">
+    <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-[#14213D]">
+      Kebijakan Privasi
+    </h1>
+
+    <div class="p-4 bg-[#ECFDF5] border border-[#047857]/20 rounded-md text-xs text-[#047857] leading-relaxed">
+      <strong>Prinsip Utama:</strong> Data bisnis Anda (nama produk, HPP, margin, strategi harga) adalah rahasia Anda. KalkulatorSeller tidak mengirim atau menyimpan data input Anda ke server manapun.
+    </div>
+
+    <section class="space-y-2 text-xs sm:text-sm text-[#525252] leading-relaxed">
+      <h2 class="text-base font-bold text-[#14213D]">1. Penyimpanan Lokal di Browser</h2>
+      <p>
+        Semua simulasi dan SKU yang Anda simpan melalui tombol "Simpan SKU" disimpan langsung di penyimpanan lokal browser Anda (<code>localStorage</code>). Data tersebut tidak pernah meninggalkan perangkat Anda.
+      </p>
+    </section>
+
+    <section class="space-y-2 text-xs sm:text-sm text-[#525252] leading-relaxed">
+      <h2 class="text-base font-bold text-[#14213D]">2. Tidak Ada Akun atau Login</h2>
+      <p>
+        Aplikasi ini bebas digunakan tanpa perlu mendaftar, memasukkan email, nomor telepon, atau menghubungkan kredensial akun marketplace Anda.
+      </p>
+    </section>
+
+    <section class="space-y-2 text-xs sm:text-sm text-[#525252] leading-relaxed">
+      <h2 class="text-base font-bold text-[#14213D]">3. Ekspor & Cadangan Data Mandiri</h2>
+      <p>
+        Anda memiliki kendali penuh untuk mengekspor data ke file CSV atau mencadangkannya ke file JSON kapan saja, serta menghapus seluruh data yang tersimpan di browser Anda dengan satu klik.
+      </p>
+    </section>
+  </article>
+</BaseLayout>

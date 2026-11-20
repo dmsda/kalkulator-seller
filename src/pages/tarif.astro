@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import shopeeConfig from '../data/tariffs/shopee.json';
+import tiktokConfig from '../data/tariffs/tiktok-shop.json';
+import tokopediaConfig from '../data/tariffs/tokopedia.json';
+
+const allTariffs = [
+  { platform: 'Shopee', data: shopeeConfig },
+  { platform: 'TikTok Shop', data: tiktokConfig },
+  { platform: 'Tokopedia', data: tokopediaConfig },
+];
+---
+
+<BaseLayout
+  title="Transparansi Skema Tarif & Kebijakan Biaya Marketplace"
+  description="Daftar lengkap aturan biaya administrasi, komisi, dan biaya layanan Shopee, TikTok Shop, dan Tokopedia dengan tautan sumber resmi."
+  currentPath="/tarif"
+>
+  <div class="mb-8">
+    <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-[#14213D] mb-2">
+      Transparansi Skema Tarif Marketplace
+    </h1>
+    <p class="text-xs sm:text-sm text-[#525252] max-w-2xl leading-relaxed">
+      KalkulatorSeller membaca aturan pemotongan dari konfigurasi terstruktur. Halaman ini menyajikan rincian setiap komponen biaya, basis perhitungan, batas maksimum (cap), tanggal efektif, dan sumber rujukan resmi.
+    </p>
+  </div>
+
+  <div class="space-y-12">
+    {allTariffs.map(({ platform, data }) => (
+      <section class="border border-[#E5E5E5] rounded-lg p-5 bg-white space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E5E5E5] pb-3">
+          <div>
+            <h2 class="text-base sm:text-lg font-bold text-[#14213D]">{platform}</h2>
+            <div class="text-xs text-[#525252]">
+              Versi: {data.version} &bull; Efektif sejak: {data.effectiveFrom} &bull; Verifikasi: {data.lastVerified}
+            </div>
+          </div>
+          <div>
+            <a
+              href={data.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-xs text-[#14213D] font-semibold underline hover:no-underline"
+            >
+              Dokumentasi Resmi &rarr;
+            </a>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse font-mono">
+            <thead>
+              <tr class="border-b border-[#E5E5E5] text-[#525252] font-semibold">
+                <th class="py-2.5 pr-3 font-sans">Komponen</th>
+                <th class="py-2.5 px-3 font-sans">Tipe</th>
+                <th class="py-2.5 px-3 font-sans">Tarif / Nominal</th>
+                <th class="py-2.5 px-3 font-sans">Basis</th>
+                <th class="py-2.5 px-3 font-sans">Unit</th>
+                <th class="py-2.5 px-3 font-sans">Batas (Cap)</th>
+                <th class="py-2.5 pl-3 font-sans">Status</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[#E5E5E5] text-[11px]">
+              {data.fees.map((f) => (
+                <tr class="hover:bg-gray-50">
+                  <td class="py-2 pr-3 font-medium text-[#14213D] font-sans">
+                    {f.name}
+                    <div class="text-[10px] text-[#525252] font-sans">{f.notes}</div>
+                  </td>
+                  <td class="py-2 px-3 text-[#525252] uppercase">{f.type}</td>
+                  <td class="py-2 px-3 font-semibold text-[#14213D]">
+                    {f.type === 'percentage' ? `${(f.rate * 100).toFixed(2)}%` : `Rp ${new Intl.NumberFormat('id-ID').format(f.amount)}`}
+                  </td>
+                  <td class="py-2 px-3 text-[#525252]">{f.basis}</td>
+                  <td class="py-2 px-3 text-[#525252]">{f.unit}</td>
+                  <td class="py-2 px-3 text-[#525252]">
+                    {f.cap ? `Rp ${new Intl.NumberFormat('id-ID').format(f.cap)} (${f.capScope})` : 'Tidak Ada'}
+                  </td>
+                  <td class="py-2 pl-3">
+                    <span class={`inline-block px-2 py-0.5 rounded text-[10px] font-sans font-medium ${
+                      f.isAssumption ? 'bg-[#FFFBEB] text-[#B45309]' : 'bg-[#ECFDF5] text-[#047857]'
+                    }`}>
+                      {f.isAssumption ? 'Estimasi Publik' : 'Terverifikasi'}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    ))}
+  </div>
+</BaseLayout>

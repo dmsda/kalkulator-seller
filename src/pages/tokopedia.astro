@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Calculator from '../components/Calculator.astro';
+import SavedSkuList from '../components/SavedSkuList.astro';
+---
+
+<BaseLayout
+  title="Kalkulator Biaya Layanan & Profit Tokopedia"
+  description="Hitung biaya layanan Tokopedia Power Merchant, Official Store, Bebas Ongkir, dan perkirakan margin profit bersih produk."
+  currentPath="/tokopedia"
+>
+  <nav aria-label="Breadcrumb" class="text-xs text-[#525252] mb-3">
+    <ol class="flex items-center gap-1.5 list-none p-0 m-0">
+      <li><a href="/" class="hover:underline text-[#14213D]">Beranda</a></li>
+      <li>/</li>
+      <li class="font-semibold text-[#14213D]">Tokopedia</li>
+    </ol>
+  </nav>
+
+  <div class="mb-6">
+    <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-[#14213D] mb-1.5">
+      Kalkulator Biaya Layanan & Margin Tokopedia
+    </h1>
+    <p class="text-xs sm:text-sm text-[#525252] max-w-2xl leading-relaxed">
+      Simulasikan potongan biaya layanan Power Merchant berdasarkan kategori produk (Grup 1-4), biaya program Bebas Ongkir, dan biaya jasa aplikasi per pesanan.
+    </p>
+  </div>
+
+  <Calculator initialPlatform="tokopedia" />
+
+  <SavedSkuList />
+
+  <!-- Platform Specific FAQ -->
+  <section class="mt-16 pt-8 border-t border-[#E5E5E5] space-y-4 max-w-3xl">
+    <h2 class="text-lg font-bold text-[#14213D]">Pertanyaan Umum seputar Biaya Tokopedia</h2>
+
+    <details class="p-3.5 border border-[#E5E5E5] rounded-md bg-white">
+      <summary class="font-semibold text-xs sm:text-sm text-[#14213D] cursor-pointer">
+        Apa itu kategori Grup 1 sampai 4 di Tokopedia?
+      </summary>
+      <p class="text-xs text-[#525252] mt-2 leading-relaxed">
+        Tokopedia mengelompokkan kategori produk ke dalam beberapa grup tarif. Grup 1 (Fashion) berkisar 6.5%, Grup 2 (Kecantikan/Rumah Tangga) 5.5%, Grup 3 (Elektronik) 3.5%, dan Grup 4 (Makanan & Minuman) 4.5% untuk merchant status Power Merchant.
+      </p>
+    </details>
+
+    <details class="p-3.5 border border-[#E5E5E5] rounded-md bg-white">
+      <summary class="font-semibold text-xs sm:text-sm text-[#14213D] cursor-pointer">
+        Berapa biaya program Bebas Ongkir Tokopedia?
+      </summary>
+      <p class="text-xs text-[#525252] mt-2 leading-relaxed">
+        Biaya layanan Bebas Ongkir dikenakan 4.0% dengan batas maksimum (cap) sebesar Rp 10.000 per kuantiti produk yang terjual.
+      </p>
+    </details>
+  </section>
+</BaseLayout>

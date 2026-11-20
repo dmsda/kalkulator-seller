@@ -1,0 +1,938 @@
+---
+import shopeeConfig from '../data/tariffs/shopee.json';
+import tiktokConfig from '../data/tariffs/tiktok-shop.json';
+import tokopediaConfig from '../data/tariffs/tokopedia.json';
+
+interface Props {
+  initialPlatform?: 'shopee' | 'tiktok-shop' | 'tokopedia';
+  isComparisonMode?: boolean;
+}
+
+const { initialPlatform = 'shopee', isComparisonMode = false } = Astro.props;
+---
+
+<div id="calculator-app" class="w-full" data-initial-platform={initialPlatform} data-comparison={isComparisonMode ? "true" : "false"}>
+  <!-- Platform Tabs / Selector -->
+  <div class="flex items-center gap-2 border-b border-[#E5E5E5] pb-3 mb-6 overflow-x-auto">
+    <span class="text-xs font-semibold text-[#525252] uppercase tracking-wider mr-2">Pilih Platform:</span>
+    <button
+      type="button"
+      data-platform="shopee"
+      class="platform-tab-btn px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-md transition-all border border-[#E5E5E5] bg-white text-[#14213D] hover:bg-[#F8F9FA] focus-visible:ring-2 focus-visible:ring-[#14213D]"
+    >
+      Shopee
+    </button>
+    <button
+      type="button"
+      data-platform="tiktok-shop"
+      class="platform-tab-btn px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-md transition-all border border-[#E5E5E5] bg-white text-[#14213D] hover:bg-[#F8F9FA] focus-visible:ring-2 focus-visible:ring-[#14213D]"
+    >
+      TikTok Shop
+    </button>
+    <button
+      type="button"
+      data-platform="tokopedia"
+      class="platform-tab-btn px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-md transition-all border border-[#E5E5E5] bg-white text-[#14213D] hover:bg-[#F8F9FA] focus-visible:ring-2 focus-visible:ring-[#14213D]"
+    >
+      Tokopedia
+    </button>
+  </div>
+
+  <!-- Mode Selector (Segmented Control) -->
+  <div class="flex items-center justify-between flex-wrap gap-3 mb-6">
+    <div class="inline-flex p-1 bg-[#F8F9FA] border border-[#E5E5E5] rounded-lg">
+      <button
+        type="button"
+        id="mode-forward-btn"
+        class="px-4 py-1.5 text-xs sm:text-sm font-semibold rounded-md transition-all bg-[#14213D] text-white shadow-xs focus-visible:ring-2 focus-visible:ring-[#14213D]"
+      >
+        Hitung Profit (Forward)
+      </button>
+      <button
+        type="button"
+        id="mode-reverse-btn"
+        class="px-4 py-1.5 text-xs sm:text-sm font-semibold rounded-md transition-all text-[#525252] hover:text-[#14213D] focus-visible:ring-2 focus-visible:ring-[#14213D]"
+      >
+        Cari Harga Jual (Reverse)
+      </button>
+    </div>
+
+    <!-- Tariff Status Badge & Source Link -->
+    <div id="tariff-status-badge" class="flex items-center gap-2 text-xs text-[#525252]">
+      <span class="inline-block w-2 h-2 rounded-full bg-[#FCA311]"></span>
+      <span id="tariff-status-text">Status: Estimasi Berdasarkan Aturan Publik</span>
+      <a id="tariff-source-link" href="#" target="_blank" rel="noopener noreferrer" class="text-[#14213D] underline hover:no-underline">
+        Sumber Resmi &rarr;
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Calculator Grid: Desktop 60% Form / 40% Results -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    <!-- Left Column: Form Inputs (approx 60% -> 7 cols) -->
+    <form id="calc-form" class="lg:col-span-7 space-y-6" onsubmit="return false;">
+      
+      <!-- Section A: Toko & Kategori -->
+      <div class="p-4 sm:p-5 bg-white border border-[#E5E5E5] rounded-lg space-y-4">
+        <h2 class="text-sm font-bold text-[#14213D] uppercase tracking-wider flex items-center gap-2">
+          <span>1. Profil Toko & Kategori Produk</span>
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="store-type-select" class="block text-xs font-semibold text-[#14213D] mb-1.5">
+              Tipe Toko
+            </label>
+            <select
+              id="store-type-select"
+              class="w-full text-xs sm:text-sm border border-[#E5E5E5] rounded-md px-3 py-2 bg-white focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none"
+            >
+              <!-- Options populated dynamically -->
+            </select>
+          </div>
+
+          <div>
+            <label for="category-select" class="block text-xs font-semibold text-[#14213D] mb-1.5">
+              Kategori Produk
+            </label>
+            <select
+              id="category-select"
+              class="w-full text-xs sm:text-sm border border-[#E5E5E5] rounded-md px-3 py-2 bg-white focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none"
+            >
+              <!-- Options populated dynamically -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Marketplace Programs (Checkboxes) -->
+        <div id="programs-container" class="pt-2 border-t border-[#E5E5E5] space-y-2">
+          <span class="block text-xs font-semibold text-[#14213D]">Program Promosi Marketplace</span>
+          <div id="programs-list" class="space-y-2">
+            <!-- Checkboxes populated dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Section B: Harga, Diskon & Modal -->
+      <div class="p-4 sm:p-5 bg-white border border-[#E5E5E5] rounded-lg space-y-4">
+        <h2 class="text-sm font-bold text-[#14213D] uppercase tracking-wider">
+          2. Harga Jual, Modal & Jumlah
+        </h2>
+
+        <!-- Forward Mode Inputs -->
+        <div id="forward-inputs-group" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="input-price" class="block text-xs font-semibold text-[#14213D] mb-1">
+              Harga Jual Katalog per Unit
+            </label>
+            <div class="relative flex items-center">
+              <span class="absolute left-3 text-xs sm:text-sm font-medium text-[#525252] select-none">Rp</span>
+              <input
+                type="text"
+                id="input-price"
+                inputmode="numeric"
+                placeholder="0"
+                value="100.000"
+                class="w-full text-xs sm:text-sm border border-[#E5E5E5] rounded-md pl-10 pr-3 py-2 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none"
+              />
+            </div>
+            <p class="text-[11px] text-[#525252] mt-1">Harga sebelum diskon yang Anda pasang di etalase.</p>
+          </div>
+
+          <div>
+            <label for="input-discount" class="block text-xs font-semibold text-[#14213D] mb-1">
+              Diskon Seller per Unit (Opsional)
+            </label>
+            <div class="relative flex items-center">
+              <span class="absolute left-3 text-xs sm:text-sm font-medium text-[#525252] select-none">Rp</span>
+              <input
+                type="text"
+                id="input-discount"
+                inputmode="numeric"
+                placeholder="0"
+                value="0"
+                class="w-full text-xs sm:text-sm border border-[#E5E5E5] rounded-md pl-10 pr-3 py-2 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none"
+              />
+            </div>
+            <p class="text-[11px] text-[#525252] mt-1">Diskon atau voucher toko yang ditanggung seller.</p>
+          </div>
+        </div>
+
+        <!-- Reverse Mode Inputs (Hidden by default) -->
+        <div id="reverse-inputs-group" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="input-target-profit" class="block text-xs font-semibold text-[#14213D] mb-1">
+              Target Profit Bersih
+            </label>
+            <div class="relative flex items-center">
+              <span class="absolute left-3 text-xs sm:text-sm font-medium text-[#525252] select-none">Rp</span>
+              <input
+                type="text"
+                id="input-target-profit"
+                inputmode="numeric"
+                placeholder="0"
+                value="25.000"
+                class="w-full text-xs sm:text-sm border border-[#E5E5E5] rounded-md pl-10 pr-3 py-2 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none"
+              />
+            </div>
+            <p class="text-[11px] text-[#525252] mt-1">Keuntungan bersih yang ingin Anda bawa pulang.</p>
+          </div>
+
+          <div>
+            <label for="target-type-select" class="block text-xs font-semibold text-[#14213D] mb-1">
+              Satuan Target Profit
+            </label>
+            <select
+              id="target-type-select"
+              class="w-full text-xs sm:text-sm border border-[#E5E5E5] rounded-md px-3 py-2 bg-white focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none"
+            >
+              <option value="per_unit">Per Unit Produk</option>
+              <option value="per_order">Per Total Pesanan (Seluruh Qty)</option>
+            </select>
+            <p class="text-[11px] text-[#525252] mt-1">Pilih apakah target berlaku per barang atau total order.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-[#E5E5E5]">
+          <div>
+            <label for="input-hpp" class="block text-xs font-semibold text-[#14213D] mb-1">
+              HPP / Modal Produk per Unit
+            </label>
+            <div class="relative flex items-center">
+              <span class="absolute left-3 text-xs sm:text-sm font-medium text-[#525252] select-none">Rp</span>
+              <input
+                type="text"
+                id="input-hpp"
+                inputmode="numeric"
+                placeholder="0"
+                value="50.000"
+                class="w-full text-xs sm:text-sm border border-[#E5E5E5] rounded-md pl-10 pr-3 py-2 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none"
+              />
+            </div>
+            <p class="text-[11px] text-[#525252] mt-1">Biaya produksi atau harga beli produk dari supplier.</p>
+          </div>
+
+          <div>
+            <label for="input-qty" class="block text-xs font-semibold text-[#14213D] mb-1">
+              Jumlah Terjual (Quantity)
+            </label>
+            <input
+              type="number"
+              id="input-qty"
+              min="1"
+              step="1"
+              value="1"
+              class="w-full text-xs sm:text-sm border border-[#E5E5E5] rounded-md px-3 py-2 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] focus:border-[#14213D] outline-none"
+            />
+            <p class="text-[11px] text-[#525252] mt-1">Default 1 pesanan. Biaya flat per-order dihitung 1 kali.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section C: Biaya Operasional, Iklan & Affiliate -->
+      <div class="p-4 sm:p-5 bg-white border border-[#E5E5E5] rounded-lg space-y-4">
+        <div class="flex items-center justify-between">
+          <h2 class="text-sm font-bold text-[#14213D] uppercase tracking-wider">
+            3. Biaya Tambahan & Operasional
+          </h2>
+          <span class="text-xs text-[#525252]">(Opsional)</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label for="input-ops" class="block text-xs font-semibold text-[#14213D] mb-1">
+              Packing & Ops per Unit
+            </label>
+            <div class="relative flex items-center">
+              <span class="absolute left-3 text-xs sm:text-sm font-medium text-[#525252] select-none">Rp</span>
+              <input
+                type="text"
+                id="input-ops"
+                inputmode="numeric"
+                placeholder="0"
+                value="2.000"
+                class="w-full text-xs sm:text-sm border border-[#E5E5E5] rounded-md pl-10 pr-3 py-2 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] outline-none"
+              />
+            </div>
+            <p class="text-[11px] text-[#525252] mt-1">Kardus, bubble wrap, lakban, label.</p>
+          </div>
+
+          <div>
+            <label for="input-ads" class="block text-xs font-semibold text-[#14213D] mb-1">
+              Alokasi Iklan per Order
+            </label>
+            <div class="relative flex items-center">
+              <span class="absolute left-3 text-xs sm:text-sm font-medium text-[#525252] select-none">Rp</span>
+              <input
+                type="text"
+                id="input-ads"
+                inputmode="numeric"
+                placeholder="0"
+                value="0"
+                class="w-full text-xs sm:text-sm border border-[#E5E5E5] rounded-md pl-10 pr-3 py-2 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] outline-none"
+              />
+            </div>
+            <p class="text-[11px] text-[#525252] mt-1">Estimasi biaya ads per transaksi.</p>
+          </div>
+
+          <div>
+            <label for="input-affiliate" class="block text-xs font-semibold text-[#14213D] mb-1">
+              Komisi Affiliate / Kreator
+            </label>
+            <div class="relative flex items-center">
+              <span class="absolute left-3 text-xs sm:text-sm font-medium text-[#525252] select-none">Rp</span>
+              <input
+                type="text"
+                id="input-affiliate"
+                inputmode="numeric"
+                placeholder="0"
+                value="0"
+                class="w-full text-xs sm:text-sm border border-[#E5E5E5] rounded-md pl-10 pr-3 py-2 font-mono tabular-nums focus-visible:ring-2 focus-visible:ring-[#14213D] outline-none"
+              />
+            </div>
+            <p class="text-[11px] text-[#525252] mt-1">Komisi kreator jika ada.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action buttons & SKU Save -->
+      <div class="p-4 bg-[#F8F9FA] border border-[#E5E5E5] rounded-lg flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="w-full sm:w-auto flex-1">
+          <label for="sku-name-input" class="block text-xs font-semibold text-[#14213D] mb-1">
+            Simpan Simulasi ke Daftar SKU Anda
+          </label>
+          <input
+            type="text"
+            id="sku-name-input"
+            placeholder="Contoh: Kemeja Linen Putih M"
+            class="w-full text-xs sm:text-sm border border-[#E5E5E5] bg-white rounded-md px-3 py-1.5 focus-visible:ring-2 focus-visible:ring-[#14213D] outline-none"
+          />
+        </div>
+        <div class="flex items-center gap-2 w-full sm:w-auto shrink-0 mt-auto">
+          <button
+            type="button"
+            id="save-sku-btn"
+            class="w-full sm:w-auto px-4 py-2 bg-[#14213D] text-white text-xs sm:text-sm font-semibold rounded-md hover:bg-[#0c1527] transition-colors focus-visible:ring-2 focus-visible:ring-[#14213D]"
+          >
+            Simpan SKU
+          </button>
+          <button
+            type="button"
+            id="reset-form-btn"
+            class="px-3 py-2 border border-[#E5E5E5] bg-white text-[#525252] text-xs sm:text-sm font-medium rounded-md hover:text-[#14213D] hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-[#14213D]"
+          >
+            Reset
+          </button>
+        </div>
+      </div>
+      <div id="save-sku-feedback" class="hidden text-xs font-medium text-[#047857] px-1"></div>
+
+    </form>
+
+    <!-- Right Column: Result Summary & Fee Breakdown (approx 40% -> 5 cols) -->
+    <div class="lg:col-span-5 space-y-6">
+      
+      <!-- Reverse Pricing Recommendation Banner (When in Reverse Mode) -->
+      <div id="reverse-result-banner" class="hidden p-5 bg-[#14213D] text-white rounded-lg shadow-xs space-y-2">
+        <div class="text-xs uppercase tracking-wider text-[#FCA311] font-semibold">Harga Jual Rekomendasi</div>
+        <div class="text-2xl sm:text-3xl font-extrabold font-mono tabular-nums text-white" id="reverse-recommended-price">
+          Rp 0
+        </div>
+        <p class="text-xs text-gray-300 leading-relaxed m-0" id="reverse-explanation">
+          Harga jual minimum yang disarankan agar target profit bersih Anda tercapai setelah seluruh potongan marketplace dan biaya operasional.
+        </p>
+      </div>
+
+      <!-- Result Card: 4 Profit Levels -->
+      <div class="p-5 bg-white border border-[#E5E5E5] rounded-lg shadow-2xs space-y-5">
+        <div class="flex items-center justify-between border-b border-[#E5E5E5] pb-3">
+          <h2 class="text-sm font-bold text-[#14213D] uppercase tracking-wider">
+            Ringkasan Keuntungan
+          </h2>
+          <span class="text-xs text-[#525252]" id="qty-indicator">Total (1 Unit)</span>
+        </div>
+
+        <!-- 4 Levels of Profit Stack -->
+        <div class="space-y-3">
+          
+          <!-- Level 1: Profit Kotor -->
+          <div class="p-3 bg-[#F8F9FA] rounded-md border border-[#E5E5E5] flex items-center justify-between">
+            <div>
+              <div class="text-xs text-[#525252] font-medium">1. Profit Kotor (Revenue - HPP)</div>
+              <div class="text-xs text-[#525252]" id="gross-margin-display">Gross Margin: 0%</div>
+            </div>
+            <div class="text-sm sm:text-base font-bold font-mono tabular-nums text-[#14213D]" id="gross-profit-val">
+              Rp 0
+            </div>
+          </div>
+
+          <!-- Level 2: Profit Setelah Marketplace -->
+          <div class="p-3 bg-[#F8F9FA] rounded-md border border-[#E5E5E5] flex items-center justify-between">
+            <div>
+              <div class="text-xs text-[#525252] font-medium">2. Setelah Potongan Marketplace</div>
+              <div class="text-[11px] text-[#DC2626]" id="total-marketplace-fees-sub">Biaya: -Rp 0</div>
+            </div>
+            <div class="text-sm sm:text-base font-bold font-mono tabular-nums text-[#14213D]" id="profit-after-mp-val">
+              Rp 0
+            </div>
+          </div>
+
+          <!-- Level 3: Profit Setelah Operasional -->
+          <div class="p-3 bg-[#F8F9FA] rounded-md border border-[#E5E5E5] flex items-center justify-between">
+            <div>
+              <div class="text-xs text-[#525252] font-medium">3. Setelah Biaya Operasional / Packing</div>
+              <div class="text-[11px] text-[#525252]" id="total-ops-cost-sub">Biaya Ops: -Rp 0</div>
+            </div>
+            <div class="text-sm sm:text-base font-bold font-mono tabular-nums text-[#14213D]" id="profit-after-ops-val">
+              Rp 0
+            </div>
+          </div>
+
+          <!-- Level 4: Profit Bersih Akhir -->
+          <div class="p-4 bg-[#ECFDF5] border border-[#047857]/20 rounded-md">
+            <div class="flex items-center justify-between mb-1">
+              <div class="text-xs sm:text-sm font-bold text-[#047857]">
+                4. Profit Bersih Akhir
+              </div>
+              <div class="text-lg sm:text-xl font-extrabold font-mono tabular-nums text-[#047857]" id="net-profit-val">
+                Rp 0
+              </div>
+            </div>
+            <div class="flex items-center justify-between text-xs text-[#047857]/90 pt-2 border-t border-[#047857]/15">
+              <span id="net-margin-display">Margin Bersih: 0%</span>
+              <span id="roi-display">ROI: 0%</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Revenue & Cost Summary -->
+        <div class="pt-3 border-t border-[#E5E5E5] text-xs text-[#525252] space-y-1.5 font-mono">
+          <div class="flex justify-between">
+            <span>Pendapatan Efektif:</span>
+            <span class="font-semibold text-[#14213D]" id="effective-revenue-val">Rp 0</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Total Modal (HPP):</span>
+            <span class="text-[#DC2626]" id="cogs-val">-Rp 0</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Total Potongan Marketplace:</span>
+            <span class="text-[#DC2626]" id="mp-fees-summary-val">-Rp 0</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Total Operasional, Iklan & Affiliate:</span>
+            <span class="text-[#DC2626]" id="other-costs-val">-Rp 0</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Fee Breakdown Table -->
+      <div class="p-5 bg-white border border-[#E5E5E5] rounded-lg shadow-2xs space-y-4">
+        <div class="flex items-center justify-between">
+          <h2 class="text-sm font-bold text-[#14213D] uppercase tracking-wider">
+            Rincian Potongan Marketplace
+          </h2>
+          <span class="text-[11px] text-[#525252]" id="fee-item-count">0 Komponen</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-[#E5E5E5] text-[#525252] font-semibold">
+                <th class="py-2 pr-2">Komponen Biaya</th>
+                <th class="py-2 px-2 text-right">Tarif / Ketentuan</th>
+                <th class="py-2 pl-2 text-right">Nominal</th>
+              </tr>
+            </thead>
+            <tbody id="fee-breakdown-tbody" class="divide-y divide-[#E5E5E5] font-mono">
+              <!-- Dynamically populated -->
+            </tbody>
+            <tfoot>
+              <tr class="border-t-2 border-[#14213D] font-bold text-[#14213D]">
+                <td class="py-2.5 pr-2">Total Potongan Marketplace</td>
+                <td class="py-2.5 px-2 text-right"></td>
+                <td class="py-2.5 pl-2 text-right font-mono tabular-nums" id="total-breakdown-fee-val">Rp 0</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="p-3 bg-[#F8F9FA] rounded text-[11px] text-[#525252] leading-relaxed">
+          <strong>Catatan:</strong> Potongan dihitung otomatis sesuai kategori dan status toko Anda. Biaya per pesanan dikenakan 1 kali per transaksi terlepas dari jumlah item.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  import shopeeData from '../data/tariffs/shopee.json';
+  import tiktokData from '../data/tariffs/tiktok-shop.json';
+  import tokopediaData from '../data/tariffs/tokopedia.json';
+  import { calculateForward } from '../engine/forwardPricing.js';
+  import { calculateReverse } from '../engine/reversePricing.js';
+  import { parseRupiah, formatRupiahInput, formatRupiahDisplay } from '../utils/currency.js';
+  import { saveSkuItem } from '../utils/storage.js';
+
+  const platforms = {
+    'shopee': shopeeData,
+    'tiktok-shop': tiktokData,
+    'tokopedia': tokopediaData,
+  };
+
+  const appEl = document.getElementById('calculator-app');
+  let currentPlatform = appEl?.dataset.initialPlatform || 'shopee';
+  let currentMode = 'forward'; // 'forward' | 'reverse'
+  let currentOverrides = {};
+
+  // Form DOM elements
+  const storeSelect = document.getElementById('store-type-select');
+  const catSelect = document.getElementById('category-select');
+  const programsContainer = document.getElementById('programs-list');
+  const inputPrice = document.getElementById('input-price');
+  const inputDiscount = document.getElementById('input-discount');
+  const inputTargetProfit = document.getElementById('input-target-profit');
+  const targetTypeSelect = document.getElementById('target-type-select');
+  const inputHpp = document.getElementById('input-hpp');
+  const inputQty = document.getElementById('input-qty');
+  const inputOps = document.getElementById('input-ops');
+  const inputAds = document.getElementById('input-ads');
+  const inputAffiliate = document.getElementById('input-affiliate');
+  const forwardGroup = document.getElementById('forward-inputs-group');
+  const reverseGroup = document.getElementById('reverse-inputs-group');
+  const modeForwardBtn = document.getElementById('mode-forward-btn');
+  const modeReverseBtn = document.getElementById('mode-reverse-btn');
+  const reverseBanner = document.getElementById('reverse-result-banner');
+  const reverseRecommendedPrice = document.getElementById('reverse-recommended-price');
+
+  // Results DOM elements
+  const grossProfitVal = document.getElementById('gross-profit-val');
+  const grossMarginDisplay = document.getElementById('gross-margin-display');
+  const profitAfterMpVal = document.getElementById('profit-after-mp-val');
+  const totalMarketplaceFeesSub = document.getElementById('total-marketplace-fees-sub');
+  const profitAfterOpsVal = document.getElementById('profit-after-ops-val');
+  const totalOpsCostSub = document.getElementById('total-ops-cost-sub');
+  const netProfitVal = document.getElementById('net-profit-val');
+  const netMarginDisplay = document.getElementById('net-margin-display');
+  const roiDisplay = document.getElementById('roi-display');
+  const effectiveRevenueVal = document.getElementById('effective-revenue-val');
+  const cogsVal = document.getElementById('cogs-val');
+  const mpFeesSummaryVal = document.getElementById('mp-fees-summary-val');
+  const otherCostsVal = document.getElementById('other-costs-val');
+  const feeBreakdownTbody = document.getElementById('fee-breakdown-tbody');
+  const totalBreakdownFeeVal = document.getElementById('total-breakdown-fee-val');
+  const feeItemCount = document.getElementById('fee-item-count');
+  const tariffSourceLink = document.getElementById('tariff-source-link');
+  const qtyIndicator = document.getElementById('qty-indicator');
+
+  // Save SKU DOM elements
+  const skuNameInput = document.getElementById('sku-name-input');
+  const saveSkuBtn = document.getElementById('save-sku-btn');
+  const saveSkuFeedback = document.getElementById('save-sku-feedback');
+  const resetFormBtn = document.getElementById('reset-form-btn');
+
+  function initPlatformDropdowns() {
+    const config = platforms[currentPlatform];
+    if (!config) return;
+
+    // 1. Update source link
+    if (tariffSourceLink) {
+      tariffSourceLink.setAttribute('href', config.sourceUrl || '#');
+    }
+
+    // 2. Populate Store Types
+    if (storeSelect) {
+      storeSelect.innerHTML = '';
+      (config.storeTypes || []).forEach((st) => {
+        const opt = document.createElement('option');
+        opt.value = st.id;
+        opt.textContent = st.name;
+        storeSelect.appendChild(opt);
+      });
+    }
+
+    // 3. Populate Categories
+    if (catSelect) {
+      catSelect.innerHTML = '';
+      (config.categories || []).forEach((cat) => {
+        const opt = document.createElement('option');
+        opt.value = cat.id;
+        opt.textContent = cat.name;
+        catSelect.appendChild(opt);
+      });
+    }
+
+    // 4. Populate Programs (Checkboxes)
+    if (programsContainer) {
+      programsContainer.innerHTML = '';
+      const programFees = (config.fees || []).filter((f) => !f.required);
+      
+      programFees.forEach((pf) => {
+        const progCond = pf.conditions.find((c) => c.field === 'program');
+        if (!progCond) return;
+
+        const wrapper = document.createElement('label');
+        wrapper.className = 'flex items-start gap-2.5 text-xs text-[#14213D] cursor-pointer';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = progCond.value;
+        checkbox.className = 'program-checkbox mt-0.5 rounded text-[#14213D] focus:ring-[#14213D]';
+
+        const labelText = document.createElement('span');
+        const capInfo = pf.cap ? ` (Maks Rp ${new Intl.NumberFormat('id-ID').format(pf.cap)})` : '';
+        labelText.textContent = `${pf.name} - ${(pf.rate * 100).toFixed(1)}%${capInfo}`;
+
+        wrapper.appendChild(checkbox);
+        wrapper.appendChild(labelText);
+        programsContainer.appendChild(wrapper);
+
+        checkbox.addEventListener('change', runCalculation);
+      });
+    }
+
+    // Update active tab buttons visual
+    document.querySelectorAll('.platform-tab-btn').forEach((btn) => {
+      const isCurrent = btn.dataset.platform === currentPlatform;
+      if (isCurrent) {
+        btn.classList.add('bg-[#14213D]', 'text-white', 'border-[#14213D]');
+        btn.classList.remove('bg-white', 'text-[#14213D]');
+      } else {
+        btn.classList.remove('bg-[#14213D]', 'text-white', 'border-[#14213D]');
+        btn.classList.add('bg-white', 'text-[#14213D]');
+      }
+    });
+  }
+
+  function getSelectedPrograms() {
+    const checked = document.querySelectorAll('.program-checkbox:checked');
+    return Array.from(checked).map((c) => c.value);
+  }
+
+  function runCalculation() {
+    const config = platforms[currentPlatform];
+    if (!config) return;
+
+    const price = parseRupiah(inputPrice?.value || 0);
+    const sellerDiscount = parseRupiah(inputDiscount?.value || 0);
+    const hpp = parseRupiah(inputHpp?.value || 0);
+    const qty = Math.max(1, parseInt(inputQty?.value || '1', 10));
+    const ops = parseRupiah(inputOps?.value || 0);
+    const ads = parseRupiah(inputAds?.value || 0);
+    const affiliate = parseRupiah(inputAffiliate?.value || 0);
+    const storeType = storeSelect?.value || 'non_star';
+    const category = catSelect?.value || 'cat_a';
+    const selectedPrograms = getSelectedPrograms();
+
+    if (qtyIndicator) {
+      qtyIndicator.textContent = `Total (${qty} Unit)`;
+    }
+
+    let calculationResult = null;
+
+    if (currentMode === 'forward') {
+      reverseBanner?.classList.add('hidden');
+      calculationResult = calculateForward({
+        platformConfig: config,
+        price,
+        sellerDiscount,
+        hpp,
+        qty,
+        operationalCosts: [{ id: 'packing', amount: ops, unit: 'per_item' }],
+        adsCost: ads,
+        affiliateCost: affiliate,
+        storeType,
+        category,
+        selectedPrograms,
+        overrides: currentOverrides,
+      });
+    } else {
+      // Reverse Mode
+      const targetProfit = parseRupiah(inputTargetProfit?.value || 0);
+      const targetType = targetTypeSelect?.value || 'per_unit';
+
+      const reverseOutcome = calculateReverse({
+        platformConfig: config,
+        targetProfit,
+        targetType,
+        hpp,
+        sellerDiscount,
+        qty,
+        operationalCosts: [{ id: 'packing', amount: ops, unit: 'per_item' }],
+        adsCost: ads,
+        affiliateCost: affiliate,
+        storeType,
+        category,
+        selectedPrograms,
+        overrides: currentOverrides,
+        roundingStep: 100,
+      });
+
+      if (reverseOutcome.ok) {
+        reverseBanner?.classList.remove('hidden');
+        if (reverseRecommendedPrice) {
+          reverseRecommendedPrice.textContent = formatRupiahDisplay(reverseOutcome.recommendedPrice);
+        }
+        calculationResult = reverseOutcome.forwardResult;
+      } else {
+        reverseBanner?.classList.remove('hidden');
+        if (reverseRecommendedPrice) {
+          reverseRecommendedPrice.textContent = 'Tidak Ditemukan';
+        }
+      }
+    }
+
+    if (calculationResult && calculationResult.ok) {
+      const { totals, ratios, feeBreakdown } = calculationResult;
+
+      // Update 4 levels
+      if (grossProfitVal) grossProfitVal.textContent = formatRupiahDisplay(totals.grossProfit);
+      if (grossMarginDisplay) {
+        grossMarginDisplay.textContent = `Gross Margin: ${ratios.grossMargin !== null ? (ratios.grossMargin * 100).toFixed(1) + '%' : '---'}`;
+      }
+
+      if (profitAfterMpVal) profitAfterMpVal.textContent = formatRupiahDisplay(totals.profitAfterMarketplace);
+      if (totalMarketplaceFeesSub) totalMarketplaceFeesSub.textContent = `Biaya: -${formatRupiahDisplay(totals.marketplaceFees)}`;
+
+      if (profitAfterOpsVal) profitAfterOpsVal.textContent = formatRupiahDisplay(totals.profitAfterOperations);
+      if (totalOpsCostSub) totalOpsCostSub.textContent = `Biaya Ops: -${formatRupiahDisplay(totals.operationalCosts)}`;
+
+      if (netProfitVal) netProfitVal.textContent = formatRupiahDisplay(totals.netProfit);
+      if (netMarginDisplay) {
+        netMarginDisplay.textContent = `Margin Bersih: ${ratios.netMargin !== null ? (ratios.netMargin * 100).toFixed(1) + '%' : '---'}`;
+      }
+      if (roiDisplay) {
+        roiDisplay.textContent = `ROI: ${ratios.roi !== null ? (ratios.roi * 100).toFixed(1) + '%' : '---'}`;
+      }
+
+      // Cost summary
+      if (effectiveRevenueVal) effectiveRevenueVal.textContent = formatRupiahDisplay(totals.effectiveRevenue);
+      if (cogsVal) cogsVal.textContent = `-${formatRupiahDisplay(totals.cogs)}`;
+      if (mpFeesSummaryVal) mpFeesSummaryVal.textContent = `-${formatRupiahDisplay(totals.marketplaceFees)}`;
+      if (otherCostsVal) otherCostsVal.textContent = `-${formatRupiahDisplay(totals.operationalCosts + totals.adsCost + totals.affiliateCost)}`;
+
+      // Fee Breakdown Table
+      if (feeBreakdownTbody) {
+        feeBreakdownTbody.innerHTML = '';
+        feeBreakdown.forEach((f) => {
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-gray-50';
+
+          const tdName = document.createElement('td');
+          tdName.className = 'py-2 pr-2';
+          tdName.innerHTML = `<div class="font-medium text-[#14213D]">${f.name}</div>
+                              <div class="text-[10px] text-[#525252]">${f.unit === 'per_item' ? 'Per Unit' : 'Per Pesanan'}</div>`;
+
+          const tdRate = document.createElement('td');
+          tdRate.className = 'py-2 px-2 text-right text-[11px] text-[#525252]';
+          const rateText = f.type === 'percentage' ? `${(f.rate * 100).toFixed(1)}%` : formatRupiahDisplay(f.amount);
+          const capText = f.isCapped ? ' <span class="text-[#B45309] font-bold">[CAP]</span>' : '';
+          tdRate.innerHTML = `${rateText}${capText}`;
+
+          const tdAmount = document.createElement('td');
+          tdAmount.className = 'py-2 pl-2 text-right font-medium text-[#14213D] tabular-nums';
+          tdAmount.textContent = formatRupiahDisplay(f.totalFee);
+
+          tr.appendChild(tdName);
+          tr.appendChild(tdRate);
+          tr.appendChild(tdAmount);
+          feeBreakdownTbody.appendChild(tr);
+        });
+      }
+
+      if (totalBreakdownFeeVal) {
+        totalBreakdownFeeVal.textContent = formatRupiahDisplay(totals.marketplaceFees);
+      }
+      if (feeItemCount) {
+        feeItemCount.textContent = `${feeBreakdown.length} Komponen`;
+      }
+    }
+  }
+
+  // Live input formatting
+  function setupCurrencyInput(inputEl) {
+    if (!inputEl) return;
+    inputEl.addEventListener('input', (e) => {
+      const parsed = parseRupiah(e.target.value);
+      e.target.value = formatRupiahInput(parsed);
+      runCalculation();
+    });
+  }
+
+  setupCurrencyInput(inputPrice);
+  setupCurrencyInput(inputDiscount);
+  setupCurrencyInput(inputTargetProfit);
+  setupCurrencyInput(inputHpp);
+  setupCurrencyInput(inputOps);
+  setupCurrencyInput(inputAds);
+  setupCurrencyInput(inputAffiliate);
+
+  inputQty?.addEventListener('input', runCalculation);
+  storeSelect?.addEventListener('change', runCalculation);
+  catSelect?.addEventListener('change', runCalculation);
+  targetTypeSelect?.addEventListener('change', runCalculation);
+
+  // Platform switching
+  document.querySelectorAll('.platform-tab-btn').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const targetPlatform = e.currentTarget.dataset.platform;
+      if (targetPlatform && platforms[targetPlatform]) {
+        currentPlatform = targetPlatform;
+        currentOverrides = {};
+        initPlatformDropdowns();
+        runCalculation();
+      }
+    });
+  });
+
+  // Mode switching
+  modeForwardBtn?.addEventListener('click', () => {
+    currentMode = 'forward';
+    modeForwardBtn.classList.add('bg-[#14213D]', 'text-white', 'shadow-xs');
+    modeForwardBtn.classList.remove('text-[#525252]');
+    modeReverseBtn?.classList.remove('bg-[#14213D]', 'text-white', 'shadow-xs');
+    modeReverseBtn?.classList.add('text-[#525252]');
+
+    forwardGroup?.classList.remove('hidden');
+    reverseGroup?.classList.add('hidden');
+    runCalculation();
+  });
+
+  modeReverseBtn?.addEventListener('click', () => {
+    currentMode = 'reverse';
+    modeReverseBtn.classList.add('bg-[#14213D]', 'text-white', 'shadow-xs');
+    modeReverseBtn.classList.remove('text-[#525252]');
+    modeForwardBtn?.classList.remove('bg-[#14213D]', 'text-white', 'shadow-xs');
+    modeForwardBtn?.classList.add('text-[#525252]');
+
+    reverseGroup?.classList.remove('hidden');
+    forwardGroup?.classList.add('hidden');
+    runCalculation();
+  });
+
+  // Save SKU handler
+  saveSkuBtn?.addEventListener('click', () => {
+    const name = (skuNameInput?.value || '').trim();
+    if (!name) {
+      if (saveSkuFeedback) {
+        saveSkuFeedback.textContent = 'Silakan isi nama produk terlebih dahulu.';
+        saveSkuFeedback.className = 'text-xs font-medium text-[#DC2626] block';
+        saveSkuFeedback.classList.remove('hidden');
+      }
+      skuNameInput?.focus();
+      return;
+    }
+
+    const price = parseRupiah(inputPrice?.value || 0);
+    const sellerDiscount = parseRupiah(inputDiscount?.value || 0);
+    const hpp = parseRupiah(inputHpp?.value || 0);
+    const qty = Math.max(1, parseInt(inputQty?.value || '1', 10));
+    const ops = parseRupiah(inputOps?.value || 0);
+    const ads = parseRupiah(inputAds?.value || 0);
+    const affiliate = parseRupiah(inputAffiliate?.value || 0);
+    const storeType = storeSelect?.value || 'non_star';
+    const category = catSelect?.value || 'cat_a';
+    const selectedPrograms = getSelectedPrograms();
+
+    // calculate latest net profit
+    const forwardRes = calculateForward({
+      platformConfig: platforms[currentPlatform],
+      price,
+      sellerDiscount,
+      hpp,
+      qty,
+      operationalCosts: [{ id: 'packing', amount: ops, unit: 'per_item' }],
+      adsCost: ads,
+      affiliateCost: affiliate,
+      storeType,
+      category,
+      selectedPrograms,
+    });
+
+    const netProfit = forwardRes.ok ? forwardRes.totals.netProfit : 0;
+    const netMargin = forwardRes.ok ? forwardRes.ratios.netMargin : null;
+
+    const result = saveSkuItem({
+      name,
+      platform: currentPlatform,
+      price,
+      sellerDiscount,
+      hpp,
+      qty,
+      storeType,
+      category,
+      selectedPrograms,
+      operationalCost: ops,
+      adsCost: ads,
+      affiliateCost: affiliate,
+      netProfit,
+      netMargin,
+    });
+
+    if (result.ok) {
+      if (saveSkuFeedback) {
+        saveSkuFeedback.textContent = `✓ Berhasil menyimpan "${name}" ke browser Anda.`;
+        saveSkuFeedback.className = 'text-xs font-medium text-[#047857] block';
+        saveSkuFeedback.classList.remove('hidden');
+        setTimeout(() => {
+          saveSkuFeedback?.classList.add('hidden');
+        }, 4000);
+      }
+      if (skuNameInput) skuNameInput.value = '';
+
+      // Dispatch custom event to notify SavedSkuList component
+      window.dispatchEvent(new CustomEvent('sku-saved'));
+    }
+  });
+
+  // Reset form handler
+  resetFormBtn?.addEventListener('click', () => {
+    if (inputPrice) inputPrice.value = '100.000';
+    if (inputDiscount) inputDiscount.value = '0';
+    if (inputTargetProfit) inputTargetProfit.value = '25.000';
+    if (inputHpp) inputHpp.value = '50.000';
+    if (inputQty) inputQty.value = '1';
+    if (inputOps) inputOps.value = '2.000';
+    if (inputAds) inputAds.value = '0';
+    if (inputAffiliate) inputAffiliate.value = '0';
+    currentOverrides = {};
+    runCalculation();
+  });
+
+  // Listen to load SKU event
+  window.addEventListener('load-sku', (e) => {
+    const sku = e.detail;
+    if (!sku) return;
+
+    if (sku.platform && platforms[sku.platform]) {
+      currentPlatform = sku.platform;
+      initPlatformDropdowns();
+    }
+
+    if (inputPrice) inputPrice.value = formatRupiahInput(sku.price || 0);
+    if (inputDiscount) inputDiscount.value = formatRupiahInput(sku.sellerDiscount || 0);
+    if (inputHpp) inputHpp.value = formatRupiahInput(sku.hpp || 0);
+    if (inputQty) inputQty.value = String(sku.qty || 1);
+    if (inputOps) inputOps.value = formatRupiahInput(sku.operationalCost || 0);
+    if (inputAds) inputAds.value = formatRupiahInput(sku.adsCost || 0);
+    if (inputAffiliate) inputAffiliate.value = formatRupiahInput(sku.affiliateCost || 0);
+
+    if (storeSelect && sku.storeType) storeSelect.value = sku.storeType;
+    if (catSelect && sku.category) catSelect.value = sku.category;
+
+    // Check programs
+    document.querySelectorAll('.program-checkbox').forEach((cb) => {
+      cb.checked = Array.isArray(sku.selectedPrograms) && sku.selectedPrograms.includes(cb.value);
+    });
+
+    runCalculation();
+    appEl?.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // Initialize on load
+  initPlatformDropdowns();
+  runCalculation();
+</script>

@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Calculator from '../components/Calculator.astro';
+import SavedSkuList from '../components/SavedSkuList.astro';
+---
+
+<BaseLayout
+  title="Kalkulator Biaya Admin & Margin Profit Shopee"
+  description="Hitung potongan biaya admin Shopee Non-Star, Star, Mall, Gratis Ongkir XTRA, dan ketahui margin profit bersih jualan Anda."
+  currentPath="/shopee"
+>
+  <nav aria-label="Breadcrumb" class="text-xs text-[#525252] mb-3">
+    <ol class="flex items-center gap-1.5 list-none p-0 m-0">
+      <li><a href="/" class="hover:underline text-[#14213D]">Beranda</a></li>
+      <li>/</li>
+      <li class="font-semibold text-[#14213D]">Shopee</li>
+    </ol>
+  </nav>
+
+  <div class="mb-6">
+    <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-[#14213D] mb-1.5">
+      Kalkulator Biaya Admin & Profit Shopee
+    </h1>
+    <p class="text-xs sm:text-sm text-[#525252] max-w-2xl leading-relaxed">
+      Simulasikan potongan biaya administrasi Non-Star, Star/Star+, Shopee Mall, biaya layanan Gratis Ongkir XTRA, dan biaya transaksi sebelum menentukan harga jual.
+    </p>
+  </div>
+
+  <Calculator initialPlatform="shopee" />
+
+  <SavedSkuList />
+
+  <!-- Platform Specific FAQ -->
+  <section class="mt-16 pt-8 border-t border-[#E5E5E5] space-y-4 max-w-3xl">
+    <h2 class="text-lg font-bold text-[#14213D]">Pertanyaan Umum seputar Biaya Shopee</h2>
+
+    <details class="p-3.5 border border-[#E5E5E5] rounded-md bg-white">
+      <summary class="font-semibold text-xs sm:text-sm text-[#14213D] cursor-pointer">
+        Apa perbedaan biaya admin Non-Star, Star, dan Shopee Mall?
+      </summary>
+      <p class="text-xs text-[#525252] mt-2 leading-relaxed">
+        Biaya administrasi Shopee bervariasi berdasarkan status toko dan kategori barang. Non-Star berkisar antara 4.0% – 6.5%, Star/Star+ antara 4.75% – 7.5%, dan Shopee Mall antara 6.5% – 9.5% dari harga jual setelah diskon seller.
+      </p>
+    </details>
+
+    <details class="p-3.5 border border-[#E5E5E5] rounded-md bg-white">
+      <summary class="font-semibold text-xs sm:text-sm text-[#14213D] cursor-pointer">
+        Apakah Biaya Gratis Ongkir XTRA memiliki batas maksimal (cap)?
+      </summary>
+      <p class="text-xs text-[#525252] mt-2 leading-relaxed">
+        Ya. Sesuai aturan Seller Center Shopee, biaya layanan Gratis Ongkir XTRA dikenakan tarif 4.0% dengan batas maksimum (cap) sebesar Rp 10.000 per kuantiti produk terjual.
+      </p>
+    </details>
+
+    <details class="p-3.5 border border-[#E5E5E5] rounded-md bg-white">
+      <summary class="font-semibold text-xs sm:text-sm text-[#14213D] cursor-pointer">
+        Bagaimana biaya penanganan/proses pesanan dihitung jika pembeli membeli banyak produk?
+      </summary>
+      <p class="text-xs text-[#525252] mt-2 leading-relaxed">
+        Biaya pemrosesan transaksi (Rp 1.000) bersifat flat <em>per order</em>, sehingga hanya dikenakan 1 kali per transaksi belanja pembeli, bukan dikalikan jumlah barang.
+      </p>
+    </details>
+  </section>
+</BaseLayout>

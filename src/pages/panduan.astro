@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Panduan Menghitung Margin & Biaya Marketplace"
+  description="Panduan lengkap cara menghitung HPP, biaya admin, operasional packing, 4 level profit, dan strategi penetapan harga jual."
+  currentPath="/panduan"
+>
+  <article class="max-w-3xl space-y-8">
+    <div>
+      <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-[#14213D] mb-2">
+        Panduan Menghitung Profit & Biaya Jualan
+      </h1>
+      <p class="text-xs sm:text-sm text-[#525252] leading-relaxed">
+        Banyak penjual online terjebak dalam omzet tinggi namun saldo pencairan tidak cukup untuk menutup modal. Pelajari cara menghitung struktur biaya secara tepat.
+      </p>
+    </div>
+
+    <!-- Section 1 -->
+    <section class="space-y-3">
+      <h2 class="text-lg font-bold text-[#14213D]">1. Memahami 4 Tingkatan Profit</h2>
+      <p class="text-xs sm:text-sm text-[#525252] leading-relaxed">
+        KalkulatorSeller membedakan keuntungan menjadi 4 tahap logis:
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+        <div class="p-3.5 bg-white border border-[#E5E5E5] rounded-md space-y-1">
+          <div class="font-bold text-[#14213D]">Level 1: Profit Kotor</div>
+          <div class="text-[#525252]">Pendapatan Efektif dikurangi Harga Pokok Penjualan (HPP). Ini adalah margin murni produk tanpa biaya lain.</div>
+        </div>
+        <div class="p-3.5 bg-white border border-[#E5E5E5] rounded-md space-y-1">
+          <div class="font-bold text-[#14213D]">Level 2: Setelah Marketplace</div>
+          <div class="text-[#525252]">Profit kotor dikurangi biaya admin, komisi, dan biaya program (gratis ongkir/cashback).</div>
+        </div>
+        <div class="p-3.5 bg-white border border-[#E5E5E5] rounded-md space-y-1">
+          <div class="font-bold text-[#14213D]">Level 3: Setelah Operasional</div>
+          <div class="text-[#525252]">Profit setelah dikurangi biaya bungkus/packing, lakban, bubble wrap, dan operasional per pesanan.</div>
+        </div>
+        <div class="p-3.5 bg-[#ECFDF5] border border-[#047857]/20 rounded-md space-y-1">
+          <div class="font-bold text-[#047857]">Level 4: Profit Bersih Akhir</div>
+          <div class="text-[#047857]/90">Uang bersih riil setelah dipotong iklan (ads) dan komisi affiliate jika Anda menggunakannya.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2 -->
+    <section class="space-y-3">
+      <h2 class="text-lg font-bold text-[#14213D]">2. Cara Menentukan Harga dengan Reverse Pricing</h2>
+      <p class="text-xs sm:text-sm text-[#525252] leading-relaxed">
+        Jangan menebak harga jual dengan menambah margin secara sembarangan. Karena biaya marketplace dihitung dari persentase harga jual, jika Anda menaikkan harga, potongan marketplace pun otomatis bertambah. Fitur <strong>"Cari Harga Jual"</strong> menggunakan algoritma pencarian biner untuk menemukan harga jual minimum yang menjamin target profit bersih Anda tercapai.
+      </p>
+    </section>
+
+    <!-- Section 3 -->
+    <section class="space-y-3">
+      <h2 class="text-lg font-bold text-[#14213D]">3. Perbedaan Biaya Per Item vs Per Pesanan</h2>
+      <p class="text-xs sm:text-sm text-[#525252] leading-relaxed">
+        Komisi persentase marketplace dihitung per item. Namun, biaya proses transaksi (seperti Rp 1.000) dikenakan per pesanan. Ketika seorang pembeli memesan 5 produk dalam 1 transaksi, biaya transaksi tersebut dibagi ke 5 produk, sehingga margin per produk menjadi lebih baik.
+      </p>
+    </section>
+  </article>
+</BaseLayout>

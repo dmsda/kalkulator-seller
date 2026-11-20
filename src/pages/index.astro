@@ -1,41 +1,73 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Calculator from '../components/Calculator.astro';
+import SavedSkuList from '../components/SavedSkuList.astro';
 ---
 
-<BaseLayout title="Kalkulator Margin & Biaya Marketplace Seller" currentPath="/">
-  <section class="max-w-[760px] py-4">
+<BaseLayout
+  title="Hitung Profit Jualan di Marketplace (Shopee, TikTok Shop, Tokopedia)"
+  description="Kalkulator keuntungan dan rincian biaya marketplace independen untuk seller online Indonesia. Hitung modal, biaya admin, operasional, dan margin bersih."
+  currentPath="/"
+>
+  <!-- Hero Section (Subdued, Clean, Zero Slop) -->
+  <section class="max-w-3xl mb-8">
     <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-[#F8F9FA] border border-[#E5E5E5] text-xs text-[#525252] mb-3">
       <span class="w-2 h-2 rounded-full bg-[#047857]" aria-hidden="true"></span>
-      <span>Simulasi offline & transparan untuk seller Indonesia</span>
+      <span>Simulasi independen & 100% data tersimpan di browser Anda</span>
     </div>
-    <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-[#14213D] mb-2">
-      Jualan ramai belum tentu untung.
+
+    <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#14213D] mb-2 leading-tight">
+      Hitung Profit Jualan di Marketplace
     </h1>
-    <p class="text-sm sm:text-base text-[#525252] leading-relaxed mb-6">
-      Hitung modal, potongan admin marketplace, packing, dan iklan sebelum pasang harga. Ketahui margin profit bersih aktual per produk.
+    <p class="text-xs sm:text-sm text-[#525252] leading-relaxed mb-6">
+      Jualan ramai belum tentu untung. Masukkan modal (HPP), harga jual, dan biaya operasional untuk melihat estimasi potongan serta keuntungan bersih di Shopee, TikTok Shop, dan Tokopedia.
     </p>
 
-    <!-- Platform Quick Links -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
-      <a href="/shopee" class="p-4 border border-[#E5E5E5] rounded-md bg-white hover:border-[#14213D] transition-colors block text-left">
-        <div class="font-semibold text-[#14213D] text-sm mb-1">Shopee</div>
-        <div class="text-xs text-[#525252]">Biaya admin non-star, star, mall & gratis ongkir XTRA.</div>
-      </a>
-      <a href="/tiktok-shop" class="p-4 border border-[#E5E5E5] rounded-md bg-white hover:border-[#14213D] transition-colors block text-left">
-        <div class="font-semibold text-[#14213D] text-sm mb-1">TikTok Shop</div>
-        <div class="text-xs text-[#525252]">Komisi marketplace, biaya layanan & komisi affiliate.</div>
-      </a>
-      <a href="/tokopedia" class="p-4 border border-[#E5E5E5] rounded-md bg-white hover:border-[#14213D] transition-colors block text-left">
-        <div class="font-semibold text-[#14213D] text-sm mb-1">Tokopedia</div>
-        <div class="text-xs text-[#525252]">Skema biaya layanan Power Merchant & Official Store.</div>
-      </a>
+    <!-- Platform Shortcut Pills -->
+    <div class="flex items-center flex-wrap gap-2 text-xs">
+      <span class="font-semibold text-[#14213D]">Kalkulator Khusus:</span>
+      <a href="/shopee" class="px-3 py-1 bg-white border border-[#E5E5E5] rounded hover:border-[#14213D] text-[#14213D]">Shopee</a>
+      <a href="/tiktok-shop" class="px-3 py-1 bg-white border border-[#E5E5E5] rounded hover:border-[#14213D] text-[#14213D]">TikTok Shop</a>
+      <a href="/tokopedia" class="px-3 py-1 bg-white border border-[#E5E5E5] rounded hover:border-[#14213D] text-[#14213D]">Tokopedia</a>
+      <a href="/tarif" class="px-3 py-1 bg-[#F8F9FA] border border-[#E5E5E5] rounded hover:border-[#14213D] text-[#525252]">Skema Tarif &rarr;</a>
     </div>
+  </section>
 
-    <div class="p-4 bg-[#F8F9FA] border border-[#E5E5E5] rounded-md text-xs text-[#525252] space-y-1">
-      <div class="font-semibold text-[#14213D]">Fondasi Proyek Berhasil Diinisialisasi (Phase 1)</div>
-      <p class="m-0">
-        Astro SSG + Tailwind CSS v4 + Design Tokens siap. Selanjutnya: implementasi skema tarif & calculation engine murni di Phase 2 dan Phase 3.
+  <!-- Unified Interactive Calculator -->
+  <Calculator initialPlatform="shopee" />
+
+  <!-- Saved SKU List Component -->
+  <SavedSkuList />
+
+  <!-- FAQ Section (Factual & Direct) -->
+  <section class="mt-16 pt-8 border-t border-[#E5E5E5] space-y-4 max-w-3xl">
+    <h2 class="text-lg font-bold text-[#14213D]">Pertanyaan yang Sering Diajukan</h2>
+
+    <details class="p-3.5 border border-[#E5E5E5] rounded-md bg-white">
+      <summary class="font-semibold text-xs sm:text-sm text-[#14213D] cursor-pointer">
+        Mengapa ada 4 tingkat profit dalam kalkulator ini?
+      </summary>
+      <p class="text-xs text-[#525252] mt-2 leading-relaxed">
+        Banyak seller mengira keuntungan kotor adalah profit yang bisa dikantongi. KalkulatorSeller membagi profit menjadi 4 tingkatan: (1) Profit Kotor (Revenue - HPP), (2) Setelah Marketplace, (3) Setelah Operasional/Packing, dan (4) Profit Bersih Akhir (setelah biaya iklan dan affiliate) agar Anda tahu di mana kebocoran modal terjadi.
       </p>
-    </div>
+    </details>
+
+    <details class="p-3.5 border border-[#E5E5E5] rounded-md bg-white">
+      <summary class="font-semibold text-xs sm:text-sm text-[#14213D] cursor-pointer">
+        Bagaimana fitur "Cari Harga Jual (Reverse Pricing)" bekerja?
+      </summary>
+      <p class="text-xs text-[#525252] mt-2 leading-relaxed">
+        Alih-alih menebak harga, Anda memasukkan target uang bersih yang ingin Anda kantongi (misal Rp 25.000 per produk). Algoritma kami menghitung mundur harga jual minimum yang harus dipasang di etalase toko setelah memperhitungkan seluruh persentase potongan marketplace dan biaya packing.
+      </p>
+    </details>
+
+    <details class="p-3.5 border border-[#E5E5E5] rounded-md bg-white">
+      <summary class="font-semibold text-xs sm:text-sm text-[#14213D] cursor-pointer">
+        Apakah data HPP dan harga produk saya aman?
+      </summary>
+      <p class="text-xs text-[#525252] mt-2 leading-relaxed">
+        Sangat aman. Seluruh proses perhitungan dan penyimpanan SKU berjalan 100% di browser Anda (lokal). Kami tidak memiliki server database dan tidak merekam harga beli maupun margin rahasia toko Anda.
+      </p>
+    </details>
   </section>
 </BaseLayout>
