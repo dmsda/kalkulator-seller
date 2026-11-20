@@ -41,10 +41,40 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* Accessible focus ring */
-:focus-visible {
-  outline: 2px solid var(--color-brand-primary);
+/* Accessible focus ring for buttons & links */
+a:focus-visible,
+button:focus-visible {
+  outline: 1.5px solid var(--color-brand-primary);
   outline-offset: 2px;
+}
+
+/* Form inputs & selects: clean, crisp 1px border without thick double outline or rings */
+input,
+select,
+textarea {
+  border-width: 1px !important;
+  border-color: #D1D5DB;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: border-color 0.15s ease-in-out;
+}
+
+input:hover,
+select:hover,
+textarea:hover {
+  border-color: #9CA3AF;
+}
+
+input:focus,
+input:focus-visible,
+select:focus,
+select:focus-visible,
+textarea:focus,
+textarea:focus-visible {
+  outline: none !important;
+  outline-offset: 0 !important;
+  border-color: var(--color-brand-primary) !important;
+  box-shadow: none !important;
 }
 
 /* Touch action optimization */
