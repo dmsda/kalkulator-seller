@@ -35,17 +35,17 @@ const navItems = [
     </a>
 
     <!-- Navigation -->
-    <nav aria-label="Navigasi Utama" class="flex items-center gap-1 sm:gap-2">
+    <nav aria-label="Navigasi Utama" class="flex items-center gap-1.5 sm:gap-2.5">
       {navItems.map((item) => {
         const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href));
         return (
           <a
             href={item.href}
             aria-current={isActive ? 'page' : undefined}
-            class={`px-2.5 py-1.5 text-xs sm:text-sm font-medium rounded-md transition-colors ${
+            class={`px-3 py-1.5 text-xs sm:text-sm font-medium rounded-md transition-colors ${
               isActive
-                ? 'bg-[#14213D] text-white'
-                : 'text-[#525252] hover:text-[#14213D] hover:bg-[#F8F9FA]'
+                ? 'bg-[#14213D] text-white font-semibold'
+                : 'text-[#525252] hover:text-[#14213D] hover:bg-[#F3F4F6]'
             }`}
           >
             {item.label}

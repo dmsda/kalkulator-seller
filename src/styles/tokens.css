@@ -46,3 +46,68 @@ body {
   outline: 2px solid var(--color-brand-primary);
   outline-offset: 2px;
 }
+
+/* Mode Selector Segmented Buttons */
+.mode-selector-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.125rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+  color: #525252;
+  background-color: transparent;
+  white-space: nowrap;
+}
+.mode-selector-btn:hover:not([data-active="true"]) {
+  color: #14213D;
+  background-color: #E2E8F0;
+}
+.mode-selector-btn[data-active="true"] {
+  background-color: #14213D !important;
+  color: #FFFFFF !important;
+  font-weight: 600;
+  border-color: #14213D !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.08);
+}
+.mode-selector-btn[data-active="true"]:hover {
+  background-color: #1E293B !important;
+  color: #FFFFFF !important;
+}
+
+/* Platform Tab Buttons */
+.platform-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.125rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1px solid #E5E5E5;
+  background-color: #FFFFFF;
+  color: #525252;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.platform-tab-btn:hover:not([data-active="true"]) {
+  color: #14213D;
+  background-color: #F8F9FA;
+  border-color: #CBD5E1;
+}
+.platform-tab-btn[data-active="true"] {
+  background-color: #14213D !important;
+  color: #FFFFFF !important;
+  font-weight: 600;
+  border-color: #14213D !important;
+}
+.platform-tab-btn[data-active="true"]:hover {
+  background-color: #1E293B !important;
+  color: #FFFFFF !important;
+}
+
