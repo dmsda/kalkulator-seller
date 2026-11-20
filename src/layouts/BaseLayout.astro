@@ -1,0 +1,50 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/tokens.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  canonicalUrl?: string;
+  currentPath?: string;
+}
+
+const {
+  title,
+  description = 'Kalkulator keuntungan dan potongan biaya marketplace Shopee, TikTok Shop, dan Tokopedia untuk seller Indonesia.',
+  canonicalUrl = Astro.url.href,
+  currentPath = Astro.url.pathname,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} — KalkulatorSeller</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={`${title} — KalkulatorSeller`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={`${title} — KalkulatorSeller`} />
+    <meta name="twitter:description" content={description} />
+  </head>
+  <body class="min-h-screen flex flex-col bg-white text-black font-sans antialiased">
+    <Header currentPath={currentPath} />
+    <main id="main-content" class="flex-1 w-full max-w-[1160px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

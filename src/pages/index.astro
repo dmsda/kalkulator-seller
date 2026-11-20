@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Kalkulator Margin & Biaya Marketplace Seller" currentPath="/">
+  <section class="max-w-[760px] py-4">
+    <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-[#F8F9FA] border border-[#E5E5E5] text-xs text-[#525252] mb-3">
+      <span class="w-2 h-2 rounded-full bg-[#047857]" aria-hidden="true"></span>
+      <span>Simulasi offline & transparan untuk seller Indonesia</span>
+    </div>
+    <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-[#14213D] mb-2">
+      Jualan ramai belum tentu untung.
+    </h1>
+    <p class="text-sm sm:text-base text-[#525252] leading-relaxed mb-6">
+      Hitung modal, potongan admin marketplace, packing, dan iklan sebelum pasang harga. Ketahui margin profit bersih aktual per produk.
+    </p>
+
+    <!-- Platform Quick Links -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
+      <a href="/shopee" class="p-4 border border-[#E5E5E5] rounded-md bg-white hover:border-[#14213D] transition-colors block text-left">
+        <div class="font-semibold text-[#14213D] text-sm mb-1">Shopee</div>
+        <div class="text-xs text-[#525252]">Biaya admin non-star, star, mall & gratis ongkir XTRA.</div>
+      </a>
+      <a href="/tiktok-shop" class="p-4 border border-[#E5E5E5] rounded-md bg-white hover:border-[#14213D] transition-colors block text-left">
+        <div class="font-semibold text-[#14213D] text-sm mb-1">TikTok Shop</div>
+        <div class="text-xs text-[#525252]">Komisi marketplace, biaya layanan & komisi affiliate.</div>
+      </a>
+      <a href="/tokopedia" class="p-4 border border-[#E5E5E5] rounded-md bg-white hover:border-[#14213D] transition-colors block text-left">
+        <div class="font-semibold text-[#14213D] text-sm mb-1">Tokopedia</div>
+        <div class="text-xs text-[#525252]">Skema biaya layanan Power Merchant & Official Store.</div>
+      </a>
+    </div>
+
+    <div class="p-4 bg-[#F8F9FA] border border-[#E5E5E5] rounded-md text-xs text-[#525252] space-y-1">
+      <div class="font-semibold text-[#14213D]">Fondasi Proyek Berhasil Diinisialisasi (Phase 1)</div>
+      <p class="m-0">
+        Astro SSG + Tailwind CSS v4 + Design Tokens siap. Selanjutnya: implementasi skema tarif & calculation engine murni di Phase 2 dan Phase 3.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
