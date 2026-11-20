@@ -2,12 +2,70 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Calculator from '../components/Calculator.astro';
 import SavedSkuList from '../components/SavedSkuList.astro';
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  'itemListElement': [
+    {
+      '@type': 'ListItem',
+      'position': 1,
+      'name': 'Beranda',
+      'item': 'https://kalkulatorseller.pages.dev/',
+    },
+    {
+      '@type': 'ListItem',
+      'position': 2,
+      'name': 'Kalkulator Tokopedia',
+      'item': 'https://kalkulatorseller.pages.dev/tokopedia/',
+    },
+  ],
+};
+
+const webAppSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  'name': 'Kalkulator Biaya Layanan & Keuntungan Tokopedia',
+  'url': 'https://kalkulatorseller.pages.dev/tokopedia/',
+  'applicationCategory': 'BusinessApplication',
+  'operatingSystem': 'All',
+  'browserRequirements': 'Requires JavaScript. Requires HTML5.',
+  'offers': {
+    '@type': 'Offer',
+    'price': '0',
+    'priceCurrency': 'IDR',
+  },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  'mainEntity': [
+    {
+      '@type': 'Question',
+      'name': 'Apa maksud pembagian Grup 1 sampai 4 di Tokopedia?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Tokopedia membagi jenis barang ke dalam kelompok grup tarif. Untuk toko Power Merchant: Grup 1 (Pakaian/Fashion) dipotong 6,5%, Grup 2 (Kecantikan & Perlengkapan Rumah) 5,5%, Grup 3 (Elektronik) 3,5%, dan Grup 4 (Makanan & Minuman) 4,5%.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'Berapa biaya potongan untuk program Bebas Ongkir Tokopedia?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Biaya layanan program Bebas Ongkir dikenakan sebesar 4,0% dari harga produk, dengan batas maksimal potongan sebesar Rp10.000 per satu barang yang terjual.',
+      },
+    },
+  ],
+};
 ---
 
 <BaseLayout
-  title="Kalkulator Biaya Layanan & Keuntungan Tokopedia"
-  description="Hitung potongan biaya layanan Tokopedia Power Merchant, Official Store, Bebas Ongkir, dan sisa uang bersih jualan produk Anda."
+  title="Kalkulator Tokopedia: Hitung Biaya Layanan & Keuntungan"
+  description="Hitung potongan biaya layanan Tokopedia Power Merchant kategori Grup 1-4, biaya Bebas Ongkir, dan sisa uang bersih jualan produk Anda."
   currentPath="/tokopedia"
+  jsonLd={[breadcrumbSchema, webAppSchema, faqSchema]}
 >
   <nav aria-label="Breadcrumb" class="text-xs text-[#525252] mb-3">
     <ol class="flex items-center gap-1.5 list-none p-0 m-0">
@@ -30,8 +88,55 @@ import SavedSkuList from '../components/SavedSkuList.astro';
 
   <SavedSkuList />
 
+  <!-- Educational Section: Tokopedia Fee Guide -->
+  <section class="mt-16 pt-8 border-t border-[#E5E5E5] space-y-6 max-w-3xl">
+    <div>
+      <h2 class="text-lg font-bold text-[#14213D] mb-2">
+        Panduan Memahami Biaya Layanan Tokopedia Power Merchant
+      </h2>
+      <p class="text-xs sm:text-sm text-[#525252] leading-relaxed">
+        Di Tokopedia, besaran potongan biaya administrasi ditentukan oleh status keanggotaan toko (Regular Merchant, Power Merchant, atau Official Store) serta pengelompokan grup kategori barang:
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+      <div class="p-4 bg-white border border-[#E5E5E5] rounded-md space-y-1.5">
+        <div class="font-bold text-[#14213D]">1. Biaya Layanan Kategori</div>
+        <p class="text-[#525252] leading-relaxed">
+          Grup 1 (Fashion) dipotong 6,5%, Grup 2 (Kecantikan & Rumah Tangga) 5,5%, Grup 3 (Elektronik & Gadget) 3,5%, dan Grup 4 (Makanan & Kebutuhan Harian) 4,5%.
+        </p>
+      </div>
+      <div class="p-4 bg-white border border-[#E5E5E5] rounded-md space-y-1.5">
+        <div class="font-bold text-[#14213D]">2. Bebas Ongkir Tokopedia</div>
+        <p class="text-[#525252] leading-relaxed">
+          Dikenakan 4,0% dari harga produk dengan batas pemotongan maksimal sebesar Rp10.000 untuk setiap unit barang yang dibeli.
+        </p>
+      </div>
+      <div class="p-4 bg-white border border-[#E5E5E5] rounded-md space-y-1.5">
+        <div class="font-bold text-[#14213D]">3. Biaya Proses Transaksi</div>
+        <p class="text-[#525252] leading-relaxed">
+          Biaya tetap Rp1.000 yang dikenakan satu kali untuk satu keranjang belanja checkout pembeli.
+        </p>
+      </div>
+    </div>
+
+    <!-- Practical Tips for Tokopedia Sellers -->
+    <div class="p-5 bg-[#F8F9FA] border border-[#E5E5E5] rounded-lg space-y-3 text-xs leading-relaxed">
+      <h3 class="text-sm font-bold text-[#14213D]">Cara Menentukan Harga Jual Tokopedia Agar Tetap Menguntungkan</h3>
+      <ol class="space-y-1.5 list-decimal pl-4 text-[#525252]">
+        <li><strong>Kenali Grup Kategori Produk Anda:</strong> Pastikan Anda memilih kategori yang tepat (Grup 1 sampai 4) pada form kalkulator agar persentase potongan tidak keliru.</li>
+        <li><strong>Optimasi Pesanan Multi-Unit:</strong> Karena biaya proses Rp1.000 dikenakan per transaksi checkout, pembeli yang memesan paket bundling atau beberapa barang sekaligus akan memberikan margin profit yang lebih tinggi bagi Anda.</li>
+        <li><strong>Gunakan Fitur "Cari Harga Jual Ideal":</strong> Tentukan target rupiah untung bersih yang Anda mau, dan biarkan kalkulator menghitung harga jual rekomendasi yang harus dipasang di etalase Tokopedia.</li>
+      </ol>
+      <div class="pt-2 text-[11px] flex gap-3 text-[#14213D] font-medium">
+        <a href="/tarif#tokopedia" class="underline hover:no-underline">Lihat tabel grup tarif Tokopedia &rarr;</a>
+        <a href="/panduan/" class="underline hover:no-underline">Baca panduan hitung modal HPP &rarr;</a>
+      </div>
+    </div>
+  </section>
+
   <!-- Platform Specific FAQ -->
-  <section class="mt-16 pt-8 border-t border-[#E5E5E5] space-y-4 max-w-3xl">
+  <section class="mt-12 pt-8 border-t border-[#E5E5E5] space-y-4 max-w-3xl">
     <h2 class="text-lg font-bold text-[#14213D]">Pertanyaan yang Sering Ditanyakan seputar Biaya Tokopedia</h2>
 
     <details class="p-3.5 border border-[#E5E5E5] rounded-md bg-white">

@@ -8,14 +8,26 @@ interface Props {
   description?: string;
   canonicalUrl?: string;
   currentPath?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, any> | Array<Record<string, any>>;
 }
 
 const {
   title,
   description = 'Kalkulator keuntungan dan potongan biaya marketplace Shopee, TikTok Shop, dan Tokopedia untuk penjual online Indonesia. Hitung modal, biaya admin, dan keuntungan bersih.',
-  canonicalUrl = Astro.url.href,
+  canonicalUrl,
   currentPath = Astro.url.pathname,
+  noindex = false,
+  jsonLd,
 } = Astro.props;
+
+// Normalisasi canonical URL secara konsisten dengan trailingSlash: 'always'
+const resolvedCanonical = canonicalUrl || new URL(
+  Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`,
+  Astro.site || 'https://kalkulatorseller.pages.dev'
+).href;
+
+const schemaArray = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 ---
 
 <!doctype html>
@@ -25,20 +37,31 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} — KalkulatorSeller</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalUrl} />
+    <link rel="canonical" href={resolvedCanonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="robots" content="index, follow" />
+    {noindex ? (
+      <meta name="robots" content="noindex, nofollow" />
+    ) : (
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    )}
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="KalkulatorSeller" />
+    <meta property="og:locale" content="id_ID" />
     <meta property="og:title" content={`${title} — KalkulatorSeller`} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:url" content={resolvedCanonical} />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={`${title} — KalkulatorSeller`} />
     <meta name="twitter:description" content={description} />
+
+    <!-- Structured Data (JSON-LD) -->
+    {schemaArray.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
   </head>
   <body class="min-h-screen flex flex-col bg-white text-black font-sans antialiased overflow-x-hidden w-full relative">
     <Header currentPath={currentPath} />

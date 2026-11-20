@@ -2,12 +2,70 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Calculator from '../components/Calculator.astro';
 import SavedSkuList from '../components/SavedSkuList.astro';
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  'itemListElement': [
+    {
+      '@type': 'ListItem',
+      'position': 1,
+      'name': 'Beranda',
+      'item': 'https://kalkulatorseller.pages.dev/',
+    },
+    {
+      '@type': 'ListItem',
+      'position': 2,
+      'name': 'Kalkulator TikTok Shop',
+      'item': 'https://kalkulatorseller.pages.dev/tiktok-shop/',
+    },
+  ],
+};
+
+const webAppSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  'name': 'Kalkulator Komisi & Keuntungan TikTok Shop',
+  'url': 'https://kalkulatorseller.pages.dev/tiktok-shop/',
+  'applicationCategory': 'BusinessApplication',
+  'operatingSystem': 'All',
+  'browserRequirements': 'Requires JavaScript. Requires HTML5.',
+  'offers': {
+    '@type': 'Offer',
+    'price': '0',
+    'priceCurrency': 'IDR',
+  },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  'mainEntity': [
+    {
+      '@type': 'Question',
+      'name': 'Berapa besaran potongan komisi di TikTok Shop saat ini?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Komisi marketplace TikTok Shop berkisar antara 3,5% hingga 6,0% tergantung jenis barang. Misalnya, produk Pakaian / Fashion umumnya dikenakan 6,0%, sedangkan Elektronik berkisar 3,5%.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'Bagaimana komisi affiliate mempengaruhi uang yang saya terima?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Jika pesanan datang dari video atau live kreator TikTok, komisi affiliate akan langsung dipotong dari saldo hasil penjualan. KalkulatorSeller memperhitungkan komisi ini di tahap Keuntungan Bersih Akhir agar Anda tahu pasti sisa uang yang Anda terima.',
+      },
+    },
+  ],
+};
 ---
 
 <BaseLayout
-  title="Kalkulator Komisi & Keuntungan Bersih TikTok Shop"
-  description="Hitung komisi marketplace TikTok Shop, biaya program gratis ongkir, dan komisi affiliate per produk jualan Anda."
+  title="Kalkulator TikTok Shop: Hitung Komisi & Keuntungan Jualan"
+  description="Hitung potongan komisi kategori TikTok Shop, biaya program gratis ongkir, komisi affiliate kreator, dan estimasi keuntungan bersih toko Anda."
   currentPath="/tiktok-shop"
+  jsonLd={[breadcrumbSchema, webAppSchema, faqSchema]}
 >
   <nav aria-label="Breadcrumb" class="text-xs text-[#525252] mb-3">
     <ol class="flex items-center gap-1.5 list-none p-0 m-0">
@@ -30,8 +88,55 @@ import SavedSkuList from '../components/SavedSkuList.astro';
 
   <SavedSkuList />
 
+  <!-- Educational Section: TikTok Shop Fee Guide -->
+  <section class="mt-16 pt-8 border-t border-[#E5E5E5] space-y-6 max-w-3xl">
+    <div>
+      <h2 class="text-lg font-bold text-[#14213D] mb-2">
+        Panduan Memahami Komisi TikTok Shop & Penjualan via Kreator
+      </h2>
+      <p class="text-xs sm:text-sm text-[#525252] leading-relaxed">
+        Berjualan di TikTok Shop memiliki dinamika unik karena selain komisi marketplace reguler, sebagian besar penjualan didorong oleh promosi video pendek dan sesi siaran langsung (Live Shopping):
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+      <div class="p-4 bg-white border border-[#E5E5E5] rounded-md space-y-1.5">
+        <div class="font-bold text-[#14213D]">1. Komisi Marketplace</div>
+        <p class="text-[#525252] leading-relaxed">
+          Dikenakan per kategori produk: Fashion (~6,0%), Perawatan & Kecantikan (~5,0%), Makanan/Minuman (~4,5%), dan Elektronik (~3,5%).
+        </p>
+      </div>
+      <div class="p-4 bg-white border border-[#E5E5E5] rounded-md space-y-1.5">
+        <div class="font-bold text-[#14213D]">2. Program Gratis Ongkir</div>
+        <p class="text-[#525252] leading-relaxed">
+          Biaya keikutsertaan program gratis ongkir sekitar 4,0% dengan batas potongan maksimal (cap) Rp10.000 per unit barang terjual.
+        </p>
+      </div>
+      <div class="p-4 bg-white border border-[#E5E5E5] rounded-md space-y-1.5">
+        <div class="font-bold text-[#14213D]">3. Komisi Affiliate Kreator</div>
+        <p class="text-[#525252] leading-relaxed">
+          Persentase bagi hasil (umumnya 5%–15%) yang Anda berikan kepada kreator affiliate saat pesanan tercipta dari keranjang kuning mereka.
+        </p>
+      </div>
+    </div>
+
+    <!-- Practical Tips for TikTok Shop Sellers -->
+    <div class="p-5 bg-[#F8F9FA] border border-[#E5E5E5] rounded-lg space-y-3 text-xs leading-relaxed">
+      <h3 class="text-sm font-bold text-[#14213D]">Tips Menentukan Harga Jual di TikTok Shop untuk Live & Affiliate</h3>
+      <ol class="space-y-1.5 list-decimal pl-4 text-[#525252]">
+        <li><strong>Sediakan Ruang untuk Komisi Affiliate:</strong> Jangan memasang margin terlalu tipis jika produk Anda mengandalkan promosi affiliate, karena komisi kreator akan memotong langsung sisa uang bersih Anda.</li>
+        <li><strong>Antisipasi Biaya Pengemasan & Retur:</strong> Pembeli live shopping memiliki tingkat retur/pembatalan COD yang lebih aktif. Pastikan biaya bubble wrap dan kardus dicatat secara realistis.</li>
+        <li><strong>Simulasikan Varian Diskon Live:</strong> Masukkan diskon atau voucher flash sale yang sering diberikan saat siaran live pada kolom "Voucher & Diskon Toko".</li>
+      </ol>
+      <div class="pt-2 text-[11px] flex gap-3 text-[#14213D] font-medium">
+        <a href="/tarif#tiktok-shop" class="underline hover:no-underline">Lihat rincian tarif komisi TikTok Shop &rarr;</a>
+        <a href="/panduan/" class="underline hover:no-underline">Baca panduan hitung modal HPP &rarr;</a>
+      </div>
+    </div>
+  </section>
+
   <!-- Platform Specific FAQ -->
-  <section class="mt-16 pt-8 border-t border-[#E5E5E5] space-y-4 max-w-3xl">
+  <section class="mt-12 pt-8 border-t border-[#E5E5E5] space-y-4 max-w-3xl">
     <h2 class="text-lg font-bold text-[#14213D]">Pertanyaan yang Sering Ditanyakan seputar Biaya TikTok Shop</h2>
 
     <details class="p-3.5 border border-[#E5E5E5] rounded-md bg-white">

@@ -2,12 +2,68 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Calculator from '../components/Calculator.astro';
 import SavedSkuList from '../components/SavedSkuList.astro';
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  'name': 'KalkulatorSeller',
+  'url': 'https://kalkulatorseller.pages.dev/',
+  'description': 'Kalkulator keuntungan jualan online dan simulasi potongan biaya marketplace untuk seller Indonesia.',
+  'inLanguage': 'id-ID',
+};
+
+const webAppSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  'name': 'Kalkulator Keuntungan Jualan Online KalkulatorSeller',
+  'url': 'https://kalkulatorseller.pages.dev/',
+  'applicationCategory': 'BusinessApplication',
+  'operatingSystem': 'All',
+  'browserRequirements': 'Requires JavaScript. Requires HTML5.',
+  'offers': {
+    '@type': 'Offer',
+    'price': '0',
+    'priceCurrency': 'IDR',
+  },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  'mainEntity': [
+    {
+      '@type': 'Question',
+      'name': 'Mengapa keuntungan dibagi menjadi 4 tahap?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Banyak penjual mengira selisih harga jual dan harga modal adalah untung yang bisa langsung dikantongi. KalkulatorSeller membagi keuntungan menjadi 4 tahap: (1) Untung Kotor, (2) Sisa Setelah Potongan Marketplace, (3) Sisa Setelah Biaya Packing, dan (4) Keuntungan Bersih yang Dibawa Pulang. Dengan begitu, Anda tahu persis ke mana uang penjualan Anda mengalir dan tidak ada biaya tersembunyi yang terlewat.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'Bagaimana cara kerja fitur "Cari Harga Jual Ideal"?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Anda tidak perlu menebak-nebak harga. Cukup tentukan berapa uang bersih yang ingin Anda dapatkan per produk (misalnya Rp25.000). Sistem kami akan menghitung mundur harga jual pas yang harus Anda pasang di etalase toko setelah memperhitungkan seluruh potongan admin marketplace dan biaya packing.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'Apakah data modal dan harga produk saya aman?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Sangat aman. Seluruh perhitungan dan daftar produk yang Anda simpan berada 100% di browser HP atau laptop Anda sendiri. Kami tidak memiliki server penyimpanan dan tidak bisa melihat harga modal maupun rahasia dapur toko Anda.',
+      },
+    },
+  ],
+};
 ---
 
 <BaseLayout
   title="Hitung Keuntungan Jualan di Marketplace (Shopee, TikTok Shop, Tokopedia)"
   description="Kalkulator keuntungan jualan online untuk seller Shopee, TikTok Shop, dan Tokopedia. Hitung modal, biaya admin, ongkir, packing, dan sisa uang bersih."
   currentPath="/"
+  jsonLd={[websiteSchema, webAppSchema, faqSchema]}
 >
   <!-- Hero Section (Human, Practical, Helpful) -->
   <section class="max-w-3xl mb-8">
@@ -21,10 +77,10 @@ import SavedSkuList from '../components/SavedSkuList.astro';
     <!-- Platform Shortcut Links (Touch target >= 40px) -->
     <div class="flex items-center flex-wrap gap-2 text-xs">
       <span class="font-semibold text-[#14213D] mr-1">Kalkulator Khusus:</span>
-      <a href="/shopee" class="min-h-[40px] px-3.5 py-2 bg-white border border-[#E5E5E5] rounded-lg hover:border-[#14213D] text-[#14213D] font-medium flex items-center">Shopee</a>
-      <a href="/tiktok-shop" class="min-h-[40px] px-3.5 py-2 bg-white border border-[#E5E5E5] rounded-lg hover:border-[#14213D] text-[#14213D] font-medium flex items-center">TikTok Shop</a>
-      <a href="/tokopedia" class="min-h-[40px] px-3.5 py-2 bg-white border border-[#E5E5E5] rounded-lg hover:border-[#14213D] text-[#14213D] font-medium flex items-center">Tokopedia</a>
-      <a href="/tarif" class="min-h-[40px] px-3.5 py-2 bg-[#F8F9FA] border border-[#E5E5E5] rounded-lg hover:border-[#14213D] text-[#525252] font-medium flex items-center">Daftar Tarif & Potongan &rarr;</a>
+      <a href="/shopee/" class="min-h-[40px] px-3.5 py-2 bg-white border border-[#E5E5E5] rounded-lg hover:border-[#14213D] text-[#14213D] font-medium flex items-center">Shopee</a>
+      <a href="/tiktok-shop/" class="min-h-[40px] px-3.5 py-2 bg-white border border-[#E5E5E5] rounded-lg hover:border-[#14213D] text-[#14213D] font-medium flex items-center">TikTok Shop</a>
+      <a href="/tokopedia/" class="min-h-[40px] px-3.5 py-2 bg-white border border-[#E5E5E5] rounded-lg hover:border-[#14213D] text-[#14213D] font-medium flex items-center">Tokopedia</a>
+      <a href="/tarif/" class="min-h-[40px] px-3.5 py-2 bg-[#F8F9FA] border border-[#E5E5E5] rounded-lg hover:border-[#14213D] text-[#525252] font-medium flex items-center">Daftar Tarif & Potongan &rarr;</a>
     </div>
   </section>
 
@@ -34,8 +90,90 @@ import SavedSkuList from '../components/SavedSkuList.astro';
   <!-- Saved SKU List Component -->
   <SavedSkuList />
 
+  <!-- Educational & Value Proposition Section for Search & Users -->
+  <section class="mt-16 pt-8 border-t border-[#E5E5E5] space-y-8 max-w-3xl">
+    <div>
+      <h2 class="text-lg sm:text-xl font-bold text-[#14213D] mb-2">
+        Mengapa Penjual Perlu Menghitung Biaya Sebelum Memasang Harga?
+      </h2>
+      <p class="text-xs sm:text-sm text-[#525252] leading-relaxed">
+        Banyak toko online di Shopee, TikTok Shop, dan Tokopedia terlihat ramai pembeli, namun saat akhir bulan pemilik toko justru kesulitan menutup modal belanja barang. Masalah ini sering terjadi karena penjual hanya memperkirakan selisih harga jual dan harga modal tanpa memperhitungkan akumulasi potongan komisi marketplace, program gratis ongkir, biaya proses pesanan, serta biaya lakban dan plastik kemasan.
+      </p>
+    </div>
+
+    <!-- 3 Simple Steps -->
+    <div class="space-y-3">
+      <h3 class="text-sm font-bold text-[#14213D] uppercase tracking-wider">
+        3 Langkah Mudah Menggunakan KalkulatorSeller
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+        <div class="p-4 bg-white border border-[#E5E5E5] rounded-lg space-y-1.5">
+          <div class="w-6 h-6 rounded-full bg-[#14213D] text-white flex items-center justify-center font-bold text-xs">1</div>
+          <div class="font-bold text-[#14213D]">Pilih Marketplace</div>
+          <p class="text-[#525252] leading-relaxed">Pilih Shopee, TikTok Shop, atau Tokopedia beserta tingkatan toko dan kategori produk Anda.</p>
+        </div>
+        <div class="p-4 bg-white border border-[#E5E5E5] rounded-lg space-y-1.5">
+          <div class="w-6 h-6 rounded-full bg-[#14213D] text-white flex items-center justify-center font-bold text-xs">2</div>
+          <div class="font-bold text-[#14213D]">Isi Modal & Harga</div>
+          <p class="text-[#525252] leading-relaxed">Masukkan modal barang (HPP), harga jual toko, dan perkiraan biaya packing serta iklan.</p>
+        </div>
+        <div class="p-4 bg-white border border-[#E5E5E5] rounded-lg space-y-1.5">
+          <div class="w-6 h-6 rounded-full bg-[#14213D] text-white flex items-center justify-center font-bold text-xs">3</div>
+          <div class="font-bold text-[#14213D]">Lihat Uang Bersih</div>
+          <p class="text-[#525252] leading-relaxed">Dapatkan rincian 4 tahap keuntungan dan simpan produk ke daftar untuk diekspor ke Excel.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparison Overview Table -->
+    <div class="space-y-3">
+      <h3 class="text-sm font-bold text-[#14213D] uppercase tracking-wider">
+        Perbandingan Karakteristik Biaya Marketplace
+      </h3>
+      <div class="overflow-x-auto hide-scrollbar border border-[#E5E5E5] rounded-lg bg-white">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="border-b border-[#E5E5E5] bg-[#F8F9FA] text-[#525252] font-semibold">
+              <th class="py-2.5 px-3">Marketplace</th>
+              <th class="py-2.5 px-3">Biaya Admin / Komisi</th>
+              <th class="py-2.5 px-3">Program Gratis Ongkir</th>
+              <th class="py-2.5 px-3">Biaya Pesanan</th>
+              <th class="py-2.5 px-3">Aksi</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#E5E5E5] text-[11px]">
+            <tr>
+              <td class="py-2.5 px-3 font-semibold text-[#14213D]">Shopee</td>
+              <td class="py-2.5 px-3 text-[#525252]">4,0% – 9,5% (Tergantung Tier Toko & Kategori)</td>
+              <td class="py-2.5 px-3 text-[#525252]">4,0% (Maksimal Rp10.000/barang)</td>
+              <td class="py-2.5 px-3 text-[#525252]">Rp1.000 / transaksi</td>
+              <td class="py-2.5 px-3"><a href="/shopee/" class="text-[#14213D] font-semibold underline hover:no-underline">Hitung Shopee &rarr;</a></td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-semibold text-[#14213D]">TikTok Shop</td>
+              <td class="py-2.5 px-3 text-[#525252]">3,5% – 6,0% (Berdasarkan Kategori Barang)</td>
+              <td class="py-2.5 px-3 text-[#525252]">4,0% (Maksimal Rp10.000/barang)</td>
+              <td class="py-2.5 px-3 text-[#525252]">Sesuai program live / pesanan</td>
+              <td class="py-2.5 px-3"><a href="/tiktok-shop/" class="text-[#14213D] font-semibold underline hover:no-underline">Hitung TikTok &rarr;</a></td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-semibold text-[#14213D]">Tokopedia</td>
+              <td class="py-2.5 px-3 text-[#525252]">3,5% – 6,5% (Grup 1 sampai 4 Power Merchant)</td>
+              <td class="py-2.5 px-3 text-[#525252]">4,0% (Maksimal Rp10.000/barang)</td>
+              <td class="py-2.5 px-3 text-[#525252]">Rp1.000 / transaksi</td>
+              <td class="py-2.5 px-3"><a href="/tokopedia/" class="text-[#14213D] font-semibold underline hover:no-underline">Hitung Tokopedia &rarr;</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-[11px] text-[#525252]">
+        *Untuk rincian persentase setiap sub-kategori dan tanggal berlaku resmi, silakan buka <a href="/tarif/" class="text-[#14213D] underline">Daftar Tarif & Potongan Marketplace</a>.
+      </p>
+    </div>
+  </section>
+
   <!-- FAQ Section (Human, Clear & Reassuring) -->
-  <section class="mt-16 pt-8 border-t border-[#E5E5E5] space-y-4 max-w-3xl">
+  <section class="mt-12 pt-8 border-t border-[#E5E5E5] space-y-4 max-w-3xl">
     <h2 class="text-lg font-bold text-[#14213D]">Pertanyaan yang Sering Ditanyakan Penjual</h2>
 
     <details class="p-3.5 border border-[#E5E5E5] rounded-md bg-white">

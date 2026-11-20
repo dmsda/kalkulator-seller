@@ -1,16 +1,72 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  'itemListElement': [
+    {
+      '@type': 'ListItem',
+      'position': 1,
+      'name': 'Beranda',
+      'item': 'https://kalkulatorseller.pages.dev/',
+    },
+    {
+      '@type': 'ListItem',
+      'position': 2,
+      'name': 'Panduan Hitung Untung',
+      'item': 'https://kalkulatorseller.pages.dev/panduan/',
+    },
+  ],
+};
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  'headline': 'Panduan Praktis Menghitung Untung Jualan Online & Harga Modal (HPP)',
+  'description': 'Panduan lengkap cara menghitung harga modal barang, potongan biaya admin marketplace, biaya kemasan, dan menentukan harga jual agar tidak boncos.',
+  'inLanguage': 'id-ID',
+  'datePublished': '2026-01-15T08:00:00+07:00',
+  'dateModified': '2026-11-21T08:00:00+07:00',
+  'author': {
+    '@type': 'Organization',
+    'name': 'Tim Edukasi KalkulatorSeller',
+    'url': 'https://kalkulatorseller.pages.dev/',
+  },
+  'publisher': {
+    '@type': 'Organization',
+    'name': 'KalkulatorSeller',
+    'url': 'https://kalkulatorseller.pages.dev/',
+    'logo': {
+      '@type': 'ImageObject',
+      'url': 'https://kalkulatorseller.pages.dev/favicon.svg',
+    },
+  },
+  'mainEntityOfPage': {
+    '@type': 'WebPage',
+    '@id': 'https://kalkulatorseller.pages.dev/panduan/',
+  },
+};
 ---
 
 <BaseLayout
-  title="Panduan Menghitung Keuntungan & Biaya Jualan Online"
-  description="Panduan sederhana cara menghitung harga modal, biaya admin marketplace, biaya packing, dan menentukan harga jual agar tidak boncos."
+  title="Panduan Cara Menghitung Keuntungan Jualan Online & Harga Modal (HPP)"
+  description="Panduan praktis cara menghitung harga modal barang (HPP), potongan biaya admin marketplace, biaya kemasan, dan menentukan harga jual produk agar tidak boncos."
   currentPath="/panduan"
+  jsonLd={[breadcrumbSchema, articleSchema]}
 >
+  <nav aria-label="Breadcrumb" class="text-xs text-[#525252] mb-3">
+    <ol class="flex items-center gap-1.5 list-none p-0 m-0">
+      <li><a href="/" class="hover:underline text-[#14213D] min-h-[36px] inline-flex items-center">Beranda</a></li>
+      <li>/</li>
+      <li class="font-semibold text-[#14213D] min-h-[36px] inline-flex items-center">Panduan Hitung Untung</li>
+    </ol>
+  </nav>
+
   <article class="max-w-3xl space-y-8">
     <div>
       <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-[#14213D] mb-2">
-        Panduan Praktis Menghitung Untung Jualan Online
+        Panduan Praktis Menghitung Untung Jualan Online & Harga Modal
       </h1>
       <p class="text-xs sm:text-sm text-[#525252] leading-relaxed">
         Banyak penjual online yang tokonya ramai pesanan, tapi saat akhir bulan saldo pencairan justru habis untuk nombok modal. Kuncinya adalah memahami ke mana saja uang hasil jualan Anda mengalir sebelum menentukan harga jual di toko.
@@ -78,6 +134,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <p class="text-xs sm:text-sm text-[#525252] leading-relaxed">
         Potongan komisi persentase marketplace dihitung dari setiap barang yang terjual. Namun, biaya proses pesanan (seperti Rp1.000 per transaksi) hanya dikenakan <strong>1 kali</strong> per transaksi checkout. Jika pembeli membeli 3 baju sekaligus dalam 1 pesanan, biaya Rp1.000 tersebut dibagi rata ke 3 baju, sehingga keuntungan Anda per baju menjadi lebih besar.
       </p>
+    </section>
+
+    <!-- Section 4: Internal Tools Navigation -->
+    <section class="p-5 bg-white border border-[#E5E5E5] rounded-lg space-y-3">
+      <h2 class="text-base font-bold text-[#14213D]">Mulai Hitung Keuntungan Toko Anda</h2>
+      <p class="text-xs text-[#525252] leading-relaxed">
+        Pilih kalkulator khusus marketplace yang Anda gunakan untuk mendapatkan simulasi potongan yang akurat:
+      </p>
+      <div class="flex flex-wrap gap-2 text-xs pt-1">
+        <a href="/shopee/" class="px-3.5 py-2 bg-[#14213D] text-white font-medium rounded-lg hover:bg-[#0c1527] min-h-[40px] inline-flex items-center">Kalkulator Shopee &rarr;</a>
+        <a href="/tiktok-shop/" class="px-3.5 py-2 bg-[#14213D] text-white font-medium rounded-lg hover:bg-[#0c1527] min-h-[40px] inline-flex items-center">Kalkulator TikTok Shop &rarr;</a>
+        <a href="/tokopedia/" class="px-3.5 py-2 bg-[#14213D] text-white font-medium rounded-lg hover:bg-[#0c1527] min-h-[40px] inline-flex items-center">Kalkulator Tokopedia &rarr;</a>
+        <a href="/tarif/" class="px-3.5 py-2 bg-[#F8F9FA] text-[#14213D] border border-[#E5E5E5] font-medium rounded-lg hover:border-[#14213D] min-h-[40px] inline-flex items-center">Cek Daftar Tarif Resmi &rarr;</a>
+      </div>
     </section>
   </article>
 </BaseLayout>

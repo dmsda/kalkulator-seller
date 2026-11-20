@@ -20,6 +20,7 @@ Dokumen pelacakan eksekusi bertahap untuk pengembangan produk KalkulatorSeller.
 | **9** | **Deployment Readiness** | **DONE** | Cloudflare Pages config, `_headers`, README.md, static production bundle | Production build verified (`dist/` directory) | - |
 | **10** | **Human Copywriting Audit & Fix** | **DONE** | UX copywriting overhaul, glossary seller awam, microcopy formulir ramah | Laporan audit human copywriting & verifikasi UI | - |
 | **11** | **Responsive & Multi-Device Optimization** | **DONE** | Responsive layout across 320px–1920px, Mobile Drawer Menu, Sticky Bottom Summary, Hybrid SKU Card/Table, Touch Targets ≥ 44px, Zero iOS Auto-Zoom | `RESPONSIVE_AUDIT.md`, `RESPONSIVE_DESIGN_GUIDELINE.md`, 23 Vitest tests passed, 0 horizontal overflow | - |
+| **12** | **SEO Audit & Implementation** | **DONE** | Dynamic sitemap endpoint with `<lastmod>`, canonical trailing slash sync, 404 noindex, platform deep content (anti-doorway), JSON-LD schemas (WebSite, WebApp, FAQ, Breadcrumbs, Article) | `SEO_AUDIT.md`, `SEO_KEYWORD_MAPPING.md`, `SEO_IMPLEMENTATION_GUIDELINE.md`, `SEO_IMPLEMENTATION_REPORT.md`, 27 Vitest tests passed (100%) | - |
 
 ---
 
@@ -79,3 +80,10 @@ Dokumen pelacakan eksekusi bertahap untuk pengembangan produk KalkulatorSeller.
 - Implementasi Hybrid View pada `SavedSkuList`: Mobile Cards (< 640px) vs Desktop Table (≥ 640px).
 - Pencegahan iOS Safari auto-zoom (`text-base sm:text-sm`).
 - 23/23 unit test lolos di Vitest dan static build 9 halaman sukses tanpa overflow horizontal.
+
+### Phase 12: SEO Audit & Implementation (DONE)
+- Audit Technical SEO: perbaikan sinkronisasi URL canonical dan sitemap dengan `trailingSlash: 'always'`, proteksi `noindex, nofollow` pada halaman 404, serta pembuatan endpoint sitemap dinamis `sitemap.xml.js` dengan `<lastmod>`.
+- Audit On-Page & Content: pencegahan doorway pages melalui penyusunan panduan biaya mendalam khusus Shopee, TikTok Shop, dan Tokopedia, perbaikan hierarki heading tepat 1 H1 per halaman, serta meta title dan description terarah.
+- Structured Data: integrasi Schema JSON-LD (`WebSite`, `WebApplication`, `BreadcrumbList`, `FAQPage`, `Article`).
+- Dokumentasi lengkap: [SEO_AUDIT.md](file:///Users/dimasaditya/project/kalkulator-seller/SEO_AUDIT.md), [SEO_KEYWORD_MAPPING.md](file:///Users/dimasaditya/project/kalkulator-seller/SEO_KEYWORD_MAPPING.md), [SEO_IMPLEMENTATION_GUIDELINE.md](file:///Users/dimasaditya/project/kalkulator-seller/SEO_IMPLEMENTATION_GUIDELINE.md), dan [SEO_IMPLEMENTATION_REPORT.md](file:///Users/dimasaditya/project/kalkulator-seller/SEO_IMPLEMENTATION_REPORT.md).
+- Penambahan test suite `tests/unit/seo.test.js`: 27/27 unit test Vitest lulus 100% dan static build Astro sempurna.

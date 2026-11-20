@@ -5,29 +5,65 @@ import tiktokConfig from '../data/tariffs/tiktok-shop.json';
 import tokopediaConfig from '../data/tariffs/tokopedia.json';
 
 const allTariffs = [
-  { platform: 'Shopee', data: shopeeConfig },
-  { platform: 'TikTok Shop', data: tiktokConfig },
-  { platform: 'Tokopedia', data: tokopediaConfig },
+  { platform: 'Shopee', slug: 'shopee', calcUrl: '/shopee', data: shopeeConfig },
+  { platform: 'TikTok Shop', slug: 'tiktok-shop', calcUrl: '/tiktok-shop', data: tiktokConfig },
+  { platform: 'Tokopedia', slug: 'tokopedia', calcUrl: '/tokopedia', data: tokopediaConfig },
 ];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  'itemListElement': [
+    {
+      '@type': 'ListItem',
+      'position': 1,
+      'name': 'Beranda',
+      'item': 'https://kalkulatorseller.pages.dev/',
+    },
+    {
+      '@type': 'ListItem',
+      'position': 2,
+      'name': 'Daftar Tarif Marketplace',
+      'item': 'https://kalkulatorseller.pages.dev/tarif/',
+    },
+  ],
+};
 ---
 
 <BaseLayout
-  title="Daftar Aturan & Potongan Biaya Marketplace (Shopee, TikTok Shop, Tokopedia)"
+  title="Daftar Biaya Admin & Potongan Marketplace 2026 (Shopee, TikTok, Tokopedia)"
   description="Daftar lengkap aturan biaya administrasi, komisi, dan biaya gratis ongkir Shopee, TikTok Shop, dan Tokopedia dengan tautan bantuan resmi."
   currentPath="/tarif"
+  jsonLd={breadcrumbSchema}
 >
+  <nav aria-label="Breadcrumb" class="text-xs text-[#525252] mb-3">
+    <ol class="flex items-center gap-1.5 list-none p-0 m-0">
+      <li><a href="/" class="hover:underline text-[#14213D] min-h-[36px] inline-flex items-center">Beranda</a></li>
+      <li>/</li>
+      <li class="font-semibold text-[#14213D] min-h-[36px] inline-flex items-center">Daftar Tarif Marketplace</li>
+    </ol>
+  </nav>
+
   <div class="mb-8">
     <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-[#14213D] mb-2">
-      Daftar Aturan & Potongan Biaya Marketplace
+      Daftar Aturan & Potongan Biaya Marketplace 2026
     </h1>
     <p class="text-xs sm:text-sm text-[#525252] max-w-2xl leading-relaxed">
       KalkulatorSeller menghitung keuntungan Anda berdasarkan data aturan resmi yang dipublikasikan oleh masing-masing marketplace. Di halaman ini, Anda bisa memeriksa rincian persentase setiap potongan, batas maksimal biaya, tanggal berlaku, dan tautan bantuan resminya.
     </p>
+
+    <!-- Quick Jump Links -->
+    <div class="flex items-center flex-wrap gap-2 text-xs mt-4">
+      <span class="font-semibold text-[#14213D] mr-1">Lompat ke Platform:</span>
+      <a href="#shopee" class="min-h-[36px] px-3 py-1.5 bg-white border border-[#E5E5E5] rounded-md hover:border-[#14213D] text-[#14213D] font-medium inline-flex items-center">Tarif Shopee &darr;</a>
+      <a href="#tiktok-shop" class="min-h-[36px] px-3 py-1.5 bg-white border border-[#E5E5E5] rounded-md hover:border-[#14213D] text-[#14213D] font-medium inline-flex items-center">Tarif TikTok Shop &darr;</a>
+      <a href="#tokopedia" class="min-h-[36px] px-3 py-1.5 bg-white border border-[#E5E5E5] rounded-md hover:border-[#14213D] text-[#14213D] font-medium inline-flex items-center">Tarif Tokopedia &darr;</a>
+    </div>
   </div>
 
   <div class="space-y-12">
-    {allTariffs.map(({ platform, data }) => (
-      <section class="border border-[#E5E5E5] rounded-lg p-5 bg-white space-y-4">
+    {allTariffs.map(({ platform, slug, calcUrl, data }) => (
+      <section id={slug} class="border border-[#E5E5E5] rounded-lg p-5 bg-white space-y-4 scroll-mt-20">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E5E5E5] pb-3">
           <div>
             <h2 class="text-base sm:text-lg font-bold text-[#14213D]">{platform}</h2>
@@ -35,14 +71,20 @@ const allTariffs = [
               Versi Data: {data.version} &bull; Berlaku Sejak: {data.effectiveFrom} &bull; Terakhir Dicek: {data.lastVerified}
             </div>
           </div>
-          <div>
+          <div class="flex items-center gap-3">
+            <a
+              href={calcUrl}
+              class="text-xs bg-[#14213D] text-white px-3 py-1.5 rounded font-medium hover:bg-[#0c1527] min-h-[36px] inline-flex items-center"
+            >
+              Buka Kalkulator {platform} &rarr;
+            </a>
             <a
               href={data.sourceUrl}
               target="_blank"
               rel="noopener noreferrer"
               class="text-xs text-[#14213D] font-semibold underline hover:no-underline min-h-[36px] inline-flex items-center"
             >
-              Lihat Aturan Resmi {platform} &rarr;
+              Aturan Resmi &rarr;
             </a>
           </div>
         </div>
