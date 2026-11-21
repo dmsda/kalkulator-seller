@@ -42,11 +42,7 @@ const navItems = [
           <a
             href={item.href}
             aria-current={isActive ? 'page' : undefined}
-            class={`min-h-[44px] inline-flex items-center px-3 py-2 text-xs lg:text-sm transition-colors ${
-              isActive
-                ? 'text-[#14213D] font-bold'
-                : 'text-[#525252] hover:text-[#14213D] font-medium'
-            }`}
+            class="min-h-[44px] inline-flex items-center px-3 py-2 text-xs lg:text-sm font-medium text-[#525252] hover:text-[#14213D] transition-colors"
           >
             {item.label}
           </a>
