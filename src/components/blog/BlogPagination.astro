@@ -49,7 +49,7 @@ const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
           aria-current={isCurrent ? 'page' : undefined}
           class={`min-h-[44px] min-w-[44px] inline-flex items-center justify-center text-xs font-semibold rounded-lg transition-colors ${
             isCurrent
-              ? 'bg-[#14213D] text-white shadow-2xs'
+              ? 'bg-[#F4F5F7] text-[#14213D] font-bold border border-[#14213D] shadow-2xs'
               : 'border border-[#E5E5E5] text-[#525252] hover:text-[#14213D] hover:bg-[#F4F5F7]'
           }`}
           aria-label={`Halaman ${p}`}

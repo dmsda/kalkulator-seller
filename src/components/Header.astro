@@ -42,10 +42,10 @@ const navItems = [
           <a
             href={item.href}
             aria-current={isActive ? 'page' : undefined}
-            class={`min-h-[44px] inline-flex items-center px-3.5 py-2 text-xs lg:text-sm font-medium rounded-lg transition-colors ${
+            class={`min-h-[44px] inline-flex items-center px-3.5 py-2 text-xs lg:text-sm rounded-lg transition-colors ${
               isActive
-                ? 'bg-[#14213D] text-white font-semibold shadow-2xs'
-                : 'text-[#525252] hover:text-[#14213D] hover:bg-[#F3F4F6]'
+                ? 'text-[#14213D] font-semibold bg-[#F4F5F7]'
+                : 'text-[#525252] hover:text-[#14213D] hover:bg-[#F8F9FA] font-medium'
             }`}
           >
             {item.label}

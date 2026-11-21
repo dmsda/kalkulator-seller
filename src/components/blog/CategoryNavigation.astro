@@ -11,10 +11,10 @@ const { currentCategory = '', categories } = Astro.props;
   <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
     <a
       href="/blog/"
-      class={`px-3.5 py-1.5 text-xs font-medium rounded-lg whitespace-nowrap transition-colors min-h-[36px] inline-flex items-center ${
+      class={`px-3.5 py-1.5 text-xs rounded-lg whitespace-nowrap transition-colors min-h-[36px] inline-flex items-center border ${
         !currentCategory
-          ? 'bg-[#14213D] text-white font-semibold'
-          : 'bg-[#F4F5F7] text-[#525252] hover:text-[#14213D] hover:bg-[#E5E5E5]'
+          ? 'bg-[#F4F5F7] text-[#14213D] font-bold border-[#CBD5E1]'
+          : 'bg-white text-[#525252] border-[#E5E5E5] hover:text-[#14213D] hover:bg-[#F8F9FA] font-medium'
       }`}
     >
       Semua Artikel
@@ -25,15 +25,15 @@ const { currentCategory = '', categories } = Astro.props;
       return (
         <a
           href={`/blog/category/${cat.slug}/`}
-          class={`px-3.5 py-1.5 text-xs font-medium rounded-lg whitespace-nowrap transition-colors min-h-[36px] inline-flex items-center gap-1.5 ${
+          class={`px-3.5 py-1.5 text-xs rounded-lg whitespace-nowrap transition-colors min-h-[36px] inline-flex items-center gap-1.5 border ${
             isActive
-              ? 'bg-[#14213D] text-white font-semibold'
-              : 'bg-[#F4F5F7] text-[#525252] hover:text-[#14213D] hover:bg-[#E5E5E5]'
+              ? 'bg-[#F4F5F7] text-[#14213D] font-bold border-[#CBD5E1]'
+              : 'bg-white text-[#525252] border-[#E5E5E5] hover:text-[#14213D] hover:bg-[#F8F9FA] font-medium'
           }`}
         >
           <span>{cat.name}</span>
           <span class={`text-[10px] px-1.5 py-0.2 rounded-full ${
-            isActive ? 'bg-white/20 text-white' : 'bg-[#E5E5E5] text-[#525252]'
+            isActive ? 'bg-[#E5E5E5] text-[#14213D] font-bold' : 'bg-[#F4F5F7] text-[#525252]'
           }`}>
             {cat.count}
           </span>
