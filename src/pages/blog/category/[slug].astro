@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import BlogCard from '../../../components/blog/BlogCard.astro';
+import CategoryNavigation from '../../../components/blog/CategoryNavigation.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+
+  // Kumpulkan kategori unik
+  const categoryMap = new Map<string, { name: string; slug: string; posts: any[] }>();
+
+  posts.forEach((post) => {
+    const cat = post.data.category || 'Tips Jualan Online';
+    const slug = cat.toLowerCase().replace(/\s+/g, '-');
+    if (!categoryMap.has(slug)) {
+      categoryMap.set(slug, { name: cat, slug, posts: [] });
+    }
+    categoryMap.get(slug)!.posts.push(post);
+  });
+
+  return Array.from(categoryMap.values()).map((catData) => ({
+    params: { slug: catData.slug },
+    props: {
+      category: catData.name,
+      slug: catData.slug,
+      posts: catData.posts.sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()),
+      allPosts: posts,
+    },
+  }));
+}
+
+const { category, slug, posts, allPosts } = Astro.props;
+
+// Hitung total kategori untuk navigasi
+const categoriesMap = new Map<string, number>();
+allPosts.forEach((p) => {
+  const cat = p.data.category || 'Tips Jualan Online';
+  categoriesMap.set(cat, (categoriesMap.get(cat) || 0) + 1);
+});
+
+const categories = Array.from(categoriesMap.entries()).map(([name, count]) => ({
+  name,
+  count,
+  slug: name.toLowerCase().replace(/\s+/g, '-'),
+}));
+
+const pageUrl = `https://kalkulatorseller.pages.dev/blog/category/${slug}/`;
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Beranda',
+      item: 'https://kalkulatorseller.pages.dev/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Blog',
+      item: 'https://kalkulatorseller.pages.dev/blog/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: category,
+      item: pageUrl,
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={`Kategori: ${category}`}
+  description={`Kumpulan artikel dan panduan praktis untuk kategori ${category} di KalkulatorSeller.`}
+  canonicalUrl={pageUrl}
+  currentPath={`/blog/category/${slug}/`}
+  jsonLd={[breadcrumbSchema]}
+>
+  <!-- Breadcrumb -->
+  <nav aria-label="Breadcrumb" class="mb-4">
+    <ol class="flex items-center gap-2 text-xs text-[#525252] list-none p-0 m-0">
+      <li>
+        <a href="/" class="hover:text-[#14213D] underline-offset-2 hover:underline">Beranda</a>
+      </li>
+      <li class="select-none" aria-hidden="true">&rsaquo;</li>
+      <li>
+        <a href="/blog/" class="hover:text-[#14213D] underline-offset-2 hover:underline">Blog</a>
+      </li>
+      <li class="select-none" aria-hidden="true">&rsaquo;</li>
+      <li class="font-semibold text-[#14213D]" aria-current="page">Kategori: {category}</li>
+    </ol>
+  </nav>
+
+  <!-- Header Section -->
+  <section class="mb-8 space-y-2">
+    <div class="inline-block text-xs font-semibold text-[#14213D] bg-[#F4F5F7] px-3 py-1 rounded-md">
+      Kategori
+    </div>
+    <h1 class="text-2xl sm:text-3xl font-extrabold text-[#14213D] tracking-tight">
+      {category}
+    </h1>
+    <p class="text-xs sm:text-sm text-[#525252] leading-relaxed max-w-2xl">
+      Menampilkan {posts.length} artikel seputar {category} untuk memandu langkah jualan online Anda.
+    </p>
+  </section>
+
+  <!-- Category Filter Bar -->
+  <CategoryNavigation categories={categories} currentCategory={category} />
+
+  <!-- Articles Grid -->
+  <section class="mt-8 space-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {posts.map((post) => (
+        <BlogCard post={post} />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

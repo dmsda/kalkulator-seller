@@ -1,0 +1,124 @@
+---
+interface Props {
+  placeholder?: string;
+}
+
+const { placeholder = 'Cari artikel panduan, tips, atau topik...' } = Astro.props;
+---
+
+<div class="w-full mb-8" id="blog-search-container">
+  <div class="relative max-w-md">
+    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#525252]">
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M16.65 11a5.65 5.65 0 11-11.3 0 5.65 5.65 0 0111.3 0z" />
+      </svg>
+    </div>
+
+    <input
+      type="search"
+      id="blog-search-input"
+      placeholder={placeholder}
+      aria-label="Cari artikel blog"
+      class="w-full pl-10 pr-10 py-2.5 text-xs sm:text-sm bg-white border border-[#E5E5E5] rounded-lg text-[#14213D] placeholder-[#9CA3AF] focus:border-[#14213D] transition-colors"
+      autocomplete="off"
+    />
+
+    <button
+      type="button"
+      id="blog-search-clear"
+      aria-label="Hapus kata kunci pencarian"
+      class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-[#9CA3AF] hover:text-[#14213D] transition-colors cursor-pointer"
+    >
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <div id="blog-search-status" class="mt-2.5 text-xs text-[#525252] hidden" aria-live="polite">
+    Menampilkan <span id="blog-search-count" class="font-bold text-[#14213D]">0</span> artikel untuk "<span id="blog-search-term" class="font-medium text-[#14213D]"></span>"
+  </div>
+</div>
+
+<script>
+  function setupBlogSearch() {
+    const input = document.getElementById('blog-search-input') as HTMLInputElement | null;
+    const clearBtn = document.getElementById('blog-search-clear');
+    const status = document.getElementById('blog-search-status');
+    const countEl = document.getElementById('blog-search-count');
+    const termEl = document.getElementById('blog-search-term');
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('.blog-card-item'));
+    const featuredSection = document.getElementById('blog-featured-section');
+    const emptyState = document.getElementById('blog-search-empty');
+
+    if (!input) return;
+
+    function filterPosts(query: string) {
+      const q = query.trim().toLowerCase();
+
+      if (!q) {
+        if (clearBtn) clearBtn.classList.add('hidden');
+        if (status) status.classList.add('hidden');
+        if (featuredSection) featuredSection.classList.remove('hidden');
+        if (emptyState) emptyState.classList.add('hidden');
+        cards.forEach((c) => (c.style.display = ''));
+        return;
+      }
+
+      if (clearBtn) clearBtn.classList.remove('hidden');
+      if (status) status.classList.remove('hidden');
+      if (termEl) termEl.textContent = query.trim();
+      if (featuredSection) featuredSection.classList.add('hidden');
+
+      let visibleCount = 0;
+
+      cards.forEach((card) => {
+        const title = (card.dataset.title || '').toLowerCase();
+        const category = (card.dataset.category || '').toLowerCase();
+        const tags = (card.dataset.tags || '').toLowerCase();
+        const desc = (card.dataset.desc || '').toLowerCase();
+
+        const isMatch = title.includes(q) || category.includes(q) || tags.includes(q) || desc.includes(q);
+
+        if (isMatch) {
+          card.style.display = '';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      if (countEl) countEl.textContent = String(visibleCount);
+
+      if (emptyState) {
+        if (visibleCount === 0) {
+          emptyState.classList.remove('hidden');
+        } else {
+          emptyState.classList.add('hidden');
+        }
+      }
+    }
+
+    input.addEventListener('input', () => {
+      filterPosts(input.value);
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        input.value = '';
+        filterPosts('');
+      }
+    });
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        input.value = '';
+        input.focus();
+        filterPosts('');
+      });
+    }
+  }
+
+  setupBlogSearch();
+  document.addEventListener('astro:page-load', setupBlogSearch);
+</script>

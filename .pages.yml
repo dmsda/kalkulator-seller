@@ -1,0 +1,90 @@
+# Pages CMS Configuration for KalkulatorSeller
+# Documentation: https://pagescms.org/docs/configuration/
+
+media:
+  input: public/images/blog
+  output: /images/blog
+
+content:
+  - name: blog
+    label: Artikel Blog
+    type: collection
+    path: src/content/blog
+    format: frontmatter
+    view:
+      fields: [title, category, publishedAt, draft]
+      primary: title
+    fields:
+      - name: title
+        label: Judul Artikel
+        type: string
+        required: true
+      - name: description
+        label: Deskripsi Singkat
+        type: text
+        required: true
+      - name: slug
+        label: URL Slug (contoh: cara-hitung-untung)
+        type: string
+        required: true
+      - name: body
+        label: Konten Artikel
+        type: rich-text
+      - name: excerpt
+        label: Ringkasan Cuplikan (Opsional)
+        type: text
+      - name: featuredImage
+        label: Gambar Utama (Featured Image)
+        type: image
+      - name: imageAlt
+        label: Alt Text Gambar
+        type: string
+      - name: author
+        label: Penulis
+        type: string
+        default: Tim KalkulatorSeller
+      - name: publishedAt
+        label: Tanggal Publikasi
+        type: date
+      - name: updatedAt
+        label: Tanggal Pembaruan (Opsional)
+        type: date
+      - name: draft
+        label: Simpan Sebagai Draft (Belum Tayang)
+        type: boolean
+        default: false
+      - name: featured
+        label: Jadikan Artikel Unggulan
+        type: boolean
+        default: false
+      - name: category
+        label: Kategori Artikel
+        type: select
+        default: Tips Jualan Online
+        options:
+          - Tips Jualan Online
+          - Shopee
+          - TikTok Shop
+          - Tokopedia
+          - Harga dan Profit
+          - Bisnis Online
+          - Edukasi Seller
+      - name: tags
+        label: Tag (Kata Kunci Topik)
+        type: list
+      - name: seoTitle
+        label: Judul Khusus SEO (Meta Title)
+        type: string
+      - name: seoDescription
+        label: Deskripsi Khusus SEO (Meta Description)
+        type: text
+      - name: ogImage
+        label: Custom Social Media Image (OG Image)
+        type: image
+      - name: canonicalUrl
+        label: Custom Canonical URL (Opsional)
+        type: string
+      - name: noIndex
+        label: Jangan Indeks di Google (noindex)
+        type: boolean
+        default: false

@@ -20,6 +20,7 @@ describe('Technical & On-Page SEO Suite', () => {
       'https://kalkulatorseller.pages.dev/tokopedia/',
       'https://kalkulatorseller.pages.dev/tarif/',
       'https://kalkulatorseller.pages.dev/panduan/',
+      'https://kalkulatorseller.pages.dev/blog/',
       'https://kalkulatorseller.pages.dev/privacy-policy/',
       'https://kalkulatorseller.pages.dev/terms/',
     ];
@@ -56,6 +57,7 @@ describe('Technical & On-Page SEO Suite', () => {
       { file: 'tokopedia/index.html', path: '/tokopedia/' },
       { file: 'tarif/index.html', path: '/tarif/' },
       { file: 'panduan/index.html', path: '/panduan/' },
+      { file: 'blog/index.html', path: '/blog/' },
       { file: 'privacy-policy/index.html', path: '/privacy-policy/' },
       { file: 'terms/index.html', path: '/terms/' },
       { file: '404.html', path: '/404/' },

@@ -1,0 +1,44 @@
+---
+interface Props {
+  currentCategory?: string;
+  categories: Array<{ name: string; count: number; slug: string }>;
+}
+
+const { currentCategory = '', categories } = Astro.props;
+---
+
+<nav aria-label="Navigasi Kategori Blog" class="mb-8">
+  <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+    <a
+      href="/blog/"
+      class={`px-3.5 py-1.5 text-xs font-medium rounded-lg whitespace-nowrap transition-colors min-h-[36px] inline-flex items-center ${
+        !currentCategory
+          ? 'bg-[#14213D] text-white font-semibold'
+          : 'bg-[#F4F5F7] text-[#525252] hover:text-[#14213D] hover:bg-[#E5E5E5]'
+      }`}
+    >
+      Semua Artikel
+    </a>
+
+    {categories.map((cat) => {
+      const isActive = currentCategory.toLowerCase() === cat.name.toLowerCase();
+      return (
+        <a
+          href={`/blog/category/${cat.slug}/`}
+          class={`px-3.5 py-1.5 text-xs font-medium rounded-lg whitespace-nowrap transition-colors min-h-[36px] inline-flex items-center gap-1.5 ${
+            isActive
+              ? 'bg-[#14213D] text-white font-semibold'
+              : 'bg-[#F4F5F7] text-[#525252] hover:text-[#14213D] hover:bg-[#E5E5E5]'
+          }`}
+        >
+          <span>{cat.name}</span>
+          <span class={`text-[10px] px-1.5 py-0.2 rounded-full ${
+            isActive ? 'bg-white/20 text-white' : 'bg-[#E5E5E5] text-[#525252]'
+          }`}>
+            {cat.count}
+          </span>
+        </a>
+      );
+    })}
+  </div>
+</nav>

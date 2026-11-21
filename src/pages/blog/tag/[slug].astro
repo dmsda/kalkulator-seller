@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import BlogCard from '../../../components/blog/BlogCard.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+
+  // Kumpulkan tag unik
+  const tagMap = new Map<string, { name: string; slug: string; posts: any[] }>();
+
+  posts.forEach((post) => {
+    (post.data.tags || []).forEach((tag) => {
+      const slug = tag.toLowerCase().replace(/\s+/g, '-');
+      if (!tagMap.has(slug)) {
+        tagMap.set(slug, { name: tag, slug, posts: [] });
+      }
+      tagMap.get(slug)!.posts.push(post);
+    });
+  });
+
+  return Array.from(tagMap.values()).map((tagData) => ({
+    params: { slug: tagData.slug },
+    props: {
+      tag: tagData.name,
+      slug: tagData.slug,
+      posts: tagData.posts.sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()),
+    },
+  }));
+}
+
+const { tag, slug, posts } = Astro.props;
+const pageUrl = `https://kalkulatorseller.pages.dev/blog/tag/${slug}/`;
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Beranda',
+      item: 'https://kalkulatorseller.pages.dev/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Blog',
+      item: 'https://kalkulatorseller.pages.dev/blog/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: `Topik: #${tag}`,
+      item: pageUrl,
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={`Topik: #${tag}`}
+  description={`Artikel dengan topik #${tag} di Blog KalkulatorSeller.`}
+  canonicalUrl={pageUrl}
+  currentPath={`/blog/tag/${slug}/`}
+  noindex={true}
+  jsonLd={[breadcrumbSchema]}
+>
+  <!-- Breadcrumb -->
+  <nav aria-label="Breadcrumb" class="mb-4">
+    <ol class="flex items-center gap-2 text-xs text-[#525252] list-none p-0 m-0">
+      <li>
+        <a href="/" class="hover:text-[#14213D] underline-offset-2 hover:underline">Beranda</a>
+      </li>
+      <li class="select-none" aria-hidden="true">&rsaquo;</li>
+      <li>
+        <a href="/blog/" class="hover:text-[#14213D] underline-offset-2 hover:underline">Blog</a>
+      </li>
+      <li class="select-none" aria-hidden="true">&rsaquo;</li>
+      <li class="font-semibold text-[#14213D]" aria-current="page">Topik: #{tag}</li>
+    </ol>
+  </nav>
+
+  <!-- Header Section -->
+  <section class="mb-8 space-y-2">
+    <div class="inline-block text-xs font-semibold text-[#14213D] bg-[#F4F5F7] px-3 py-1 rounded-md">
+      Topik Artikel
+    </div>
+    <h1 class="text-2xl sm:text-3xl font-extrabold text-[#14213D] tracking-tight">
+      #{tag}
+    </h1>
+    <p class="text-xs sm:text-sm text-[#525252] leading-relaxed max-w-2xl">
+      Menampilkan {posts.length} artikel dengan topik #{tag}.
+    </p>
+  </section>
+
+  <!-- Articles Grid -->
+  <section class="mt-8 space-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {posts.map((post) => (
+        <BlogCard post={post} />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

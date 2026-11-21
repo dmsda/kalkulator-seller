@@ -1,0 +1,60 @@
+---
+interface Props {
+  category?: string;
+}
+
+const { category = '' } = Astro.props;
+
+let targetUrl = '/';
+let title = 'Hitung Keuntungan Bersih Toko Anda Sekarang';
+let description = 'Ketahui sisa uang nyata yang Anda bawa pulang setelah dipotong biaya admin marketplace dan perlengkapan packing. Gratis & data 100% aman di HP Anda.';
+let buttonLabel = 'Buka Kalkulator Utama';
+
+const lowerCat = category.toLowerCase();
+if (lowerCat.includes('shopee')) {
+  targetUrl = '/shopee/';
+  title = 'Cek Potongan Biaya Admin Shopee Toko Anda';
+  description = 'Hitung potongan Star Seller, Non-Star, Gratis Ongkir XTRA (cap Rp10.000), dan biaya proses pesanan secara akurat.';
+  buttonLabel = 'Hitung Untung Shopee';
+} else if (lowerCat.includes('tiktok')) {
+  targetUrl = '/tiktok-shop/';
+  title = 'Hitung Komisi & Potongan TikTok Shop';
+  description = 'Ketahui sisa uang bersih penjualan live shopping setelah dipotong komisi kategori dan komisi affiliate kreator.';
+  buttonLabel = 'Hitung Untung TikTok Shop';
+} else if (lowerCat.includes('tokopedia')) {
+  targetUrl = '/tokopedia/';
+  title = 'Simulasikan Potongan Biaya Layanan Tokopedia';
+  description = 'Hitung biaya Power Merchant kategori Grup 1-4 dan biaya Bebas Ongkir sebelum menentukan harga produk.';
+  buttonLabel = 'Hitung Untung Tokopedia';
+}
+---
+
+<div class="my-10 p-6 sm:p-8 bg-[#14213D] text-white rounded-2xl space-y-4">
+  <div class="space-y-1.5">
+    <span class="text-[11px] font-bold uppercase tracking-wider text-[#FCA311]">
+      Alat Bantu Gratis untuk Seller
+    </span>
+    <h3 class="text-lg sm:text-xl font-bold leading-tight">
+      {title}
+    </h3>
+    <p class="text-xs sm:text-sm text-[#E5E5E5] leading-relaxed max-w-xl">
+      {description}
+    </p>
+  </div>
+
+  <div class="pt-2 flex flex-wrap items-center gap-3">
+    <a
+      href={targetUrl}
+      class="px-5 py-2.5 bg-[#FCA311] hover:bg-[#e0910e] text-[#14213D] font-bold text-xs sm:text-sm rounded-lg transition-colors inline-flex items-center gap-1.5 min-h-[44px]"
+    >
+      <span>{buttonLabel}</span>
+      <span aria-hidden="true">&rarr;</span>
+    </a>
+    <a
+      href="/tarif/"
+      class="px-4 py-2.5 bg-transparent hover:bg-white/10 text-white font-medium text-xs sm:text-sm rounded-lg border border-white/20 transition-colors inline-flex items-center min-h-[44px]"
+    >
+      Cek Daftar Tarif Resmi
+    </a>
+  </div>
+</div>

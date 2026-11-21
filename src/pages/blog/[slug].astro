@@ -1,0 +1,232 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { calculateReadingTime } from '../../utils/readingTime.js';
+import TableOfContents from '../../components/blog/TableOfContents.astro';
+import BlogCTA from '../../components/blog/BlogCTA.astro';
+import RelatedArticles from '../../components/blog/RelatedArticles.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.data.slug || post.id },
+    props: { post, allPosts: posts },
+  }));
+}
+
+const { post, allPosts } = Astro.props;
+const { Content, headings } = await render(post);
+
+const slug = post.data.slug || post.id;
+const articleUrl = `https://kalkulatorseller.pages.dev/blog/${slug}/`;
+const readingTime = calculateReadingTime(post.body || post.data.description);
+
+const categorySlug = (post.data.category || 'tips-jualan-online').toLowerCase().replace(/\s+/g, '-');
+
+const formattedPublishedDate = new Intl.DateTimeFormat('id-ID', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+}).format(post.data.publishedAt);
+
+const formattedUpdatedDate = post.data.updatedAt
+  ? new Intl.DateTimeFormat('id-ID', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    }).format(post.data.updatedAt)
+  : null;
+
+// Structured Data: BreadcrumbList & BlogPosting
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Beranda',
+      item: 'https://kalkulatorseller.pages.dev/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Blog',
+      item: 'https://kalkulatorseller.pages.dev/blog/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: post.data.category || 'Tips Jualan Online',
+      item: `https://kalkulatorseller.pages.dev/blog/category/${categorySlug}/`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 4,
+      name: post.data.title,
+      item: articleUrl,
+    },
+  ],
+};
+
+const blogPostingSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  image: post.data.featuredImage
+    ? [`https://kalkulatorseller.pages.dev${post.data.featuredImage}`]
+    : ['https://kalkulatorseller.pages.dev/og-image.png'],
+  datePublished: post.data.publishedAt.toISOString(),
+  dateModified: post.data.updatedAt ? post.data.updatedAt.toISOString() : post.data.publishedAt.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: post.data.author || 'Tim KalkulatorSeller',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'KalkulatorSeller',
+    url: 'https://kalkulatorseller.pages.dev',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://kalkulatorseller.pages.dev/logo.png',
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': articleUrl,
+  },
+};
+---
+
+<BaseLayout
+  title={post.data.seoTitle || post.data.title}
+  description={post.data.seoDescription || post.data.description}
+  canonicalUrl={post.data.canonicalUrl || articleUrl}
+  currentPath={`/blog/${slug}/`}
+  image={post.data.ogImage || post.data.featuredImage}
+  noindex={post.data.noIndex}
+  ogType="article"
+  jsonLd={[breadcrumbSchema, blogPostingSchema]}
+>
+  <article class="max-w-3xl mx-auto">
+    <!-- Breadcrumb -->
+    <nav aria-label="Breadcrumb" class="mb-5">
+      <ol class="flex items-center flex-wrap gap-2 text-xs text-[#525252] list-none p-0 m-0">
+        <li>
+          <a href="/" class="hover:text-[#14213D] underline-offset-2 hover:underline">Beranda</a>
+        </li>
+        <li class="select-none" aria-hidden="true">&rsaquo;</li>
+        <li>
+          <a href="/blog/" class="hover:text-[#14213D] underline-offset-2 hover:underline">Blog</a>
+        </li>
+        <li class="select-none" aria-hidden="true">&rsaquo;</li>
+        <li>
+          <a
+            href={`/blog/category/${categorySlug}/`}
+            class="hover:text-[#14213D] underline-offset-2 hover:underline"
+          >
+            {post.data.category || 'Tips Jualan Online'}
+          </a>
+        </li>
+        <li class="select-none" aria-hidden="true">&rsaquo;</li>
+        <li class="font-semibold text-[#14213D] truncate max-w-[200px] sm:max-w-xs" aria-current="page">
+          {post.data.title}
+        </li>
+      </ol>
+    </nav>
+
+    <!-- Header Artikel -->
+    <header class="mb-8 space-y-4">
+      <div class="flex items-center gap-2 flex-wrap">
+        <a
+          href={`/blog/category/${categorySlug}/`}
+          class="font-semibold text-xs text-[#14213D] bg-[#F4F5F7] px-3 py-1 rounded-md hover:bg-[#E5E5E5] transition-colors"
+        >
+          {post.data.category || 'Tips Jualan Online'}
+        </a>
+        <span class="text-xs text-[#525252] font-mono">&bull;</span>
+        <span class="text-xs text-[#525252] font-mono">{readingTime.text}</span>
+      </div>
+
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#14213D] leading-tight tracking-tight">
+        {post.data.title}
+      </h1>
+
+      <p class="text-sm sm:text-base text-[#525252] leading-relaxed">
+        {post.data.description}
+      </p>
+
+      <div class="pt-3 border-t border-[#E5E5E5] flex items-center justify-between flex-wrap gap-2 text-xs text-[#525252]">
+        <div class="flex items-center gap-2">
+          <span class="font-semibold text-[#14213D]">{post.data.author || 'Tim KalkulatorSeller'}</span>
+          <span>&bull;</span>
+          <time datetime={post.data.publishedAt.toISOString()}>{formattedPublishedDate}</time>
+        </div>
+        {formattedUpdatedDate && (
+          <span class="text-[11px] bg-[#F8F9FA] px-2 py-0.5 rounded border border-[#E5E5E5]">
+            Diperbarui: {formattedUpdatedDate}
+          </span>
+        )}
+      </div>
+    </header>
+
+    <!-- Featured Image -->
+    {post.data.featuredImage && (
+      <figure class="mb-8 overflow-hidden rounded-xl border border-[#E5E5E5] bg-[#F4F5F7]">
+        <img
+          src={post.data.featuredImage}
+          alt={post.data.imageAlt || post.data.title}
+          class="w-full h-auto object-cover max-h-[420px]"
+          loading="eager"
+          decoding="async"
+          width="1200"
+          height="675"
+        />
+        {post.data.imageAlt && (
+          <figcaption class="p-2 text-center text-[11px] text-[#525252] bg-white border-t border-[#E5E5E5]">
+            {post.data.imageAlt}
+          </figcaption>
+        )}
+      </figure>
+    )}
+
+    <!-- Table of Contents -->
+    <TableOfContents headings={headings} />
+
+    <!-- Konten Markdown Artikel -->
+    <div class="article-prose">
+      <Content />
+    </div>
+
+    <!-- Tags -->
+    {post.data.tags && post.data.tags.length > 0 && (
+      <div class="mt-10 pt-6 border-t border-[#E5E5E5]">
+        <div class="flex items-center gap-2 flex-wrap text-xs">
+          <span class="font-semibold text-[#14213D]">Topik:</span>
+          {post.data.tags.map((tag) => {
+            const tagSlug = tag.toLowerCase().replace(/\s+/g, '-');
+            return (
+              <a
+                href={`/blog/tag/${tagSlug}/`}
+                class="bg-[#F8F9FA] border border-[#E5E5E5] px-2.5 py-1 rounded-md text-[#525252] hover:text-[#14213D] hover:border-[#14213D] transition-colors"
+              >
+                #{tag}
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    )}
+
+    <!-- Interactive CTA to Calculator -->
+    <BlogCTA category={post.data.category} />
+
+    <!-- Related Articles -->
+    <RelatedArticles
+      currentSlug={slug}
+      category={post.data.category}
+      allPosts={allPosts}
+    />
+  </article>
+</BaseLayout>

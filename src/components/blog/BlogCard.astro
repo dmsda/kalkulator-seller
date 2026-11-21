@@ -1,0 +1,82 @@
+---
+import { calculateReadingTime } from '../../utils/readingTime.js';
+
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'> | any;
+}
+
+const { post } = Astro.props;
+const slug = post.data.slug || post.id;
+const url = `/blog/${slug}/`;
+const readingTime = calculateReadingTime(post.body || post.data.description);
+const formattedDate = new Intl.DateTimeFormat('id-ID', {
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+}).format(post.data.publishedAt);
+
+const categorySlug = (post.data.category || 'tips-jualan-online').toLowerCase().replace(/\s+/g, '-');
+---
+
+<article
+  class="blog-card-item flex flex-col bg-white border border-[#E5E5E5] rounded-xl overflow-hidden hover:border-[#14213D] transition-all duration-200 group h-full"
+  data-title={post.data.title}
+  data-category={post.data.category || ''}
+  data-tags={(post.data.tags || []).join(' ')}
+  data-desc={post.data.excerpt || post.data.description}
+>
+  <!-- Thumbnail Image -->
+  <a href={url} class="block aspect-video w-full overflow-hidden bg-[#F4F5F7] relative" tabindex="-1" aria-hidden="true">
+    {post.data.featuredImage ? (
+      <img
+        src={post.data.featuredImage}
+        alt={post.data.imageAlt || post.data.title}
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        loading="lazy"
+        decoding="async"
+        width="600"
+        height="338"
+      />
+    ) : (
+      <div class="w-full h-full flex items-center justify-center text-[#14213D] font-bold text-lg bg-[#F8F9FA]">
+        KalkulatorSeller
+      </div>
+    )}
+  </a>
+
+  <!-- Card Body -->
+  <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+    <div class="space-y-2.5">
+      <!-- Category Badge & Reading Time -->
+      <div class="flex items-center justify-between text-xs gap-2">
+        <a
+          href={`/blog/category/${categorySlug}/`}
+          class="font-semibold text-[#14213D] bg-[#F4F5F7] px-2.5 py-1 rounded-md hover:bg-[#E5E5E5] transition-colors"
+        >
+          {post.data.category || 'Tips Jualan Online'}
+        </a>
+        <span class="text-[11px] text-[#525252] font-mono">{readingTime.text}</span>
+      </div>
+
+      <!-- Title -->
+      <h3 class="text-base sm:text-lg font-bold text-[#14213D] leading-snug group-hover:text-[#FCA311] transition-colors">
+        <a href={url} class="focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#14213D] rounded-xs">
+          {post.data.title}
+        </a>
+      </h3>
+
+      <!-- Excerpt / Description -->
+      <p class="text-xs text-[#525252] leading-relaxed line-clamp-2">
+        {post.data.excerpt || post.data.description}
+      </p>
+    </div>
+
+    <!-- Meta Footer -->
+    <div class="pt-3 border-t border-[#E5E5E5] flex items-center justify-between text-[11px] text-[#525252]">
+      <span>{post.data.author || 'Tim KalkulatorSeller'}</span>
+      <time datetime={post.data.publishedAt.toISOString()}>{formattedDate}</time>
+    </div>
+  </div>
+</article>
