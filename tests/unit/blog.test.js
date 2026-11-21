@@ -130,4 +130,34 @@ describe('Blog System Unit & Integration Suite', () => {
       expect(html).toContain('<meta name="robots" content="noindex, nofollow"');
     });
   });
+
+  describe('Blog Pagination Verification', () => {
+    it('verifies /blog/index.html contains active page 1 and link to page 2', () => {
+      const blogIndexPath = path.join(distDir, 'blog', 'index.html');
+      const html = fs.readFileSync(blogIndexPath, 'utf-8');
+
+      expect(html).toContain('id="blog-pagination-wrapper"');
+      expect(html).toContain('aria-label="Navigasi Halaman Artikel"');
+      expect(html).toContain('Halaman 1 dari 2');
+      expect(html).toContain('href="/blog/page/2/"');
+    });
+
+    it('verifies /blog/page/2/index.html is statically generated with correct canonical, pagination, and articles', () => {
+      const page2Path = path.join(distDir, 'blog', 'page', '2', 'index.html');
+      expect(fs.existsSync(page2Path)).toBe(true);
+
+      const html = fs.readFileSync(page2Path, 'utf-8');
+      expect(html).toContain('<title>Blog Edukasi &amp; Tips Jualan Online — Halaman 2 — KalkulatorSeller</title>');
+      expect(html).toContain('<link rel="canonical" href="https://kalkulatorseller.pages.dev/blog/page/2/">');
+      expect(html).toContain('Halaman 2 dari 2');
+      expect(html).toContain('href="/blog/"');
+      expect(html).toContain('aria-label="Ke halaman sebelumnya"');
+    });
+
+    it('verifies sitemap.xml includes paginated blog route', () => {
+      const sitemapPath = path.join(distDir, 'sitemap.xml');
+      const sitemapContent = fs.readFileSync(sitemapPath, 'utf-8');
+      expect(sitemapContent).toContain('https://kalkulatorseller.pages.dev/blog/page/2/');
+    });
+  });
 });

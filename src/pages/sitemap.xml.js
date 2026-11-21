@@ -1,4 +1,5 @@
 import { getCollection } from 'astro:content';
+import { POSTS_PER_PAGE } from '../utils/blogConfig.js';
 
 export async function GET() {
   const siteUrl = 'https://kalkulatorseller.pages.dev';
@@ -48,7 +49,19 @@ export async function GET() {
       lastmod: currentDate,
     }));
 
-    blogPages = [...postUrls, ...categoryUrls];
+    // Halaman pagination blog (/blog/page/2/, dst)
+    const totalPages = Math.ceil(publishedPosts.length / POSTS_PER_PAGE);
+    const paginationUrls = [];
+    for (let p = 2; p <= totalPages; p++) {
+      paginationUrls.push({
+        url: `/blog/page/${p}/`,
+        priority: '0.6',
+        changefreq: 'weekly',
+        lastmod: currentDate,
+      });
+    }
+
+    blogPages = [...postUrls, ...categoryUrls, ...paginationUrls];
   } catch (err) {
     console.error('Error fetching blog posts for sitemap:', err);
   }

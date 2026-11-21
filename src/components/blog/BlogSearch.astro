@@ -50,6 +50,7 @@ const { placeholder = 'Cari artikel panduan, tips, atau topik...' } = Astro.prop
     const cards = Array.from(document.querySelectorAll<HTMLElement>('.blog-card-item'));
     const featuredSection = document.getElementById('blog-featured-section');
     const emptyState = document.getElementById('blog-search-empty');
+    const paginationWrapper = document.getElementById('blog-pagination-wrapper');
 
     if (!input) return;
 
@@ -61,6 +62,7 @@ const { placeholder = 'Cari artikel panduan, tips, atau topik...' } = Astro.prop
         if (status) status.classList.add('hidden');
         if (featuredSection) featuredSection.classList.remove('hidden');
         if (emptyState) emptyState.classList.add('hidden');
+        if (paginationWrapper) paginationWrapper.classList.remove('hidden');
         cards.forEach((c) => (c.style.display = ''));
         return;
       }
@@ -69,6 +71,7 @@ const { placeholder = 'Cari artikel panduan, tips, atau topik...' } = Astro.prop
       if (status) status.classList.remove('hidden');
       if (termEl) termEl.textContent = query.trim();
       if (featuredSection) featuredSection.classList.add('hidden');
+      if (paginationWrapper) paginationWrapper.classList.add('hidden');
 
       let visibleCount = 0;
 

@@ -1,0 +1,148 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import BlogCard from '../../../components/blog/BlogCard.astro';
+import CategoryNavigation from '../../../components/blog/CategoryNavigation.astro';
+import BlogSearch from '../../../components/blog/BlogSearch.astro';
+import BlogPagination from '../../../components/blog/BlogPagination.astro';
+import { POSTS_PER_PAGE } from '../../../utils/blogConfig.js';
+
+export async function getStaticPaths() {
+  const allPosts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+    (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+  );
+
+  const categoriesMap = new Map<string, number>();
+  allPosts.forEach((post) => {
+    const cat = post.data.category || 'Tips Jualan Online';
+    categoriesMap.set(cat, (categoriesMap.get(cat) || 0) + 1);
+  });
+
+  const categories = Array.from(categoriesMap.entries()).map(([name, count]) => ({
+    name,
+    count,
+    slug: name.toLowerCase().replace(/\s+/g, '-'),
+  }));
+
+  const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
+
+  // Generate paths for page 2 onwards (page 1 is handled by /blog/index.astro)
+  const paths = [];
+  for (let p = 2; p <= totalPages; p++) {
+    const start = (p - 1) * POSTS_PER_PAGE;
+    const paginatedPosts = allPosts.slice(start, start + POSTS_PER_PAGE);
+
+    paths.push({
+      params: { page: String(p) },
+      props: {
+        currentPage: p,
+        totalPages,
+        posts: paginatedPosts,
+        allPosts,
+        categories,
+      },
+    });
+  }
+
+  return paths;
+}
+
+const { currentPage, totalPages, posts, allPosts, categories } = Astro.props;
+const pageUrl = `https://kalkulatorseller.pages.dev/blog/page/${currentPage}/`;
+
+// JSON-LD Structured Data
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Beranda',
+      item: 'https://kalkulatorseller.pages.dev/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Blog',
+      item: 'https://kalkulatorseller.pages.dev/blog/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: `Halaman ${currentPage}`,
+      item: pageUrl,
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={`Blog Edukasi & Tips Jualan Online — Halaman ${currentPage}`}
+  description={`Halaman ${currentPage} — Kumpulan panduan praktis, tips penentuan harga jual, dan edukasi potongan biaya admin marketplace untuk seller.`}
+  currentPath={`/blog/page/${currentPage}/`}
+  canonicalUrl={pageUrl}
+  jsonLd={[breadcrumbSchema]}
+>
+  <!-- Breadcrumb -->
+  <nav aria-label="Breadcrumb" class="mb-4">
+    <ol class="flex items-center gap-2 text-xs text-[#525252] list-none p-0 m-0">
+      <li>
+        <a href="/" class="hover:text-[#14213D] underline-offset-2 hover:underline">Beranda</a>
+      </li>
+      <li class="select-none" aria-hidden="true">&rsaquo;</li>
+      <li>
+        <a href="/blog/" class="hover:text-[#14213D] underline-offset-2 hover:underline">Blog</a>
+      </li>
+      <li class="select-none" aria-hidden="true">&rsaquo;</li>
+      <li class="font-semibold text-[#14213D]" aria-current="page">Halaman {currentPage}</li>
+    </ol>
+  </nav>
+
+  <!-- Header Section -->
+  <section class="mb-8 space-y-2">
+    <h1 class="text-2xl sm:text-3xl font-extrabold text-[#14213D] tracking-tight">
+      Blog KalkulatorSeller
+    </h1>
+    <p class="text-xs sm:text-sm text-[#525252] leading-relaxed max-w-2xl">
+      Panduan praktis, tips kalkulasi harga jual yang aman, dan edukasi potongan komisi marketplace untuk membantu Anda jualan ramai dan tetap untung nyata.
+    </p>
+  </section>
+
+  <!-- Category Filter & Search Bar -->
+  <CategoryNavigation categories={categories} />
+  <BlogSearch />
+
+  <!-- Articles Grid -->
+  <section class="mt-8 space-y-6">
+    <div class="flex items-center justify-between border-b border-[#E5E5E5] pb-3">
+      <h2 class="text-lg sm:text-xl font-bold text-[#14213D]">
+        Semua Artikel ({allPosts.length})
+      </h2>
+      <span class="text-xs text-[#525252]">
+        Halaman {currentPage} dari {totalPages}
+      </span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="blog-posts-grid">
+      {posts.map((post: any) => (
+        <BlogCard post={post} />
+      ))}
+    </div>
+
+    <!-- Empty State for Search Filter -->
+    <div id="blog-search-empty" class="hidden text-center py-12 bg-[#F8F9FA] rounded-xl border border-[#E5E5E5] p-6 space-y-2">
+      <p class="text-sm font-semibold text-[#14213D]">Tidak ada artikel yang sesuai.</p>
+      <p class="text-xs text-[#525252]">Coba gunakan kata kunci lain seperti "keuntungan", "shopee", "harga jual", atau "admin".</p>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div id="blog-pagination-wrapper">
+      <BlogPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        baseUrl="/blog/"
+      />
+    </div>
+  </section>
+</BaseLayout>

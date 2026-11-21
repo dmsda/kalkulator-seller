@@ -5,6 +5,8 @@ import FeaturedArticle from '../../components/blog/FeaturedArticle.astro';
 import BlogCard from '../../components/blog/BlogCard.astro';
 import CategoryNavigation from '../../components/blog/CategoryNavigation.astro';
 import BlogSearch from '../../components/blog/BlogSearch.astro';
+import BlogPagination from '../../components/blog/BlogPagination.astro';
+import { POSTS_PER_PAGE } from '../../utils/blogConfig.js';
 
 // Ambil artikel yang bukan draft, urutkan terbaru
 const allPosts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
@@ -23,6 +25,10 @@ const categories = Array.from(categoriesMap.entries()).map(([name, count]) => ({
   count,
   slug: name.toLowerCase().replace(/\s+/g, '-'),
 }));
+
+// Pagination
+const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
+const displayedPosts = allPosts.slice(0, POSTS_PER_PAGE);
 
 // Artikel pilihan (featured) atau artikel terbaru
 const featuredPost = allPosts.find((p) => p.data.featured) || allPosts[0];
@@ -111,11 +117,16 @@ const collectionSchema = {
       <h2 class="text-lg sm:text-xl font-bold text-[#14213D]">
         Semua Artikel ({allPosts.length})
       </h2>
+      {totalPages > 1 && (
+        <span class="text-xs text-[#525252]">
+          Halaman 1 dari {totalPages}
+        </span>
+      )}
     </div>
 
-    {allPosts.length > 0 ? (
+    {displayedPosts.length > 0 ? (
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="blog-posts-grid">
-        {allPosts.map((post) => (
+        {displayedPosts.map((post) => (
           <BlogCard post={post} />
         ))}
       </div>
@@ -129,6 +140,15 @@ const collectionSchema = {
     <div id="blog-search-empty" class="hidden text-center py-12 bg-[#F8F9FA] rounded-xl border border-[#E5E5E5] p-6 space-y-2">
       <p class="text-sm font-semibold text-[#14213D]">Tidak ada artikel yang sesuai.</p>
       <p class="text-xs text-[#525252]">Coba gunakan kata kunci lain seperti "keuntungan", "shopee", "harga jual", atau "admin".</p>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div id="blog-pagination-wrapper">
+      <BlogPagination
+        currentPage={1}
+        totalPages={totalPages}
+        baseUrl="/blog/"
+      />
     </div>
   </section>
 </BaseLayout>
