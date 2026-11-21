@@ -57,6 +57,14 @@ const faqSchema = {
         'text': 'Biaya layanan program Bebas Ongkir dikenakan sebesar 4,0% dari harga produk, dengan batas maksimal potongan sebesar Rp10.000 per satu barang yang terjual.',
       },
     },
+    {
+      '@type': 'Question',
+      'name': 'Di mana saya bisa mengecek pengumuman resmi biaya layanan Tokopedia?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Dokumentasi resmi dapat diakses di Bantuan Tokopedia (Biaya Layanan Regular & Power Merchant) serta Pusat Edukasi Seller Tokopedia (Rincian Biaya Layanan Knowledge ID 5411650459305729 dan Skema Bebas Ongkir 6385751723132688).',
+      },
+    },
   ],
 };
 ---
@@ -129,9 +137,21 @@ const faqSchema = {
         <li><strong>Optimasi Pesanan Multi-Unit:</strong> Karena biaya proses Rp1.000 dikenakan per transaksi checkout, pembeli yang memesan paket bundling atau beberapa barang sekaligus akan memberikan margin profit yang lebih tinggi bagi Anda.</li>
         <li><strong>Gunakan Fitur "Cari Harga Jual Ideal":</strong> Tentukan target rupiah untung bersih yang Anda mau, dan biarkan kalkulator menghitung harga jual rekomendasi yang harus dipasang di etalase Tokopedia.</li>
       </ol>
-      <div class="pt-2 text-[11px] flex gap-3 text-[#14213D] font-medium">
+      <div class="pt-2 text-[11px] flex flex-wrap gap-x-4 gap-y-1.5 text-[#14213D] font-medium">
         <a href="/tarif#tokopedia" class="underline hover:no-underline">Lihat tabel grup tarif Tokopedia &rarr;</a>
         <a href="/panduan/" class="underline hover:no-underline">Baca panduan hitung modal HPP &rarr;</a>
+        <a href="https://www.tokopedia.com/help/article/biaya-layanan-seller-regular-dan-power-shop" target="_blank" rel="noopener noreferrer" class="underline hover:no-underline font-semibold inline-flex items-center gap-1">
+          <span>Pusat Bantuan: Biaya Regular & Power Merchant</span>
+          <span aria-hidden="true">&nearr;</span>
+        </a>
+        <a href="https://seller-id.tokopedia.com/university/essay?knowledge_id=5411650459305729" target="_blank" rel="noopener noreferrer" class="underline hover:no-underline inline-flex items-center gap-1">
+          <span>Edukasi: Rincian Biaya Layanan</span>
+          <span aria-hidden="true">&nearr;</span>
+        </a>
+        <a href="https://seller-id.tokopedia.com/university/essay?knowledge_id=6385751723132688" target="_blank" rel="noopener noreferrer" class="underline hover:no-underline inline-flex items-center gap-1">
+          <span>Edukasi: Skema Bebas Ongkir</span>
+          <span aria-hidden="true">&nearr;</span>
+        </a>
       </div>
     </div>
   </section>
@@ -155,6 +175,20 @@ const faqSchema = {
       </summary>
       <p class="text-xs text-[#525252] mt-2 leading-relaxed">
         Biaya layanan program Bebas Ongkir dikenakan sebesar 4,0% dari harga produk, dengan batas maksimal potongan sebesar Rp10.000 per satu barang yang terjual.
+      </p>
+    </details>
+
+    <details class="p-3.5 border border-[#E5E5E5] rounded-md bg-white">
+      <summary class="font-semibold text-xs sm:text-sm text-[#14213D] cursor-pointer">
+        Di mana saya bisa mengecek pengumuman resmi biaya layanan Tokopedia?
+      </summary>
+      <p class="text-xs text-[#525252] mt-2 leading-relaxed">
+        Anda dapat memeriksa dokumentasi resmi di:
+        <span class="block mt-1 space-y-0.5">
+          <a href="https://www.tokopedia.com/help/article/biaya-layanan-seller-regular-dan-power-shop" target="_blank" rel="noopener noreferrer" class="text-[#14213D] underline font-medium block">&bull; Bantuan Tokopedia: Biaya Layanan Seller Regular dan Power Merchant &nearr;</a>
+          <a href="https://seller-id.tokopedia.com/university/essay?knowledge_id=5411650459305729" target="_blank" rel="noopener noreferrer" class="text-[#14213D] underline font-medium block">&bull; Pusat Edukasi Seller: Rincian Biaya Layanan Penjual Tokopedia &nearr;</a>
+          <a href="https://seller-id.tokopedia.com/university/essay?knowledge_id=6385751723132688" target="_blank" rel="noopener noreferrer" class="text-[#14213D] underline font-medium block">&bull; Pusat Edukasi Seller: Skema Bebas Ongkir Tokopedia &nearr;</a>
+        </span>
       </p>
     </details>
   </section>

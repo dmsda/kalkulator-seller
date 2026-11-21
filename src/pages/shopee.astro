@@ -65,6 +65,14 @@ const faqSchema = {
         'text': 'Biaya proses pesanan (Rp1.000) hanya dikenakan 1 kali untuk satu keranjang belanja checkout, berapapun jumlah barang yang dibeli pembeli dalam pesanan tersebut.',
       },
     },
+    {
+      '@type': 'Question',
+      'name': 'Di mana rujukan resmi pengumuman biaya admin Shopee?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Aturan resmi lengkap dipublikasikan di Pusat Edukasi Penjual Shopee pada artikel Ringkasan Biaya Admin Shopee (Artikel 3489). Seluruh simulasi di kalkulator ini disinkronkan secara berkala dengan rujukan tersebut.',
+      },
+    },
   ],
 };
 ---
@@ -138,9 +146,13 @@ const faqSchema = {
         <li><strong>Manfaatkan Batas Maksimal (Cap):</strong> Untuk produk bernilai tinggi (misal di atas Rp250.000), potongan Gratis Ongkir XTRA tidak akan melebihi Rp10.000 per unit karena terlindungi aturan cap Shopee.</li>
         <li><strong>Gunakan Fitur "Cari Harga Jual Ideal":</strong> Masukkan target uang bersih yang Anda inginkan di tab atas kalkulator agar harga jual dihitung otomatis.</li>
       </ol>
-      <div class="pt-2 text-[11px] flex gap-3 text-[#14213D] font-medium">
+      <div class="pt-2 text-[11px] flex flex-wrap gap-x-4 gap-y-1.5 text-[#14213D] font-medium">
         <a href="/tarif#shopee" class="underline hover:no-underline">Lihat tabel tarif lengkap Shopee &rarr;</a>
         <a href="/panduan/" class="underline hover:no-underline">Baca panduan hitung modal HPP &rarr;</a>
+        <a href="https://seller.shopee.co.id/edu/article/3489" target="_blank" rel="noopener noreferrer" class="underline hover:no-underline font-semibold inline-flex items-center gap-1">
+          <span>Pusat Edukasi: Ringkasan Biaya Admin Shopee</span>
+          <span aria-hidden="true">&nearr;</span>
+        </a>
       </div>
     </div>
   </section>
@@ -173,6 +185,15 @@ const faqSchema = {
       </summary>
       <p class="text-xs text-[#525252] mt-2 leading-relaxed">
         Biaya proses pesanan (Rp1.000) hanya dikenakan 1 kali untuk satu keranjang belanja checkout, berapapun jumlah barang yang dibeli pembeli dalam pesanan tersebut.
+      </p>
+    </details>
+
+    <details class="p-3.5 border border-[#E5E5E5] rounded-md bg-white">
+      <summary class="font-semibold text-xs sm:text-sm text-[#14213D] cursor-pointer">
+        Di mana rujukan resmi pengumuman biaya admin Shopee?
+      </summary>
+      <p class="text-xs text-[#525252] mt-2 leading-relaxed">
+        Aturan resmi lengkap dipublikasikan di Pusat Edukasi Penjual Shopee pada artikel <a href="https://seller.shopee.co.id/edu/article/3489" target="_blank" rel="noopener noreferrer" class="text-[#14213D] underline font-semibold">Ringkasan Biaya Admin Shopee (Artikel 3489) &nearr;</a>. Seluruh simulasi di kalkulator ini disinkronkan secara berkala dengan rujukan tersebut.
       </p>
     </details>
   </section>

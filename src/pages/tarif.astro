@@ -5,9 +5,35 @@ import tiktokConfig from '../data/tariffs/tiktok-shop.json';
 import tokopediaConfig from '../data/tariffs/tokopedia.json';
 
 const allTariffs = [
-  { platform: 'Shopee', slug: 'shopee', calcUrl: '/shopee', data: shopeeConfig },
-  { platform: 'TikTok Shop', slug: 'tiktok-shop', calcUrl: '/tiktok-shop', data: tiktokConfig },
-  { platform: 'Tokopedia', slug: 'tokopedia', calcUrl: '/tokopedia', data: tokopediaConfig },
+  {
+    platform: 'Shopee',
+    slug: 'shopee',
+    calcUrl: '/shopee',
+    data: shopeeConfig,
+    references: [
+      { label: 'Ringkasan Biaya Admin Shopee (Pusat Edukasi)', url: 'https://seller.shopee.co.id/edu/article/3489' },
+    ],
+  },
+  {
+    platform: 'TikTok Shop',
+    slug: 'tiktok-shop',
+    calcUrl: '/tiktok-shop',
+    data: tiktokConfig,
+    references: [
+      { label: 'Pembaruan Biaya Komisi & Layanan TikTok Shop (Shop | Tokopedia)', url: 'https://seller-id.tokopedia.com/university/essay?knowledge_id=7753828090824449' },
+    ],
+  },
+  {
+    platform: 'Tokopedia',
+    slug: 'tokopedia',
+    calcUrl: '/tokopedia',
+    data: tokopediaConfig,
+    references: [
+      { label: 'Pusat Bantuan: Biaya Layanan Regular & Power Merchant', url: 'https://www.tokopedia.com/help/article/biaya-layanan-seller-regular-dan-power-shop' },
+      { label: 'Pusat Edukasi: Rincian Biaya Layanan', url: 'https://seller-id.tokopedia.com/university/essay?knowledge_id=5411650459305729' },
+      { label: 'Pusat Edukasi: Skema Bebas Ongkir', url: 'https://seller-id.tokopedia.com/university/essay?knowledge_id=6385751723132688' },
+    ],
+  },
 ];
 
 const breadcrumbSchema = {
@@ -63,7 +89,7 @@ const breadcrumbSchema = {
   </div>
 
   <div class="space-y-12">
-    {allTariffs.map(({ platform, slug, calcUrl, data }) => (
+    {allTariffs.map(({ platform, slug, calcUrl, data, references }) => (
       <section id={slug} class="border border-[#E5E5E5] rounded-lg p-5 bg-white space-y-4 scroll-mt-20">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E5E5E5] pb-3">
           <div>
@@ -85,8 +111,26 @@ const breadcrumbSchema = {
               rel="noopener noreferrer"
               class="text-xs text-[#14213D] font-semibold underline hover:no-underline min-h-[36px] inline-flex items-center"
             >
-              Aturan Resmi &rarr;
+              Aturan Utama &rarr;
             </a>
+          </div>
+        </div>
+
+        <!-- Official References Links Box -->
+        <div class="p-3 bg-[#F8F9FA] rounded border border-[#E5E5E5] text-xs space-y-1.5">
+          <div class="font-semibold text-[#14213D]">Rujukan Resmi {platform}:</div>
+          <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px]">
+            {references.map((ref) => (
+              <a
+                href={ref.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-[#14213D] underline hover:no-underline font-medium inline-flex items-center gap-1 min-h-[28px]"
+              >
+                <span>{ref.label}</span>
+                <span aria-hidden="true">&nearr;</span>
+              </a>
+            ))}
           </div>
         </div>
 

@@ -55,6 +55,14 @@ const faqSchema = {
         'text': 'Sangat aman. Seluruh perhitungan dan daftar produk yang Anda simpan berada 100% di browser HP atau laptop Anda sendiri. Kami tidak memiliki server penyimpanan dan tidak bisa melihat harga modal maupun rahasia dapur toko Anda.',
       },
     },
+    {
+      '@type': 'Question',
+      'name': 'Dari mana data tarif dan potongan biaya ini diperoleh?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Seluruh tarif disinkronkan langsung dari dokumentasi resmi: Ringkasan Biaya Admin Shopee (Pusat Edukasi Artikel 3489), TikTok Shop (Shop | Tokopedia Knowledge ID 7753828090824449), dan Bantuan Tokopedia (Biaya Layanan Regular & Power Merchant serta Bebas Ongkir).',
+      },
+    },
   ],
 };
 ---
@@ -201,6 +209,20 @@ const faqSchema = {
       </summary>
       <p class="text-xs text-[#525252] mt-2 leading-relaxed">
         Sangat aman. Seluruh perhitungan dan daftar produk yang Anda simpan berada 100% di browser HP atau laptop Anda sendiri. Kami tidak memiliki server penyimpanan dan tidak bisa melihat harga modal maupun rahasia dapur toko Anda.
+      </p>
+    </details>
+
+    <details class="p-3.5 border border-[#E5E5E5] rounded-md bg-white">
+      <summary class="font-semibold text-xs sm:text-sm text-[#14213D] cursor-pointer">
+        Dari mana data tarif dan potongan biaya ini diperoleh?
+      </summary>
+      <p class="text-xs text-[#525252] mt-2 leading-relaxed">
+        Seluruh rumus dan tarif di KalkulatorSeller diverifikasi langsung dari dokumentasi resmi pusat edukasi penjual masing-masing marketplace:
+        <span class="block mt-1 space-y-0.5">
+          <a href="https://seller.shopee.co.id/edu/article/3489" target="_blank" rel="noopener noreferrer" class="text-[#14213D] underline font-medium block">&bull; Shopee: Ringkasan Biaya Admin Shopee (Artikel 3489) &nearr;</a>
+          <a href="https://seller-id.tokopedia.com/university/essay?knowledge_id=7753828090824449" target="_blank" rel="noopener noreferrer" class="text-[#14213D] underline font-medium block">&bull; TikTok Shop: Edukasi Komisi & Layanan (Shop | Tokopedia) &nearr;</a>
+          <a href="https://www.tokopedia.com/help/article/biaya-layanan-seller-regular-dan-power-shop" target="_blank" rel="noopener noreferrer" class="text-[#14213D] underline font-medium block">&bull; Tokopedia: Pusat Bantuan Biaya Layanan & Bebas Ongkir &nearr;</a>
+        </span>
       </p>
     </details>
   </section>

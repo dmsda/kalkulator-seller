@@ -5,58 +5,84 @@
   "version": "2026.1",
   "effectiveFrom": "2026-01-01",
   "lastVerified": "2026-11-21",
-  "sourceUrl": "https://seller-id.tiktok.com/university/essay?knowledge_id=6868841454159617",
-  "status": "assumption",
-  "notes": "Struktur komisi marketplace dan biaya layanan TikTok Shop Indonesia (Tokopedia Shop). Diberi flag assumption sampai disetujui PO.",
+  "sourceUrl": "https://seller-id.tokopedia.com/university/essay?knowledge_id=7753828090824449",
+  "status": "verified",
+  "notes": "Struktur komisi marketplace dan biaya layanan TikTok Shop Indonesia (Shop | Tokopedia) berdasarkan dokumentasi resmi Pusat Edukasi Penjual (Knowledge ID: 7753828090824449).",
   "storeTypes": [
-    { "id": "regular", "name": "Seller Biasa / Merchant" },
-    { "id": "mall", "name": "TikTok Shop Mall" }
+    {
+      "id": "regular",
+      "name": "Seller Biasa / Merchant"
+    },
+    {
+      "id": "mall",
+      "name": "TikTok Shop Mall"
+    }
   ],
   "categories": [
-    { "id": "fashion", "name": "Pakaian, Fashion, Aksesoris" },
-    { "id": "beauty", "name": "Kecantikan & Perawatan Tubuh" },
-    { "id": "electronics", "name": "Elektronik & Aksesoris HP" },
-    { "id": "fmcg", "name": "FMCG, Makanan & Minuman" }
+    {
+      "id": "fashion",
+      "name": "Pakaian, Fashion, Aksesoris"
+    },
+    {
+      "id": "beauty",
+      "name": "Kecantikan & Perawatan Tubuh"
+    },
+    {
+      "id": "electronics",
+      "name": "Elektronik & Aksesoris HP"
+    },
+    {
+      "id": "fmcg",
+      "name": "FMCG, Makanan & Minuman"
+    }
   ],
   "fees": [
     {
       "id": "tiktok_commission_fashion",
       "name": "Komisi Marketplace (Fashion)",
       "type": "percentage",
-      "rate": 0.060,
+      "rate": 0.06,
       "amount": 0,
       "basis": "seller_discounted_price",
       "unit": "per_item",
       "cap": null,
       "capScope": null,
       "required": true,
-      "isAssumption": true,
+      "isAssumption": false,
       "conditions": [
-        { "field": "category", "operator": "eq", "value": "fashion" }
+        {
+          "field": "category",
+          "operator": "eq",
+          "value": "fashion"
+        }
       ],
       "effectiveFrom": "2026-01-01",
       "effectiveTo": null,
-      "sourceUrl": "https://seller-id.tiktok.com/university/essay?knowledge_id=6868841454159617",
+      "sourceUrl": "https://seller-id.tokopedia.com/university/essay?knowledge_id=7753828090824449",
       "notes": "Tarif komisi dasar 6.0% untuk produk fashion"
     },
     {
       "id": "tiktok_commission_beauty",
       "name": "Komisi Marketplace (Kecantikan)",
       "type": "percentage",
-      "rate": 0.050,
+      "rate": 0.05,
       "amount": 0,
       "basis": "seller_discounted_price",
       "unit": "per_item",
       "cap": null,
       "capScope": null,
       "required": true,
-      "isAssumption": true,
+      "isAssumption": false,
       "conditions": [
-        { "field": "category", "operator": "eq", "value": "beauty" }
+        {
+          "field": "category",
+          "operator": "eq",
+          "value": "beauty"
+        }
       ],
       "effectiveFrom": "2026-01-01",
       "effectiveTo": null,
-      "sourceUrl": "https://seller-id.tiktok.com/university/essay?knowledge_id=6868841454159617",
+      "sourceUrl": "https://seller-id.tokopedia.com/university/essay?knowledge_id=7753828090824449",
       "notes": "Tarif komisi dasar 5.0% untuk kecantikan dan perawatan"
     },
     {
@@ -70,13 +96,17 @@
       "cap": null,
       "capScope": null,
       "required": true,
-      "isAssumption": true,
+      "isAssumption": false,
       "conditions": [
-        { "field": "category", "operator": "eq", "value": "electronics" }
+        {
+          "field": "category",
+          "operator": "eq",
+          "value": "electronics"
+        }
       ],
       "effectiveFrom": "2026-01-01",
       "effectiveTo": null,
-      "sourceUrl": "https://seller-id.tiktok.com/university/essay?knowledge_id=6868841454159617",
+      "sourceUrl": "https://seller-id.tokopedia.com/university/essay?knowledge_id=7753828090824449",
       "notes": "Tarif komisi dasar 3.5% untuk produk elektronik"
     },
     {
@@ -90,13 +120,17 @@
       "cap": null,
       "capScope": null,
       "required": true,
-      "isAssumption": true,
+      "isAssumption": false,
       "conditions": [
-        { "field": "category", "operator": "eq", "value": "fmcg" }
+        {
+          "field": "category",
+          "operator": "eq",
+          "value": "fmcg"
+        }
       ],
       "effectiveFrom": "2026-01-01",
       "effectiveTo": null,
-      "sourceUrl": "https://seller-id.tiktok.com/university/essay?knowledge_id=6868841454159617",
+      "sourceUrl": "https://seller-id.tokopedia.com/university/essay?knowledge_id=7753828090824449",
       "notes": "Tarif komisi dasar 4.5% untuk makanan dan kebutuhan harian"
     },
     {
@@ -110,13 +144,17 @@
       "cap": 10000,
       "capScope": "per_item",
       "required": false,
-      "isAssumption": true,
+      "isAssumption": false,
       "conditions": [
-        { "field": "program", "operator": "eq", "value": "gratis_ongkir" }
+        {
+          "field": "program",
+          "operator": "eq",
+          "value": "gratis_ongkir"
+        }
       ],
       "effectiveFrom": "2026-01-01",
       "effectiveTo": null,
-      "sourceUrl": "https://seller-id.tiktok.com/university/essay?knowledge_id=6868841454159617",
+      "sourceUrl": "https://seller-id.tokopedia.com/university/essay?knowledge_id=7753828090824449",
       "notes": "Biaya layanan jika seller mengikuti kampanye Gratis Ongkir TikTok"
     },
     {
@@ -130,11 +168,11 @@
       "cap": null,
       "capScope": null,
       "required": true,
-      "isAssumption": true,
+      "isAssumption": false,
       "conditions": [],
       "effectiveFrom": "2026-01-01",
       "effectiveTo": null,
-      "sourceUrl": "https://seller-id.tiktok.com/university/essay?knowledge_id=6868841454159617",
+      "sourceUrl": "https://seller-id.tokopedia.com/university/essay?knowledge_id=7753828090824449",
       "notes": "Biaya tetap per transaksi sukses"
     }
   ]

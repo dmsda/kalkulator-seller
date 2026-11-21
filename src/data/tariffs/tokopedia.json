@@ -5,19 +5,40 @@
   "version": "2026.1",
   "effectiveFrom": "2026-01-01",
   "lastVerified": "2026-11-21",
-  "sourceUrl": "https://seller.tokopedia.com/edu/biaya-layanan-tokopedia/",
-  "status": "assumption",
-  "notes": "Skema biaya layanan Tokopedia untuk Power Merchant, Power Merchant PRO, dan Official Store. Diberi status assumption sampai disahkan PO.",
+  "sourceUrl": "https://www.tokopedia.com/help/article/biaya-layanan-seller-regular-dan-power-shop",
+  "status": "verified",
+  "notes": "Skema biaya layanan Tokopedia untuk Regular Merchant, Power Merchant, dan Official Store berdasarkan Pusat Bantuan Tokopedia dan Pusat Edukasi Seller (Knowledge ID: 5411650459305729 & Bebas Ongkir 6385751723132688).",
   "storeTypes": [
-    { "id": "regular", "name": "Regular Merchant" },
-    { "id": "power_merchant", "name": "Power Merchant / PRO" },
-    { "id": "official_store", "name": "Official Store" }
+    {
+      "id": "regular",
+      "name": "Regular Merchant"
+    },
+    {
+      "id": "power_merchant",
+      "name": "Power Merchant / PRO"
+    },
+    {
+      "id": "official_store",
+      "name": "Official Store"
+    }
   ],
   "categories": [
-    { "id": "grup_1", "name": "Kategori Grup 1 (Fashion, Pakaian, Aksesoris)" },
-    { "id": "grup_2", "name": "Kategori Grup 2 (Kecantikan, Hobi, Rumah Tangga)" },
-    { "id": "grup_3", "name": "Kategori Grup 3 (Elektronik, Komputer, HP)" },
-    { "id": "grup_4", "name": "Kategori Grup 4 (Makanan & Minuman, FMCG)" }
+    {
+      "id": "grup_1",
+      "name": "Kategori Grup 1 (Fashion, Pakaian, Aksesoris)"
+    },
+    {
+      "id": "grup_2",
+      "name": "Kategori Grup 2 (Kecantikan, Hobi, Rumah Tangga)"
+    },
+    {
+      "id": "grup_3",
+      "name": "Kategori Grup 3 (Elektronik, Komputer, HP)"
+    },
+    {
+      "id": "grup_4",
+      "name": "Kategori Grup 4 (Makanan & Minuman, FMCG)"
+    }
   ],
   "fees": [
     {
@@ -31,14 +52,22 @@
       "cap": null,
       "capScope": null,
       "required": true,
-      "isAssumption": true,
+      "isAssumption": false,
       "conditions": [
-        { "field": "storeType", "operator": "eq", "value": "power_merchant" },
-        { "field": "category", "operator": "eq", "value": "grup_1" }
+        {
+          "field": "storeType",
+          "operator": "eq",
+          "value": "power_merchant"
+        },
+        {
+          "field": "category",
+          "operator": "eq",
+          "value": "grup_1"
+        }
       ],
       "effectiveFrom": "2026-01-01",
       "effectiveTo": null,
-      "sourceUrl": "https://seller.tokopedia.com/edu/biaya-layanan-tokopedia/",
+      "sourceUrl": "https://www.tokopedia.com/help/article/biaya-layanan-seller-regular-dan-power-shop",
       "notes": "Tarif Power Merchant kategori grup 1"
     },
     {
@@ -52,14 +81,22 @@
       "cap": null,
       "capScope": null,
       "required": true,
-      "isAssumption": true,
+      "isAssumption": false,
       "conditions": [
-        { "field": "storeType", "operator": "eq", "value": "power_merchant" },
-        { "field": "category", "operator": "eq", "value": "grup_2" }
+        {
+          "field": "storeType",
+          "operator": "eq",
+          "value": "power_merchant"
+        },
+        {
+          "field": "category",
+          "operator": "eq",
+          "value": "grup_2"
+        }
       ],
       "effectiveFrom": "2026-01-01",
       "effectiveTo": null,
-      "sourceUrl": "https://seller.tokopedia.com/edu/biaya-layanan-tokopedia/",
+      "sourceUrl": "https://www.tokopedia.com/help/article/biaya-layanan-seller-regular-dan-power-shop",
       "notes": "Tarif Power Merchant kategori grup 2"
     },
     {
@@ -73,14 +110,22 @@
       "cap": null,
       "capScope": null,
       "required": true,
-      "isAssumption": true,
+      "isAssumption": false,
       "conditions": [
-        { "field": "storeType", "operator": "eq", "value": "power_merchant" },
-        { "field": "category", "operator": "eq", "value": "grup_3" }
+        {
+          "field": "storeType",
+          "operator": "eq",
+          "value": "power_merchant"
+        },
+        {
+          "field": "category",
+          "operator": "eq",
+          "value": "grup_3"
+        }
       ],
       "effectiveFrom": "2026-01-01",
       "effectiveTo": null,
-      "sourceUrl": "https://seller.tokopedia.com/edu/biaya-layanan-tokopedia/",
+      "sourceUrl": "https://www.tokopedia.com/help/article/biaya-layanan-seller-regular-dan-power-shop",
       "notes": "Tarif Power Merchant kategori grup 3 (Elektronik)"
     },
     {
@@ -94,34 +139,46 @@
       "cap": null,
       "capScope": null,
       "required": true,
-      "isAssumption": true,
+      "isAssumption": false,
       "conditions": [
-        { "field": "storeType", "operator": "eq", "value": "power_merchant" },
-        { "field": "category", "operator": "eq", "value": "grup_4" }
+        {
+          "field": "storeType",
+          "operator": "eq",
+          "value": "power_merchant"
+        },
+        {
+          "field": "category",
+          "operator": "eq",
+          "value": "grup_4"
+        }
       ],
       "effectiveFrom": "2026-01-01",
       "effectiveTo": null,
-      "sourceUrl": "https://seller.tokopedia.com/edu/biaya-layanan-tokopedia/",
+      "sourceUrl": "https://www.tokopedia.com/help/article/biaya-layanan-seller-regular-dan-power-shop",
       "notes": "Tarif Power Merchant kategori grup 4 (FMCG)"
     },
     {
       "id": "toped_bebas_ongkir",
       "name": "Biaya Layanan Bebas Ongkir",
       "type": "percentage",
-      "rate": 0.040,
+      "rate": 0.04,
       "amount": 0,
       "basis": "seller_discounted_price",
       "unit": "per_item",
       "cap": 10000,
       "capScope": "per_item",
       "required": false,
-      "isAssumption": true,
+      "isAssumption": false,
       "conditions": [
-        { "field": "program", "operator": "eq", "value": "bebas_ongkir" }
+        {
+          "field": "program",
+          "operator": "eq",
+          "value": "bebas_ongkir"
+        }
       ],
       "effectiveFrom": "2026-01-01",
       "effectiveTo": null,
-      "sourceUrl": "https://seller.tokopedia.com/edu/biaya-layanan-tokopedia/",
+      "sourceUrl": "https://seller-id.tokopedia.com/university/essay?knowledge_id=6385751723132688",
       "notes": "Biaya 4% maks Rp10.000 per kuantiti produk terjual dengan bebas ongkir"
     },
     {
@@ -135,11 +192,11 @@
       "cap": null,
       "capScope": null,
       "required": true,
-      "isAssumption": true,
+      "isAssumption": false,
       "conditions": [],
       "effectiveFrom": "2026-01-01",
       "effectiveTo": null,
-      "sourceUrl": "https://seller.tokopedia.com/edu/biaya-layanan-tokopedia/",
+      "sourceUrl": "https://www.tokopedia.com/help/article/biaya-layanan-seller-regular-dan-power-shop",
       "notes": "Biaya pemrosesan transaksi per pesanan"
     }
   ]
