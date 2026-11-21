@@ -10,6 +10,7 @@ interface Props {
   currentPath?: string;
   noindex?: boolean;
   jsonLd?: Record<string, any> | Array<Record<string, any>>;
+  image?: string;
 }
 
 const {
@@ -19,6 +20,7 @@ const {
   currentPath = Astro.url.pathname,
   noindex = false,
   jsonLd,
+  image,
 } = Astro.props;
 
 // Normalisasi canonical URL secara konsisten dengan trailingSlash: 'always'
@@ -26,6 +28,28 @@ const resolvedCanonical = canonicalUrl || new URL(
   Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`,
   Astro.site || 'https://kalkulatorseller.pages.dev'
 ).href;
+
+// Pemetaan Open Graph Image spesifik per halaman
+const defaultImageMap: Record<string, string> = {
+  '/': '/og-home.png',
+  '/shopee': '/og-shopee.png',
+  '/shopee/': '/og-shopee.png',
+  '/tiktok-shop': '/og-tiktok-shop.png',
+  '/tiktok-shop/': '/og-tiktok-shop.png',
+  '/tokopedia': '/og-tokopedia.png',
+  '/tokopedia/': '/og-tokopedia.png',
+  '/tarif': '/og-tarif.png',
+  '/tarif/': '/og-tarif.png',
+  '/panduan': '/og-panduan.png',
+  '/panduan/': '/og-panduan.png',
+  '/privacy-policy': '/og-privacy-policy.png',
+  '/privacy-policy/': '/og-privacy-policy.png',
+  '/terms': '/og-terms.png',
+  '/terms/': '/og-terms.png',
+};
+
+const resolvedImagePath = image || defaultImageMap[currentPath] || '/og-image.png';
+const resolvedOgImage = new URL(resolvedImagePath, Astro.site || 'https://kalkulatorseller.pages.dev').href;
 
 const schemaArray = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 ---
@@ -55,13 +79,16 @@ const schemaArray = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <meta property="og:title" content={`${title} — KalkulatorSeller`} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={resolvedCanonical} />
-    <meta property="og:image" content={new URL('/og-image.png', Astro.site || 'https://kalkulatorseller.pages.dev').href} />
+    <meta property="og:image" content={resolvedOgImage} />
+    <meta property="og:image:width" content="1734" />
+    <meta property="og:image:height" content="907" />
+    <meta property="og:image:alt" content={`${title} — KalkulatorSeller`} />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={`${title} — KalkulatorSeller`} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL('/og-image.png', Astro.site || 'https://kalkulatorseller.pages.dev').href} />
+    <meta name="twitter:image" content={resolvedOgImage} />
 
     <!-- Structured Data (JSON-LD) -->
     {schemaArray.map((schema) => (

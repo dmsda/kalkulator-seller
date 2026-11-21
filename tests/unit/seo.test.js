@@ -127,4 +127,30 @@ describe('Technical & On-Page SEO Suite', () => {
       }
     }
   });
+
+  it('verifies all generated static pages have valid Open Graph and Twitter images', () => {
+    const pageImageMap = {
+      'index.html': 'og-home.png',
+      'shopee/index.html': 'og-shopee.png',
+      'tiktok-shop/index.html': 'og-tiktok-shop.png',
+      'tokopedia/index.html': 'og-tokopedia.png',
+      'tarif/index.html': 'og-tarif.png',
+      'panduan/index.html': 'og-panduan.png',
+      'privacy-policy/index.html': 'og-privacy-policy.png',
+      'terms/index.html': 'og-terms.png',
+      '404.html': 'og-image.png',
+    };
+
+    for (const [file, expectedImage] of Object.entries(pageImageMap)) {
+      const html = fs.readFileSync(path.join(distDir, file), 'utf-8');
+      expect(html).toContain(`<meta property="og:image" content="https://kalkulatorseller.pages.dev/${expectedImage}"`);
+      expect(html).toContain(`<meta name="twitter:image" content="https://kalkulatorseller.pages.dev/${expectedImage}"`);
+      expect(html).toContain('<meta property="og:image:width" content="1734"');
+      expect(html).toContain('<meta property="og:image:height" content="907"');
+
+      // Verify the image file actually exists in dist
+      const imagePath = path.join(distDir, expectedImage);
+      expect(fs.existsSync(imagePath), `OG Image ${expectedImage} must exist in dist`).toBe(true);
+    }
+  });
 });
