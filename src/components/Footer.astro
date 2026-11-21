@@ -7,7 +7,20 @@ const currentYear = new Date().getFullYear();
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
       <!-- Col 1: Brand & Purpose -->
       <div class="space-y-2">
-        <div class="font-bold text-[#14213D] text-base">KalkulatorSeller</div>
+        <a href="/" class="inline-block no-underline">
+          <picture>
+            <source srcset="/logo.webp" type="image/webp" />
+            <img
+              src="/logo.png"
+              alt="KalkulatorSeller"
+              class="h-7 w-auto object-contain"
+              width="114"
+              height="28"
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
+        </a>
         <p class="text-xs leading-relaxed max-w-sm">
           Kalkulator praktis untuk penjual online di Shopee, TikTok Shop, dan Tokopedia. Hitung modal, biaya admin, dan keuntungan bersih sebelum menentukan harga jual produk Anda.
         </p>

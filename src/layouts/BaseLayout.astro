@@ -39,6 +39,9 @@ const schemaArray = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <meta name="description" content={description} />
     <link rel="canonical" href={resolvedCanonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     {noindex ? (
       <meta name="robots" content="noindex, nofollow" />
     ) : (
@@ -52,11 +55,13 @@ const schemaArray = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <meta property="og:title" content={`${title} — KalkulatorSeller`} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={resolvedCanonical} />
+    <meta property="og:image" content={new URL('/og-image.png', Astro.site || 'https://kalkulatorseller.pages.dev').href} />
 
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={`${title} — KalkulatorSeller`} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL('/og-image.png', Astro.site || 'https://kalkulatorseller.pages.dev').href} />
 
     <!-- Structured Data (JSON-LD) -->
     {schemaArray.map((schema) => (
